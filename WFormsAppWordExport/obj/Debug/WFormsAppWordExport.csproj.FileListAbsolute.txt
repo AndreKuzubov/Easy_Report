@@ -1,0 +1,9 @@
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\Debug\WFormsAppWordExport.exe
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\Debug\WFormsAppWordExport.pdb
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\Debug\WFormsAppWordExport.csprojResolveAssemblyReference.cache
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\Debug\WFormsAppWordExport.Properties.Resources.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\Debug\WFormsAppWordExport.csproj.GenerateResource.Cache
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\Debug\WFormsAppWordExport.exe
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\Debug\WFormsAppWordExport.pdb
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\Debug\WFormsAppWordExport.exe.config
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\Debug\WFormsAppWordExport.FormSettingQuestionnaire.resources
