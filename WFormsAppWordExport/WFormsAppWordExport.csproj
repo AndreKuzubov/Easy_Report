@@ -67,8 +67,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdvancedTextEditorControl\AdvancedTextEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AdvancedTextEditorControl\AdvancedTextEditor.designer.cs">
+      <DependentUpon>AdvancedTextEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedTextEditorControl\FontComboBoxControl\FontComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="DataStructures.cs" />
     <Compile Include="DBTemplatesHelper.cs" />
+    <Compile Include="ExtendedRichTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="FormSettingQuestionnaire.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,25 +89,31 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TextRulerControl\TextRuler.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UCTemplateObject.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UCTemplateObject.Designer.cs">
       <DependentUpon>UCTemplateObject.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AdvancedTextEditorControl\AdvancedTextEditor.resx">
+      <DependentUpon>AdvancedTextEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormSettingQuestionnaire.resx">
       <DependentUpon>FormSettingQuestionnaire.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="UCTemplateObject.resx">
       <DependentUpon>UCTemplateObject.cs</DependentUpon>
     </EmbeddedResource>
@@ -113,6 +131,19 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\l_indent_pos_lower.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\l_indet_pos_upper.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\r_indent_pos.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tab_pos.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

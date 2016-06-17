@@ -3,8 +3,9 @@ D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\D
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Debug\WFormsAppWordExport.pdb
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.FormSettingQuestionnaire.resources
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.Properties.Resources.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.UCTemplateObject.resources
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.csproj.GenerateResource.Cache
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.exe
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.pdb
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.csprojResolveAssemblyReference.cache
-D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.UCTemplateObject.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\TextRuler.AdvancedTextEditorControl.AdvancedTextEditor.resources

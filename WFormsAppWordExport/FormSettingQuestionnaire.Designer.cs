@@ -30,20 +30,23 @@
         {
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tabFeature = new System.Windows.Forms.TabPage();
+            this.tabObjects = new System.Windows.Forms.TabPage();
             this.splitContainerFeatures = new System.Windows.Forms.SplitContainer();
+            this.treeViewObjects = new System.Windows.Forms.TreeView();
             this.btDelObject = new System.Windows.Forms.Button();
             this.btAddObject = new System.Windows.Forms.Button();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.treeViewObjects = new System.Windows.Forms.TreeView();
             this.ucTemplateObject1 = new WFormsAppWordExport.UCTemplateObject();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabWordExport = new System.Windows.Forms.TabPage();
+            this.advancedTextEditor1 = new TextRuler.AdvancedTextEditorControl.AdvancedTextEditor();
             this.statusStrip.SuspendLayout();
-            this.tabFeature.SuspendLayout();
+            this.tabObjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerFeatures)).BeginInit();
             this.splitContainerFeatures.Panel1.SuspendLayout();
             this.splitContainerFeatures.Panel2.SuspendLayout();
             this.splitContainerFeatures.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tabWordExport.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip
@@ -62,17 +65,17 @@
             this.toolStripStatusLabel.Size = new System.Drawing.Size(55, 17);
             this.toolStripStatusLabel.Text = "Загрузка";
             // 
-            // tabFeature
+            // tabObjects
             // 
-            this.tabFeature.AutoScroll = true;
-            this.tabFeature.Controls.Add(this.splitContainerFeatures);
-            this.tabFeature.Location = new System.Drawing.Point(4, 22);
-            this.tabFeature.Name = "tabFeature";
-            this.tabFeature.Padding = new System.Windows.Forms.Padding(3);
-            this.tabFeature.Size = new System.Drawing.Size(807, 411);
-            this.tabFeature.TabIndex = 0;
-            this.tabFeature.Text = "Образы обьектов";
-            this.tabFeature.UseVisualStyleBackColor = true;
+            this.tabObjects.AutoScroll = true;
+            this.tabObjects.Controls.Add(this.splitContainerFeatures);
+            this.tabObjects.Location = new System.Drawing.Point(4, 22);
+            this.tabObjects.Name = "tabObjects";
+            this.tabObjects.Padding = new System.Windows.Forms.Padding(3);
+            this.tabObjects.Size = new System.Drawing.Size(807, 411);
+            this.tabObjects.TabIndex = 0;
+            this.tabObjects.Text = "Образы обьектов";
+            this.tabObjects.UseVisualStyleBackColor = true;
             // 
             // splitContainerFeatures
             // 
@@ -93,6 +96,17 @@
             this.splitContainerFeatures.Size = new System.Drawing.Size(801, 405);
             this.splitContainerFeatures.SplitterDistance = 267;
             this.splitContainerFeatures.TabIndex = 0;
+            // 
+            // treeViewObjects
+            // 
+            this.treeViewObjects.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.treeViewObjects.Location = new System.Drawing.Point(3, 4);
+            this.treeViewObjects.Name = "treeViewObjects";
+            this.treeViewObjects.Size = new System.Drawing.Size(261, 369);
+            this.treeViewObjects.TabIndex = 5;
+            this.treeViewObjects.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewObjects_afterSelected);
             // 
             // btDelObject
             // 
@@ -116,29 +130,6 @@
             this.btAddObject.UseVisualStyleBackColor = true;
             this.btAddObject.Click += new System.EventHandler(this.btAddObject_Click);
             // 
-            // tabControl1
-            // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabFeature);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(815, 437);
-            this.tabControl1.TabIndex = 0;
-            // 
-            // treeViewObjects
-            // 
-            this.treeViewObjects.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.treeViewObjects.Location = new System.Drawing.Point(3, 4);
-            this.treeViewObjects.Name = "treeViewObjects";
-            this.treeViewObjects.Size = new System.Drawing.Size(261, 369);
-            this.treeViewObjects.TabIndex = 5;
-            this.treeViewObjects.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewObjects_afterSelected);
-            // 
             // ucTemplateObject1
             // 
             this.ucTemplateObject1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -149,6 +140,39 @@
             this.ucTemplateObject1.Name = "ucTemplateObject1";
             this.ucTemplateObject1.Size = new System.Drawing.Size(523, 398);
             this.ucTemplateObject1.TabIndex = 0;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Controls.Add(this.tabObjects);
+            this.tabControl1.Controls.Add(this.tabWordExport);
+            this.tabControl1.Location = new System.Drawing.Point(12, 12);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(815, 437);
+            this.tabControl1.TabIndex = 0;
+            // 
+            // tabWordExport
+            // 
+            this.tabWordExport.Controls.Add(this.advancedTextEditor1);
+            this.tabWordExport.Location = new System.Drawing.Point(4, 22);
+            this.tabWordExport.Name = "tabWordExport";
+            this.tabWordExport.Size = new System.Drawing.Size(807, 411);
+            this.tabWordExport.TabIndex = 1;
+            this.tabWordExport.Text = "Отчетный лист";
+            this.tabWordExport.UseVisualStyleBackColor = true;
+            // 
+            // advancedTextEditor1
+            // 
+            this.advancedTextEditor1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.advancedTextEditor1.Location = new System.Drawing.Point(3, 3);
+            this.advancedTextEditor1.Name = "advancedTextEditor1";
+            this.advancedTextEditor1.Size = new System.Drawing.Size(801, 405);
+            this.advancedTextEditor1.TabIndex = 0;
             // 
             // FormSettingQuestionnaire
             // 
@@ -165,13 +189,14 @@
             this.Layout += new System.Windows.Forms.LayoutEventHandler(this.FormSettingQuestionnaire_Layout);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
-            this.tabFeature.ResumeLayout(false);
+            this.tabObjects.ResumeLayout(false);
             this.splitContainerFeatures.Panel1.ResumeLayout(false);
             this.splitContainerFeatures.Panel2.ResumeLayout(false);
             this.splitContainerFeatures.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerFeatures)).EndInit();
             this.splitContainerFeatures.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
+            this.tabWordExport.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -184,9 +209,11 @@
         private System.Windows.Forms.Button btAddObject;
         private System.Windows.Forms.Button btDelObject;
         private System.Windows.Forms.SplitContainer splitContainerFeatures;
-        private System.Windows.Forms.TabPage tabFeature;
+        private System.Windows.Forms.TabPage tabObjects;
         private UCTemplateObject ucTemplateObject1;
         private System.Windows.Forms.TreeView treeViewObjects;
+        private System.Windows.Forms.TabPage tabWordExport;
+        private TextRuler.AdvancedTextEditorControl.AdvancedTextEditor advancedTextEditor1;
     }
 }
 
