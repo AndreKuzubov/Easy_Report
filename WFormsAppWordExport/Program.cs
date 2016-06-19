@@ -22,6 +22,10 @@ namespace WFormsAppWordExport
 {
     static class Program
     {
+        public static String sUser = "Андрей";
+        public static ApplicationContext context;
+        public static FormAuthorization authorizationForm;
+        public static String OpenFile = null;
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
@@ -30,7 +34,7 @@ namespace WFormsAppWordExport
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormSettingQuestionnaire());
+            Application.Run(new MDIParent1());
         }
     }
 }
