@@ -97,6 +97,10 @@ namespace WFormsAppWordExport.Forms
                     }
                 }
             }
+            for (int i = 0, l = chooseAnswers.Count; i < l; i++)
+            {
+                chooseAnswers[i].pos = i;
+            }
             this.DialogResult = DialogResult.OK;
         }
 
