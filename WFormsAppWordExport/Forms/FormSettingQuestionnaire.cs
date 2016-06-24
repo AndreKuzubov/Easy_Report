@@ -23,17 +23,41 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using Word = NetOffice.WordApi;
+using WordEnums = NetOffice.WordApi.Enums;
+
 namespace WFormsAppWordExport
 {
     public partial class FormSettingQuestionnaire : Form
     {
 
-        DBTemplatesHelper myDb = DBTemplatesHelper.get();
+        DBTemplatesHelper myDb;
+      
         public FormSettingQuestionnaire()
         {
             InitializeComponent();
+            this.advancedTextEditor1.TextEditor.SelectionChanged += TextEditor_SelectionChanged;
         }
-        
+
+        private void TextEditor_SelectionChanged(object sender, EventArgs e)
+        {
+            int indexSelected = this.advancedTextEditor1.TextEditor.SelectionStart;
+            int i=this.advancedTextEditor1.TextEditor.getIdSript(indexSelected);
+            if (i!=-1)
+            {
+                btNew_SettingScript.Text = "Редактировать";
+                btNew_SettingScript.Tag = i;
+                btDel.Enabled = true;
+            }
+            else {
+                btNew_SettingScript.Text = "Новый скрипт";
+                btDel.Enabled = false;
+                btNew_SettingScript.Tag = i;
+            }
+        }
+
+        #region events 
+
         private void btAddObject_Click(object sender, EventArgs e)
         {
 
@@ -46,13 +70,12 @@ namespace WFormsAppWordExport
 
         private void FormSettingQuestionnaire_Load(object sender, EventArgs e)
         {
-           
+           myDb  = DBTemplatesHelper.get(); 
         }
 
         private void FormSettingQuestionnaire_Shown(object sender, EventArgs e)
         {
             toolStripStatusLabel.Text = "Состояние: Открытие настроек";
-          //  myDb.create_openDB();
             toolStripStatusLabel.Text = "Состояние";
             treeViewObjects.Nodes.Clear();
              List <DBTemplatesHelper.DBObject> obj = myDb.getObjects();
@@ -74,6 +97,75 @@ namespace WFormsAppWordExport
         private void treeViewObjects_afterSelected(object sender, TreeViewEventArgs e)
         {
             ucTemplateObject1.setFollowObj((int)treeViewObjects.SelectedNode.Tag);
+        }
+        #endregion
+
+        private void advancedTextEditor1_MouseMove(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void btNewSettSctript_Click(object sender, EventArgs e)
+        {
+            toolStripStatusLabel.Text = "редактирование скрипта";
+            //advancedTextEditor1.TextEditor.insertMyScript()
+            if ((int)btNew_SettingScript.Tag == -1)
+            {
+                Forms.FormDevCode formDevCode = new Forms.FormDevCode();
+                if (formDevCode.ShowDialog() == DialogResult.OK)
+                {
+                    String s = formDevCode.richTextBoxCode.Text;
+                    int id = DBTemplatesHelper.get().insertCodeToDB(s,0);
+                    advancedTextEditor1.TextEditor.insertMyScript(id);
+                }
+            }
+            else
+            {
+                Forms.FormDevCode formDevCode = new Forms.FormDevCode();
+                int idCode = (int)btNew_SettingScript.Tag;
+                if (idCode == -1) return;
+                String code = DBTemplatesHelper.get().getCodeById(idCode);
+                formDevCode.richTextBoxCode.Text = code; 
+                if (formDevCode.ShowDialog() == DialogResult.OK)
+                {
+                    String s = formDevCode.richTextBoxCode.Text;
+                    DBTemplatesHelper.get().updateCodeById(idCode,s);
+                }
+            }
+            toolStripStatusLabel.Text = "состояние";
+        }
+
+        private void btDelScript_Click(object sender, EventArgs e)
+        {
+            toolStripStatusLabel.Text = "удаление скрипта";
+            int id = (int)btNew_SettingScript.Tag;
+            DBTemplatesHelper.get().delCodeById(id);
+            advancedTextEditor1.TextEditor.delScript(id);
+            toolStripStatusLabel.Text = "состояние";
+        }
+
+        private void advancedTextEditor1_Leave(object sender, EventArgs e)
+        {
+            safeText();
+        }
+
+        private void advancedTextEditor1_Load(object sender, EventArgs e)
+        {
+            toolStripStatusLabel.Text = "загрузка текста из базы";
+            advancedTextEditor1.TextEditor.Rtf = DBTemplatesHelper.get().getTextParagraph();
+            toolStripStatusLabel.Text = "состояние";
+        }
+
+        private void FormSettingQuestionnaire_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            safeText();
+        }
+
+        private void safeText()
+        {
+            toolStripStatusLabel.Text = "загрузка текста в базу";
+            DBTemplatesHelper.get().updateTextParagraph(advancedTextEditor1.TextEditor.Rtf);
+            toolStripStatusLabel.Text = "состояние";
         }
     }
 }

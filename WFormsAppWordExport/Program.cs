@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using WFormsAppWordExport.DataStructures;
 
 namespace WFormsAppWordExport
 {
@@ -26,15 +27,39 @@ namespace WFormsAppWordExport
         public static ApplicationContext context;
         public static FormAuthorization authorizationForm;
         public static String OpenFile = null;
+
+      
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
         [STAThread]
         static void Main()
         {
+            
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MDIParent1());
+            switch (2)
+            {
+                case 1:
+                    Application.Run(new WFormsAppWordExport.Forms.FormDevCode());
+                    break;
+              case 2:
+                    Application.Run(new MDIParent1());
+                    break;
+                case 3:
+                    Application.Run(new FormSettingQuestionnaire());
+                    break;
+                case 4:
+                    Application.Run(new WFormsAppWordExport.Forms.FormTestEditText());
+                    break;
+                case 5:
+                    Application.Run(new WFormsAppWordExport.Forms.FormDevCode());
+                    break;
+            }
+
+           
+         //   
         }
     }
 }

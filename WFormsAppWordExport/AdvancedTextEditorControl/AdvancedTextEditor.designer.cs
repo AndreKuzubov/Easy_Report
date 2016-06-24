@@ -84,6 +84,7 @@
             this.tlpEditorLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlpEditorLayout.Size = new System.Drawing.Size(687, 502);
             this.tlpEditorLayout.TabIndex = 0;
+            this.tlpEditorLayout.Paint += new System.Windows.Forms.PaintEventHandler(this.tlpEditorLayout_Paint);
             // 
             // Toolbox_Formatting
             // 
@@ -278,7 +279,7 @@
             charStyle1.Strikeout = false;
             charStyle1.Underline = false;
             this.TextEditor.SelectionCharStyle = charStyle1;
-            this.TextEditor.SelectionFont2 = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Inch);
+            this.TextEditor.SelectionFont2 = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Inch);
             paraLineSpacing1.ExactSpacing = 0;
             paraLineSpacing1.SpacingStyle = ExtendedRichTextBox.ParaLineSpacing.LineSpacingStyle.Unknown;
             this.TextEditor.SelectionLineSpacing = paraLineSpacing1;
@@ -295,7 +296,6 @@
             this.TextEditor.Text = "";
             this.TextEditor.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.TextEditor_LinkClicked);
             this.TextEditor.SelectionChanged += new System.EventHandler(this.TextEditor_SelectionChanged);
-            this.TextEditor.MouseMove += new System.Windows.Forms.MouseEventHandler(this.TextEditor_MouseMove);
             this.TextEditor.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TextEditor_MouseUp);
             // 
             // Ruler
@@ -392,11 +392,11 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolStripButton btnJustify;
         private System.Windows.Forms.ToolStripButton btnUnderline;
-        internal ExtendedRichTextBox TextEditor;
         private TextRuler.TextRulerControl.TextRuler Ruler;
         private System.Windows.Forms.Label LineNumbers;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton btnBulletedList;
         private System.Windows.Forms.ToolStripButton btnNumberedList;
+        public ExtendedRichTextBox TextEditor;
     }
 }

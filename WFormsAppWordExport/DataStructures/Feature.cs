@@ -27,6 +27,7 @@ namespace WFormsAppWordExport.DataStructures
     [Serializable()]
     public class Feature : ISerializable
     {
+        public int idDB { get; private set; }
         //вопрос: как он звучит 
         public String sQuestion { get; private set; }
         //тип ответа (вопроса) 
@@ -47,32 +48,34 @@ namespace WFormsAppWordExport.DataStructures
 
         public bool isAnswered { get { return _isAnswered && isUsable(); } }
 
-        public Feature(String sQuestion, List<Chooce_Answer> sAnswers, TYPE_ANSWER answerType, String isUse, String after)
+        public Feature(int id,String sQuestion, List<Chooce_Answer> sAnswers, TYPE_ANSWER answerType, String isUse, String after)
         {
-            set( sQuestion, sAnswers,  answerType,  isUse,  after);
+            set(id, sQuestion, sAnswers,  answerType,  isUse,  after);
         }
 
-        public void set(String sQuestion, List<Chooce_Answer> sAnswers, TYPE_ANSWER answerType, String isUse, String after)
+        public void set(int id,String sQuestion, List<Chooce_Answer> sAnswers, TYPE_ANSWER answerType, String isUse, String after)
         {
+            this.idDB = id;
             this.sQuestion = sQuestion;
             this.sAnswers = sAnswers;
             this.typeAnswer = answerType;
             if (isUse!=null&&isUse.Length>0)
-                this.sIsUsable = new SoftwareSctipt(isUse);
+                this.sIsUsable = new SoftwareSctipt(isUse, SoftwareSctipt.SCRIPT_TYPE.FUNC_BOOL);
             if (after != null && after.Length > 0)
-                this.sAfter = new SoftwareSctipt(after);
+                this.sAfter = new SoftwareSctipt(after, SoftwareSctipt.SCRIPT_TYPE.VOID);
         }
 
         protected Feature(SerializationInfo info, StreamingContext context)
         {
+            idDB = info.GetInt32("id");
             sQuestion = info.GetString("sQuestion");
             typeAnswer = (TYPE_ANSWER)(int)info.GetInt32("typeAnswer");
             _isAnswered = (bool)info.GetBoolean("isAnswered");
             sAnswers = (List<Chooce_Answer>)info.GetValue("sAnswers", typeof(List<Chooce_Answer>));
             sAuthor = info.GetString("AnswerAuthor");
             answer = (Answer)info.GetValue("Answer", typeof(Answer));
-            sIsUsable = new SoftwareSctipt(info.GetString("isUsable"));
-            sAfter = new SoftwareSctipt(info.GetString("after"));
+            sIsUsable = new SoftwareSctipt(info.GetString("isUsable"),SoftwareSctipt.SCRIPT_TYPE.FUNC_BOOL);
+            sAfter = new SoftwareSctipt(info.GetString("after"),SoftwareSctipt.SCRIPT_TYPE.VOID);
 
         }
 
@@ -112,6 +115,7 @@ namespace WFormsAppWordExport.DataStructures
             info.AddValue("sAnswers", sAnswers);
             info.AddValue("isUsable", sIsUsable.script);
             info.AddValue("after", sAfter.script);
+            info.AddValue("id", idDB);
         }
 
         public string toString()

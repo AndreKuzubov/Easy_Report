@@ -190,7 +190,8 @@ namespace TextRuler.AdvancedTextEditorControl
             {
             }
         }
-        
+     
+        #region construction
         public AdvancedTextEditor()
         {
             InitializeComponent();
@@ -218,77 +219,128 @@ namespace TextRuler.AdvancedTextEditorControl
             this.TextEditor.SelectionRightIndent = 0;
             this.TextEditor.SelectionHangingIndent = 0;            
         }
+        #endregion
 
-        private void btnNew_Click(object sender, EventArgs e)
+        #region Old style formatting
+
+        private FontStyle SwitchBold()
         {
-            Clear();
+            FontStyle fs = new FontStyle();
+
+            fs = FontStyle.Regular;
+
+            if (this.TextEditor.SelectionFont.Italic == true)
+            {
+                fs = FontStyle.Italic;
+            }
+
+            if (this.TextEditor.SelectionFont.Underline == true)
+            {
+                fs = fs | FontStyle.Underline;
+            }
+
+            if (this.TextEditor.SelectionFont.Strikeout == true)
+            {
+                fs = fs | FontStyle.Strikeout;
+            }
+
+            if (this.TextEditor.SelectionFont.Bold == false)
+            {
+                fs = fs | FontStyle.Bold;
+            }
+
+            return fs;
+        }
+        private FontStyle SwitchItalic()
+        {
+            FontStyle fs = new FontStyle();
+
+            fs = FontStyle.Regular;
+
+            if (this.TextEditor.SelectionFont.Underline == true)
+            {
+                fs = fs | FontStyle.Underline;
+            }
+
+            if (this.TextEditor.SelectionFont.Strikeout == true)
+            {
+                fs = fs | FontStyle.Strikeout;
+            }
+
+            if (this.TextEditor.SelectionFont.Bold == true)
+            {
+                fs = fs | FontStyle.Bold;
+            }
+
+            if (this.TextEditor.SelectionFont.Italic == false)
+            {
+                fs = fs | FontStyle.Italic;
+            }
+
+            return fs;
+        }
+        private FontStyle SwitchUnderline()
+        {
+            FontStyle fs = new FontStyle();
+
+            fs = FontStyle.Regular;
+
+            if (this.TextEditor.SelectionFont.Strikeout == true)
+            {
+                fs = fs | FontStyle.Strikeout;
+            }
+
+            if (this.TextEditor.SelectionFont.Bold == true)
+            {
+                fs = fs | FontStyle.Bold;
+            }
+
+            if (this.TextEditor.SelectionFont.Italic == true)
+            {
+                fs = fs | FontStyle.Italic;
+            }
+
+            if (this.TextEditor.SelectionFont.Underline == false)
+            {
+                fs = fs | FontStyle.Underline;
+            }
+
+            return fs;
+        }
+        private FontStyle SwitchStrikeout()
+        {
+            FontStyle fs = new FontStyle();
+
+            fs = FontStyle.Regular;
+
+            if (this.TextEditor.SelectionFont.Bold == true)
+            {
+                fs = fs | FontStyle.Bold;
+            }
+
+            if (this.TextEditor.SelectionFont.Italic == true)
+            {
+                fs = fs | FontStyle.Italic;
+            }
+
+            if (this.TextEditor.SelectionFont.Underline == true)
+            {
+                fs = fs | FontStyle.Underline;
+            }
+
+            if (this.TextEditor.SelectionFont.Strikeout == false)
+            {
+                fs = fs | FontStyle.Strikeout;
+            }
+
+            return fs;
         }
 
-        private void mnuNew_Click(object sender, EventArgs e)
-        {
-            Clear();
-        }
+        #endregion
 
-        private void btnCut_Click(object sender, EventArgs e)
-        {
-            this.TextEditor.Cut();
-        }
+        #region events
 
-        private void mnuCut_Click(object sender, EventArgs e)
-        {
-            this.TextEditor.Cut();
-        }
-
-        private void mnuCopy_Click(object sender, EventArgs e)
-        {
-            this.TextEditor.Copy();
-        }
-
-        private void mnuPaste_Click(object sender, EventArgs e)
-        {
-            this.TextEditor.Paste();
-        }
-
-        private void btnCopy_Click(object sender, EventArgs e)
-        {
-            this.TextEditor.Copy();
-        }
-
-        private void btnPaste_Click(object sender, EventArgs e)
-        {
-            this.TextEditor.Paste();
-        }
-
-        private void btnUndo_Click(object sender, EventArgs e)
-        {
-            this.TextEditor.Undo();
-        }
-
-        private void btnRedo_Click(object sender, EventArgs e)
-        {
-            this.TextEditor.Redo();
-        }
-
-        private void mnuUndo_Click(object sender, EventArgs e)
-        {
-            this.TextEditor.Undo();
-        }
-
-        private void mnuRedo_Click(object sender, EventArgs e)
-        {
-            this.TextEditor.Redo();
-        }
-
-        private void btnOpen_Click(object sender, EventArgs e)
-        {
-            Open();
-        }
-
-        private void mnuOpen_Click(object sender, EventArgs e)
-        {
-            Open();
-        }
-
+        #region allevents
         private void TextEditor_SelectionChanged(object sender, EventArgs e)
         {
             try
@@ -478,15 +530,7 @@ namespace TextRuler.AdvancedTextEditorControl
 
         private void cmbFontSize_SelectedIndexChanged(object sender, EventArgs e)
         {
-            try
-            {
-                if (!this.cmbFontSize.Focused) return;
-                this.TextEditor.SelectionFont2 = new Font(this.cmbFontName.Text, Convert.ToInt32(this.cmbFontSize.Text), this.TextEditor.SelectionFont.Style);
-            }
-            catch (Exception)
-            {
-                
-            }
+
         }
 
         private void cmbFontSize_KeyUp(object sender, KeyEventArgs e)
@@ -495,7 +539,7 @@ namespace TextRuler.AdvancedTextEditorControl
             {
                 try
                 {
-                    this.TextEditor.SelectionFont2 = new Font(this.cmbFontName.Text, Convert.ToSingle(this.cmbFontSize.Text));
+                    this.TextEditor.SelectionFont = new Font(this.cmbFontName.Text, Convert.ToSingle(this.cmbFontSize.Text));
                     this.TextEditor.Focus();
                 }
                 catch (Exception)
@@ -503,123 +547,6 @@ namespace TextRuler.AdvancedTextEditorControl
                 }
             }
         }
-
-        #region Old style formatting
-
-        private FontStyle SwitchBold()
-        {
-            FontStyle fs = new FontStyle();
-
-            fs = FontStyle.Regular;
-
-            if (this.TextEditor.SelectionFont.Italic == true)
-            {
-                fs = FontStyle.Italic;
-            }
-
-            if (this.TextEditor.SelectionFont.Underline == true)
-            {
-                fs = fs | FontStyle.Underline;
-            }
-
-            if (this.TextEditor.SelectionFont.Strikeout == true)
-            {
-                fs = fs | FontStyle.Strikeout;
-            }
-
-            if (this.TextEditor.SelectionFont.Bold == false)
-            {
-                fs = fs | FontStyle.Bold;
-            }
-
-            return fs;
-        }
-        private FontStyle SwitchItalic()
-        {
-            FontStyle fs = new FontStyle();
-
-            fs = FontStyle.Regular;
-
-            if (this.TextEditor.SelectionFont.Underline == true)
-            {
-                fs = fs | FontStyle.Underline;
-            }
-
-            if (this.TextEditor.SelectionFont.Strikeout == true)
-            {
-                fs = fs | FontStyle.Strikeout;
-            }
-
-            if (this.TextEditor.SelectionFont.Bold == true)
-            {
-                fs = fs | FontStyle.Bold;
-            }
-
-            if (this.TextEditor.SelectionFont.Italic == false)
-            {
-                fs = fs | FontStyle.Italic;
-            }
-
-            return fs;
-        }
-        private FontStyle SwitchUnderline()
-        {
-            FontStyle fs = new FontStyle();
-
-            fs = FontStyle.Regular;
-
-            if (this.TextEditor.SelectionFont.Strikeout == true)
-            {
-                fs = fs | FontStyle.Strikeout;
-            }
-
-            if (this.TextEditor.SelectionFont.Bold == true)
-            {
-                fs = fs | FontStyle.Bold;
-            }
-
-            if (this.TextEditor.SelectionFont.Italic == true)
-            {
-                fs = fs | FontStyle.Italic;
-            }
-
-            if (this.TextEditor.SelectionFont.Underline == false)
-            {
-                fs = fs | FontStyle.Underline;
-            }
-
-            return fs;
-        }
-        private FontStyle SwitchStrikeout()
-        {
-            FontStyle fs = new FontStyle();
-
-            fs = FontStyle.Regular;
-
-            if (this.TextEditor.SelectionFont.Bold == true)
-            {
-                fs = fs | FontStyle.Bold;
-            }
-
-            if (this.TextEditor.SelectionFont.Italic == true)
-            {
-                fs = fs | FontStyle.Italic;
-            }
-
-            if (this.TextEditor.SelectionFont.Underline == true)
-            {
-                fs = fs | FontStyle.Underline;
-            }
-
-            if (this.TextEditor.SelectionFont.Strikeout == false)
-            {
-                fs = fs | FontStyle.Strikeout;
-            }
-
-            return fs;
-        }
-
-        #endregion
 
         private void btnBold_Click(object sender, EventArgs e)
         {
@@ -901,61 +828,6 @@ namespace TextRuler.AdvancedTextEditorControl
 
         delegate void printDialogHelperDelegate(); // Helper delegate for PrintDialog bug
 
-        /// <summary>
-        /// Helper thread which sole purpose is to invoke PrintDialogHelper function
-        /// to circumvent the PrintDialog focus problem reported on
-        /// https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=234179
-        /// </summary>
-        private void PrintHelpThread()
-        {
-            if (InvokeRequired)
-            {
-                printDialogHelperDelegate d = new printDialogHelperDelegate(PrintHelpThread);
-                Invoke(d);
-            }
-            else
-            {
-                PrintDialogHelper();
-            }
-        }
-
-        /// <summary>
-        /// Shows the print dialog (invoked from a different thread to get the focus to the dialog)
-        /// </summary>
-        private void PrintDialogHelper()
-        {
-            if (PrintWnd.ShowDialog(this) == DialogResult.OK)
-            {
-                this.prtDoc.Print();
-            }
-        }
-        
-        private void btnPrint_Click(object sender, EventArgs e)
-        {
-            Thread t = new Thread(PrintHelpThread);            
-            t.Start();
-        }
-
-        private void mnuPrint_Click(object sender, EventArgs e)
-        {
-            this.PrintWnd.ShowDialog(this);
-        }
-
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            Save(false);
-        }
-
-        private void mnuSave_Click(object sender, EventArgs e)
-        {
-            Save(false);
-        }
-
-        private void mnuSaveAs_Click(object sender, EventArgs e)
-        {
-            Save(true);
-        }
-
         private void mnuInsertDateTime_DropDownOpening(object sender, EventArgs e)
         {
          /*   this.cmbDateTimeFormats.Items.Clear();
@@ -1105,24 +977,7 @@ namespace TextRuler.AdvancedTextEditorControl
          //   find.Show(this);
         }
 
-        private void TextEditor_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.B && e.Control == true)
-            {
-                this.btnBold.PerformClick();
-            }
-
-            if (e.Control == true && e.KeyCode == Keys.I)
-            {
-                this.btnItalic.PerformClick();
-                e.SuppressKeyPress = true;
-            }
-
-            if (e.Control == true && e.KeyCode == Keys.U)
-            {
-                this.btnUnderline.PerformClick();
-            }
-        }
+   
 
         private void btnJustify_Click(object sender, EventArgs e)
         {
@@ -1139,16 +994,7 @@ namespace TextRuler.AdvancedTextEditorControl
             this.TextEditor.SelectionHangingIndent = (int)(this.Ruler.LeftHangingIndent * this.Ruler.DotsPerMillimeter) - (int)(this.Ruler.LeftIndent * this.Ruler.DotsPerMillimeter);            
         }
 
-        private void TextEditor_LinkClicked(object sender, LinkClickedEventArgs e)
-        {
-            try
-            {
-                Process.Start(e.LinkText);
-            }
-            catch (Exception)
-            {
-            }
-        }
+      
 
         private void btnNumberedList_Click(object sender, EventArgs e)
         {
@@ -1214,6 +1060,46 @@ namespace TextRuler.AdvancedTextEditorControl
             }
         }
 
+        private void mnuULineSolid_Click(object sender, EventArgs e)
+        {
+            this.TextEditor.SelectionUnderlineStyle = ExtendedRichTextBox.UnderlineStyle.DashDotDot;
+        }
+        #endregion
+
+        #region text editor events
+
+     ///   public int iSelectedIndex,iSelectedIndexRtf;
+
+        private void TextEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.B && e.Control == true)
+            {
+                this.btnBold.PerformClick();
+            }
+
+            if (e.Control == true && e.KeyCode == Keys.I)
+            {
+                this.btnItalic.PerformClick();
+                e.SuppressKeyPress = true;
+            }
+
+            if (e.Control == true && e.KeyCode == Keys.U)
+            {
+                this.btnUnderline.PerformClick();
+            }
+        }
+
+        private void TextEditor_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            try
+            {
+                Process.Start(e.LinkText);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
         private void TextEditor_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -1226,9 +1112,30 @@ namespace TextRuler.AdvancedTextEditorControl
             }
         }
 
+   //     private String s = "";
         private void TextEditor_MouseMove(object sender, MouseEventArgs e)
         {
+         /* //  iSelectedIndex = this.TextEditor.GetCharIndexFromPosition(new Point(e.X, e.Y + 2));
+          //  iSelectedIndexRtf = this.TextEditor.getRtfIndexByTextIndex(iSelectedIndex);
+            int iCharMousePos = this.TextEditor.GetCharIndexFromPosition(new Point(e.X,e.Y+2));
+
+            if (TextEditor.Text.Length>0)
+                toolStripLabel1.Text = ""+TextEditor.Text[iCharMousePos];
+            //String s = TextEditor.getHideTextByVisibleChar(iCharMousePos);
+          /*  if (s != null)
+            {
+               // if (toolTip1.GetToolTip(TextEditor) == null || toolTip1.GetToolTip(TextEditor).Length == 0)
+                    toolTip1.Show( "hide text: " + s,TextEditor);
+                
+            }else
+            {
+                  if (toolTip1.GetToolTip(TextEditor) != null && toolTip1.GetToolTip(TextEditor).Length > 0)
+                toolTip1.Hide(TextEditor);
+            }
+            */
             
+            //if (TextEditor.)
+                
         }
 
         private void mnuULWave_Click(object sender, EventArgs e)
@@ -1236,9 +1143,14 @@ namespace TextRuler.AdvancedTextEditorControl
             this.TextEditor.SelectionUnderlineStyle = ExtendedRichTextBox.UnderlineStyle.Wave;
         }
 
-        private void mnuULineSolid_Click(object sender, EventArgs e)
+
+        #endregion
+
+        #endregion
+
+        private void tlpEditorLayout_Paint(object sender, PaintEventArgs e)
         {
-            this.TextEditor.SelectionUnderlineStyle = ExtendedRichTextBox.UnderlineStyle.DashDotDot;
-        }        
+
+        }
     }
 }

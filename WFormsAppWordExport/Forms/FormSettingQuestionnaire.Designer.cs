@@ -38,6 +38,8 @@
             this.ucTemplateObject1 = new WFormsAppWordExport.UCTemplateObject();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabWordExport = new System.Windows.Forms.TabPage();
+            this.btNew_SettingScript = new System.Windows.Forms.Button();
+            this.btDel = new System.Windows.Forms.Button();
             this.advancedTextEditor1 = new TextRuler.AdvancedTextEditorControl.AdvancedTextEditor();
             this.statusStrip.SuspendLayout();
             this.tabObjects.SuspendLayout();
@@ -156,6 +158,8 @@
             // 
             // tabWordExport
             // 
+            this.tabWordExport.Controls.Add(this.btNew_SettingScript);
+            this.tabWordExport.Controls.Add(this.btDel);
             this.tabWordExport.Controls.Add(this.advancedTextEditor1);
             this.tabWordExport.Location = new System.Drawing.Point(4, 22);
             this.tabWordExport.Name = "tabWordExport";
@@ -163,6 +167,26 @@
             this.tabWordExport.TabIndex = 1;
             this.tabWordExport.Text = "Отчетный лист";
             this.tabWordExport.UseVisualStyleBackColor = true;
+            // 
+            // btNew_SettingScript
+            // 
+            this.btNew_SettingScript.Location = new System.Drawing.Point(568, 3);
+            this.btNew_SettingScript.Name = "btNew_SettingScript";
+            this.btNew_SettingScript.Size = new System.Drawing.Size(115, 23);
+            this.btNew_SettingScript.TabIndex = 2;
+            this.btNew_SettingScript.Text = "Новый скрипт";
+            this.btNew_SettingScript.UseVisualStyleBackColor = true;
+            this.btNew_SettingScript.Click += new System.EventHandler(this.btNewSettSctript_Click);
+            // 
+            // btDel
+            // 
+            this.btDel.Location = new System.Drawing.Point(689, 3);
+            this.btDel.Name = "btDel";
+            this.btDel.Size = new System.Drawing.Size(115, 23);
+            this.btDel.TabIndex = 1;
+            this.btDel.Text = "Удалить скрипт";
+            this.btDel.UseVisualStyleBackColor = true;
+            this.btDel.Click += new System.EventHandler(this.btDelScript_Click);
             // 
             // advancedTextEditor1
             // 
@@ -173,6 +197,9 @@
             this.advancedTextEditor1.Name = "advancedTextEditor1";
             this.advancedTextEditor1.Size = new System.Drawing.Size(801, 405);
             this.advancedTextEditor1.TabIndex = 0;
+            this.advancedTextEditor1.Load += new System.EventHandler(this.advancedTextEditor1_Load);
+            this.advancedTextEditor1.Leave += new System.EventHandler(this.advancedTextEditor1_Leave);
+            this.advancedTextEditor1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.advancedTextEditor1_MouseMove);
             // 
             // FormSettingQuestionnaire
             // 
@@ -184,6 +211,7 @@
             this.HelpButton = true;
             this.Name = "FormSettingQuestionnaire";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormSettingQuestionnaire_FormClosing);
             this.Load += new System.EventHandler(this.FormSettingQuestionnaire_Load);
             this.Shown += new System.EventHandler(this.FormSettingQuestionnaire_Shown);
             this.Layout += new System.Windows.Forms.LayoutEventHandler(this.FormSettingQuestionnaire_Layout);
@@ -214,6 +242,8 @@
         private System.Windows.Forms.TreeView treeViewObjects;
         private System.Windows.Forms.TabPage tabWordExport;
         private TextRuler.AdvancedTextEditorControl.AdvancedTextEditor advancedTextEditor1;
+        private System.Windows.Forms.Button btDel;
+        private System.Windows.Forms.Button btNew_SettingScript;
     }
 }
 

@@ -66,6 +66,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Messaging" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -170,6 +172,24 @@
     <Compile Include="Forms\FormCreateUser.designer.cs">
       <DependentUpon>FormCreateUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormDevCode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormDevCode.Designer.cs">
+      <DependentUpon>FormDevCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormEditChooseAnswers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormEditChooseAnswers.Designer.cs">
+      <DependentUpon>FormEditChooseAnswers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormEditFeature.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormEditFeature.Designer.cs">
+      <DependentUpon>FormEditFeature.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormNotepad.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,6 +207,12 @@
     </Compile>
     <Compile Include="Forms\FormSettingQuestionnaire.Designer.cs">
       <DependentUpon>FormSettingQuestionnaire.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormTestEditText.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormTestEditText.Designer.cs">
+      <DependentUpon>FormTestEditText.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\MDIParent1.cs">
       <SubType>Form</SubType>
@@ -252,6 +278,15 @@
     <EmbeddedResource Include="Forms\FormCreateUser.resx">
       <DependentUpon>FormCreateUser.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormDevCode.resx">
+      <DependentUpon>FormDevCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormEditChooseAnswers.resx">
+      <DependentUpon>FormEditChooseAnswers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormEditFeature.resx">
+      <DependentUpon>FormEditFeature.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormNotepad.resx">
       <DependentUpon>FormNotepad.cs</DependentUpon>
     </EmbeddedResource>
@@ -260,6 +295,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormSettingQuestionnaire.resx">
       <DependentUpon>FormSettingQuestionnaire.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormTestEditText.resx">
+      <DependentUpon>FormTestEditText.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MDIParent1.resx">
       <DependentUpon>MDIParent1.cs</DependentUpon>

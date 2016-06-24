@@ -154,6 +154,10 @@ using System.Runtime.InteropServices;
 using System.Drawing.Printing;
 using System.ComponentModel;
 using System.Security.Permissions;
+using System.Collections.Specialized;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Text;
 
 /// <summary>
 /// This ExtendedRichTextBox is based on .NET Framework and also uses WinAPI
@@ -168,8 +172,10 @@ using System.Security.Permissions;
 [Serializable()]
 public class ExtendedRichTextBox : RichTextBox
 {
-    #region CONSTRUCTOR
-    [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+    const String SCRIPT = @"(SRIPT";
+
+#region CONSTRUCTOR
+[DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
     public static extern IntPtr LoadLibrary(string libname);
 
     private static IntPtr RichEditModuleHandle;
@@ -322,6 +328,48 @@ public class ExtendedRichTextBox : RichTextBox
     private const int SCF_DEFAULT = 0x0000;	// set the default charformat or paraformat
     private const int SCF_ALL = 0x0004;		// not valid with SCF_SELECTION or SCF_WORD
     private const int SCF_USEUIRULES = 0x0008;
+    #endregion
+
+    #region Elements required to create an RTF document (other project)
+
+    /* RTF HEADER
+     * ----------
+     * 
+     * \rtf[N]		- For text to be considered to be RTF, it must be enclosed in this tag.
+     *				  rtf1 is used because the RichTextBox conforms to RTF Specification
+     *				  version 1.
+     * \ansi		- The character set.
+     * \ansicpg[N]	- Specifies that unicode characters might be embedded. ansicpg1252
+     *				  is the default used by Windows.
+     * \deff[N]		- The default font. \deff0 means the default font is the first font
+     *				  found.
+     * \deflang[N]	- The default language. \deflang1033 specifies US English.
+     * */
+    private const string RTF_HEADER = @"{\rtf1\ansi\ansicpg1252\deff0\deflang1033";
+
+    /* RTF DOCUMENT AREA
+     * -----------------
+     * 
+     * \viewkind[N]	- The type of view or zoom level.  \viewkind4 specifies normal view.
+     * \uc[N]		- The number of bytes corresponding to a Unicode character.
+     * \pard		- Resets to default paragraph properties
+     * \cf[N]		- Foreground color.  \cf1 refers to the color at index 1 in
+     *				  the color table
+     * \f[N]		- Font number. \f0 refers to the font at index 0 in the font
+     *				  table.
+     * \fs[N]		- Font size in half-points.
+     * */
+    private const string RTF_DOCUMENT_PRE = @"\viewkind4\uc1\pard\cf1\f0\fs20";
+    private const string RTF_DOCUMENT_POST = @"\cf0\fs17}";
+    private string RTF_IMAGE_POST = @"}";
+    public enum RtfColor
+    {
+        Black, Maroon, Green, Olive, Navy, Purple, Teal, Gray, Silver,
+        Red, Lime, Yellow, Blue, Fuchsia, Aqua, White
+    }
+
+
+
     #endregion
 
     #region TEXT OBJECT MODEL
@@ -664,6 +712,115 @@ public class ExtendedRichTextBox : RichTextBox
         Int32 Count { get; }
     }
     #endregion
+
+    #region Insert Plain Text (myCode)
+
+    public void insertMyScript(int idScript)
+    {
+        insertPotectedText(SCRIPT + idScript+@")");
+    }
+
+    private void insertPotectedText(string _text)
+    {
+        StringBuilder _doc = new StringBuilder();
+        _doc.Append(@"{\rtf1\ansi" + @"\protect "+_text + @"\protect0}");
+        this.SelectedRtf = _doc.ToString();
+       
+    }
+
+    public bool isProtectedTextRtf(int iCharIndexRtf)
+    {
+        string _rtf = Rtf;
+        int iEnd=_rtf.IndexOf(@"\protect0", iCharIndexRtf);
+        int iSt2 = _rtf.IndexOf(@"\protect", iCharIndexRtf);
+        if (iSt2 != -1 && iEnd != -1 && iSt2 < iEnd) return false;
+        int iStart = _rtf.LastIndexOf(@"\protect",iCharIndexRtf);
+        int iEn2 = _rtf.LastIndexOf(@"\protect0", iCharIndexRtf);
+        if (iStart != -1 && iEn2 != -1 && iStart < iEn2) return false;
+        if (iStart != -1 && iEnd != -1 && iStart < iEnd) return true;
+        else return false;
+
+    }
+
+    public int getIdSript(int iCharIndex)
+    {
+        int i = -1;
+        int indexRtf = getRtfIndexByTextIndex(iCharIndex);
+        if (isProtectedTextRtf(indexRtf))
+        {
+            int iStart = Rtf.LastIndexOf(@"\protect", indexRtf);
+            iStart = Rtf.IndexOf(SCRIPT, iStart) + SCRIPT.Length;
+            String s = Rtf.Substring(iStart, Rtf.IndexOf(@")", iStart)-iStart);
+            return Int32.Parse(s);
+        }
+            
+        return -1;
+    }
+
+    public void delScript(int idScript)
+    {
+        String fordel = SCRIPT + idScript + @")";
+        int i=Rtf.IndexOf(fordel);
+        Rtf = Rtf.Remove(i, fordel.Length);
+    }
+
+    private int getIdScriptText(int iCharIndexRtf)
+    {
+        //scriptText - protected  SCRIPT
+        int d = 0,e;
+        int i=0;
+        do
+        {
+            d++;
+            i = Rtf.IndexOf(SCRIPT, i + 1);
+        } while (i != -1&&i<iCharIndexRtf);
+        d--;
+        return d;
+    }
+
+    public int getRtfIndexByTextIndex(int iCharIndex)
+    {
+        int offcet = 0;
+        String _rtf = this.Rtf;
+        {
+            int d = _rtf.IndexOf("\\uc");
+            while (d!=-1)
+            {
+               _rtf=_rtf.Remove(d, 6);
+                offcet += 6;
+                d = _rtf.IndexOf("\\uc");
+            }
+        }
+      
+       
+        if (_rtf == null || _rtf.Length == 0) return 0;
+        int i = 0,k=0;
+        int block = 0;bool sysWord=false,inVisible=false;
+        i = _rtf.IndexOf("{\\*\\");
+        i = _rtf.IndexOf('}', i)+1;
+
+
+
+        while (k <= iCharIndex&&i<_rtf.Length)
+        {
+            
+            if (_rtf[i] == '\\') sysWord = true;
+            if (_rtf[i] == '{') block ++;
+            if (_rtf[i] == 'v' && _rtf[i - 1] == '\\' && _rtf[i + 1] == ' ') inVisible = true;
+            if ((!sysWord) && (block==0)&&(!inVisible)) k++;
+            if (_rtf[i] == '0' && _rtf[i - 1] == 'v' && _rtf[i - 2] == '\\') inVisible = false;
+            if (_rtf[i] == ' '|| _rtf[i] == '{'|| _rtf[i] == '}') sysWord = false;
+            if (_rtf[i] == '}') block --;
+
+            i++;
+        }
+        if (i >= _rtf.Length) i = _rtf.Length - 1;
+        return i+3;
+
+    }
+
+    #endregion
+
 
     #region CONTROL LAYOUT
 
@@ -4062,4 +4219,7 @@ public class ExtendedRichTextBox : RichTextBox
     }
 
     #endregion
+
+
+    
 }

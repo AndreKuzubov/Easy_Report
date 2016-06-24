@@ -55,17 +55,18 @@ namespace WFormsAppWordExport
 
         }
 
-        /*      public static void exportTotal(Word.Application app, TreeNodeCollection root)
+              public static void exportTotal(Word.Application app, TreeNodeCollection root)
               {
                   app.Selection.Text = "\tОбщие Сведения.";
                   app.Selection.Font.Bold = 1;
                   app.Selection.Font.Size = 14;
+                  
                   object unit = WordEnums.WdUnits.wdLine;
                   object count = 1;
                   app.Selection.MoveStart(unit, count);
 
 
-                  String s = "";
+             /*     String s = "";
                   Essence eTotol = getEssence(QUESTION_GROUP.TOTAL, root);
                   List<FormQuestion> fQuestions = eTotol.getQuestionGroup(QUESTION_GROUP.TOTAL);
                   s += "Было установлено, что ";
@@ -74,15 +75,15 @@ namespace WFormsAppWordExport
                       s += ((date.isDate) ? date.date.ToLongDateString()+" " : "") + ((date.isTime) ? date.time.ToLongTimeString():"");
                   }
                   if (fQuestions[3].isAnswered) s += " произошло дтп по адресу " + fQuestions[3].Answer;
+                  */
 
 
 
-
-                  app.Selection.Text = s + "\n\n";
+           //       app.Selection.Text = s + "\n\n";
                   app.Selection.Font.Bold = 0;
                   app.Selection.Font.Size = 14;
               }
-
+        /*
               public static void exportVictim(Word.Application app, TreeNodeCollection root)
               {
                   app.Selection.Text = "\tСведения о пострадавших.";

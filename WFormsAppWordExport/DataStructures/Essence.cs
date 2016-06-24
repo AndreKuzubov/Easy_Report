@@ -28,6 +28,8 @@ namespace WFormsAppWordExport.DataStructures
     {
         public DelegVoid afterWishUpdateQuestions;
 
+        public int idDb;
+
         public String sName { get; private set; }
 
         public SoftwareSctipt script { get; private set; }
@@ -38,13 +40,14 @@ namespace WFormsAppWordExport.DataStructures
 
         public List<Feature> features { get; private set; } = new List<Feature>();
 
-        public Essence(String sName,  ESSENSE_FLAGS flags,String script,List<Feature>features, List<Essence> AbstrEssences ) : base(sName)
+        public Essence(int id,String sName,  ESSENSE_FLAGS flags,String script,List<Feature>features, List<Essence> AbstrEssences ) : base(sName)
         {
+            this.idDb = id;
             this.flags = flags;
             this.sName = sName;
             if (abstrEssences!=null)
                 this.abstrEssences = abstrEssences;
-            this.script = new SoftwareSctipt(script);
+            this.script = new SoftwareSctipt(script,SoftwareSctipt.SCRIPT_TYPE.VOID);
             if (features!=null)
                 this.features = features;
             createContextMenu();
@@ -52,6 +55,7 @@ namespace WFormsAppWordExport.DataStructures
 
         protected Essence(SerializationInfo info, StreamingContext context) : base(info, context)
         {
+            idDb = info.GetInt32("id");
             sName = (String)info.GetValue("sName", typeof(String));
             flags = (ESSENSE_FLAGS)info.GetValue("esFlags",typeof(ESSENSE_FLAGS));
             abstrEssences = (List<Essence>)info.GetValue("abst", typeof(List<Essence>));
@@ -134,6 +138,7 @@ namespace WFormsAppWordExport.DataStructures
             info.AddValue("esFlags", flags);
             info.AddValue("abst", abstrEssences);
             info.AddValue("features", features);
+            info.AddValue("id", idDb);
         }
     }
 }

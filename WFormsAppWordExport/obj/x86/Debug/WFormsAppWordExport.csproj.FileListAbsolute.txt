@@ -33,3 +33,7 @@ D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\D
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.QuestionNumeric.resources
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.QuestionString.resources
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.QuestionTrueFalse.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.Forms.FormEditFeature.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.Forms.FormEditChooseAnswers.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.Forms.FormDevCode.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.Forms.FormTestEditText.resources

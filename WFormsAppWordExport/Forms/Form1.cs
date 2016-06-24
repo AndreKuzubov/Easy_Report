@@ -17,9 +17,9 @@ namespace WFormsAppWordExport
 {
     public partial class Form1 : Form
     {
+        public static TreeNodeCollection rootData;
         String fileName=null;
       
-
     //   Questions questions;
         //  List<TreeNode> roots;
         // Event ev=new Event();
@@ -33,7 +33,7 @@ namespace WFormsAppWordExport
         public Form1(String fileName) : base()
         {
             InitializeComponent();
-
+            rootData = treeView1.Nodes;
             if (File.Exists(fileName))
             {
                 this.fileName = fileName;
@@ -57,7 +57,6 @@ namespace WFormsAppWordExport
 
             
         }
-
 
         public void saveToFile(String fileName)
         {
@@ -117,7 +116,7 @@ namespace WFormsAppWordExport
             List<Essence> ess;
             List<Essence> contextEssens;
             DBTemplatesHelper.get().fillProjectTree(out ess,out contextEssens);
-            treeView1.Nodes.AddRange(ess.ToArray());
+            rootData.AddRange(ess.ToArray());
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)

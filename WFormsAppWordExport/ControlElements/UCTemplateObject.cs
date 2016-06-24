@@ -23,6 +23,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using WFormsAppWordExport.Forms;
 
 namespace WFormsAppWordExport
 {
@@ -50,14 +51,52 @@ namespace WFormsAppWordExport
 
         private void updateViewData()
         {
-            DBTemplatesHelper.DBObject obj= db.getDBObjectById(objId);
-
+            DBTemplatesHelper.DBObject obj= DBTemplatesHelper.DBObject.get(objId);
             textBoxName.Text = obj.name;
             textBoxObjFlags.Text = obj.flags.ToString();
             textBoxObjScript.Text = obj.script;
             textBoxObjIds.Text = obj.sObjects;
             numericObjectPos.Value = obj.pos;
             db.bindingFeaturesForObjectById(bindingSource, objId);
+        }
+
+        private void bindingNavigatorAddNewItem_Click(object sender, EventArgs e)
+        {
+            DBTemplatesHelper.DBFeature f=new DBTemplatesHelper.DBFeature();
+            FormEditFeature dialog = new FormEditFeature(f, objId);
+          
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                f.insertToDB(objId);
+            }
+            dialog.Close();
+            updateViewData();
+        }
+
+        private void bindingNavigatorEditItem_Click(object sender, EventArgs e)
+        {
+            int index = dataGridView1.CurrentCell.RowIndex;
+            DBTemplatesHelper.DBFeature f=DBTemplatesHelper.DBFeature.get((int)dataGridView1.Rows[index].Cells[0].Value);
+            FormEditFeature dialog =new FormEditFeature(f, objId);
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                f.updateToDB();
+                updateViewData();
+            }
+            dialog.Close();
+        }
+
+        private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e)
+        {
+            int index = dataGridView1.CurrentCell.RowIndex;
+            DBTemplatesHelper.DBFeature f = DBTemplatesHelper.DBFeature.get((int)dataGridView1.Rows[index].Cells[0].Value);
+            FormEditFeature dialog = new FormEditFeature(f,objId);
+            if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question)==DialogResult.Yes)
+            {
+                f.dropFromDB();
+            }
+            dialog.Close();
+            updateViewData();
         }
     }
 }
