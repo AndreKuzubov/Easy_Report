@@ -34,6 +34,14 @@ namespace WFormsAppWordExport.Forms
     public partial class FormDevCode : Form
     {
         public SoftwareSctipt.SCRIPT_TYPE typeMethod= SoftwareSctipt.SCRIPT_TYPE.STRING;
+        public String textCode {
+            get {  if (richTextBoxCode != null) return richTextBoxCode.Text; else return null; }  set { if (richTextBoxCode != null) richTextBoxCode.Text = value; } }
+        public FormDevCode(String script, SoftwareSctipt.SCRIPT_TYPE typeMethod):this()
+        {
+            this.richTextBoxCode.Text = script;
+            this.typeMethod = typeMethod;
+        }
+
         public  FormDevCode()
         {
             InitializeComponent();

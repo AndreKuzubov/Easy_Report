@@ -54,6 +54,7 @@ namespace WFormsAppWordExport
 
         private void OpenFile(object sender, EventArgs e)
         {
+            toolStripStatusLabel.Text = "Состояние: Открытие файла";
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             if (isDebugMode)
@@ -69,11 +70,13 @@ namespace WFormsAppWordExport
                 childForm.Text = "Окно " + childFormNumber++;
                 childForm.Show();
             }
+            stateNorm();
         }
 
         private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MdiChildren == null || MdiChildren.Length == 0 || MdiChildren[0] == null)
+            toolStripStatusLabel.Text = "Состояние: Сохранение файла";
+            if (ProjectDataHelper.Instate==null)
             {
                 errFormNoOpen();
                 return;
@@ -86,8 +89,9 @@ namespace WFormsAppWordExport
             if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 string fileName = saveFileDialog.FileName;
-                ((Form1)MdiChildren[0]).saveToFile(fileName);
+                ProjectDataHelper.Instate.saveToFile(fileName);
             }
+            stateNorm();
         }
 
         private void ExitToolsStripMenuItem_Click(object sender, EventArgs e)
@@ -152,13 +156,15 @@ namespace WFormsAppWordExport
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MdiChildren==null||MdiChildren.Length==0|| MdiChildren[0]== null)
+            toolStripStatusLabel.Text = "Состояние: Сохранение файла";
+            if (ProjectDataHelper.Instate==null)
             {
                 errFormNoOpen();
                 return;
             }
-            if (!((Form1)MdiChildren[0]).saveToFile())
+            if (!ProjectDataHelper.Instate.saveToFile())
                 SaveAsToolStripMenuItem_Click(sender, e);
+            stateNorm();
         }
 
         private void closeForm()
@@ -178,11 +184,13 @@ namespace WFormsAppWordExport
 
         private void exportDocToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MdiChildren == null || MdiChildren.Length == 0 || MdiChildren[0] == null)
+          
+            if (ProjectDataHelper.Instate == null)
             {
                 errFormNoOpen();
                 return;
             }
+            toolStripStatusLabel.Text = "Состояние: экспорт документа";
             if (!File.Exists(MyFiles.getMyTemplate()))
             {
                 DialogResult dialogResult = MessageBox.Show("Выберете шаблон. В шаблоне начало расположите на 1 странице, концовку на 2", "Нет шаблона для создания файла Word", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
@@ -195,6 +203,7 @@ namespace WFormsAppWordExport
 
             if (File.Exists(MyFiles.getMyTemplate()))
             {
+               
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
                 if (isDebugMode)
@@ -202,15 +211,15 @@ namespace WFormsAppWordExport
                 saveFileDialog.Filter = "Файлы word (*.doc)|*.doc|Все файлы (*.*)|*.*";
                 if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
                 {
-                    toolStripStatusLabel.Text = "Состояние: экспорт документа";
+
                     string fileName = saveFileDialog.FileName;
-                    ((Form1)MdiChildren[0]).exportDoc(fileName);
-                    stateNorm();
+                    ProjectDataHelper.Instate.exportDoc(fileName);
+
                 }
-
+               
             }
+            stateNorm();
         }
-
 
         private void exitLoginToolStripMenuItem_Click(object sender, EventArgs e)
         {

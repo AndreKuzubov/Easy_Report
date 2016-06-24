@@ -48,7 +48,7 @@ namespace WFormsAppWordExport.DataStructures
         //тип ответа (вопроса) 
         public TYPE_ANSWER typeAnswer { get; private set; }
         //выборы ответа если тип ответа CHOOSE
-        public List <Chooce_Answer> sAnswers { get; private set; }
+        public List <Choose_Answer> sAnswers { get; private set; }
         //автор ответа
         public String sAuthor {  get; private set;  }
         //ответ на вопрос
@@ -63,12 +63,12 @@ namespace WFormsAppWordExport.DataStructures
 
         public bool isAnswered { get { return _isAnswered && isUsable(); } }
 
-        public Feature(int id,String sQuestion, List<Chooce_Answer> sAnswers, TYPE_ANSWER answerType, String isUse, String after)
+        public Feature(int id,String sQuestion, List<Choose_Answer> sAnswers, TYPE_ANSWER answerType, String isUse, String after)
         {
             set(id, sQuestion, sAnswers,  answerType,  isUse,  after);
         }
 
-        public void set(int id,String sQuestion, List<Chooce_Answer> sAnswers, TYPE_ANSWER answerType, String isUse, String after)
+        public void set(int id,String sQuestion, List<Choose_Answer> sAnswers, TYPE_ANSWER answerType, String isUse, String after)
         {
             this.idDB = id;
             this.sQuestion = sQuestion;
@@ -86,12 +86,11 @@ namespace WFormsAppWordExport.DataStructures
             sQuestion = info.GetString("sQuestion");
             typeAnswer = (TYPE_ANSWER)(int)info.GetInt32("typeAnswer");
             _isAnswered = (bool)info.GetBoolean("isAnswered");
-            sAnswers = (List<Chooce_Answer>)info.GetValue("sAnswers", typeof(List<Chooce_Answer>));
+            sAnswers = (List<Choose_Answer>)info.GetValue("sAnswers", typeof(List<Choose_Answer>));
             sAuthor = info.GetString("AnswerAuthor");
             answer = (Answer)info.GetValue("Answer", typeof(Answer));
             sIsUsable = new SoftwareSctipt(info.GetString("isUsable"),SoftwareSctipt.SCRIPT_TYPE.FUNC_BOOL);
             sAfter = new SoftwareSctipt(info.GetString("after"),SoftwareSctipt.SCRIPT_TYPE.VOID);
-
         }
 
         public void setAnswer (Answer answer,String sAuthor)
@@ -128,8 +127,8 @@ namespace WFormsAppWordExport.DataStructures
             info.AddValue("Answer", answer);
             info.AddValue("isAnswered", isAnswered);
             info.AddValue("sAnswers", sAnswers);
-            info.AddValue("isUsable", sIsUsable.script);
-            info.AddValue("after", sAfter.script);
+            info.AddValue("isUsable",(sIsUsable!=null)?sIsUsable.script:null);
+            info.AddValue("after",(sAfter!=null)?sAfter.script:null);
             info.AddValue("id", idDB);
         }
 
@@ -153,6 +152,8 @@ namespace WFormsAppWordExport.DataStructures
     [Serializable]
     public class Answer
     {
+        public List<Choose_Answer> lChosen_Answers=new List<Choose_Answer>();
+
         private String _sAnswer;
 
         public Object oAnswer;
@@ -173,18 +174,62 @@ namespace WFormsAppWordExport.DataStructures
             this.sAnswer = sAnswer;
         }
 
+        protected Answer(SerializationInfo info, StreamingContext context)
+        {
+            oAnswer = info.GetValue("oAnswer",typeof(Object));
+            sAnswer = info.GetString("sAnswer");
+            lChosen_Answers = (List<Choose_Answer>)info.GetValue("chosenDB", typeof(List<Choose_Answer>));
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("oAnswer", oAnswer);
+            info.AddValue("sAnswer", sAnswer);
+            info.AddValue("chosenDB", lChosen_Answers);
+        }
     } 
 
     [Serializable]
-    public struct Chooce_Answer
+    public class Choose_Answer:DBTemplatesHelper.DBAnswer
     {
-        public String sName;
-        public String sExport { get { return (_sExport == null) ? sName : _sExport; }
-            set { _sExport = value; } }
+        public new String sExport { get { return (base.sExport == null) ? sName : base.sExport; }
+            set { base.sExport = value; } }
 
-        public Image image;
+        public Choose_Answer() { }
+        public Choose_Answer(String sName)
+        {
+            this.sName = sName;
+        }
 
-        private String _sExport;
+        public Choose_Answer(DBTemplatesHelper.DBAnswer dad):base()
+        {
+            id = dad.id;
+            sName = dad.sName;
+            pos = dad.pos;
+            sExport = dad.sExport;
+            image = dad.image;
+            idObject = dad.idObject;
+        }
+
+        protected Choose_Answer(SerializationInfo info, StreamingContext context)
+        {
+            id = info.GetInt32("id");
+            sName = info.GetString("sName");
+            pos = info.GetInt32("pos");
+            sExport = info.GetString("sExport");
+            image =(Image) info.GetValue("image",typeof(Image));
+            idObject = info.GetInt32("idObj");
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("id", id);
+            info.AddValue("sName", sName);
+            info.AddValue("pos",pos);
+            info.AddValue("sExport", sExport);
+            info.AddValue("image", image);
+            info.AddValue("idObj", idObject);
+        }
 
     }
 

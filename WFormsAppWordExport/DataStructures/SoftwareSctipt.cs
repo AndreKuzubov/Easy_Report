@@ -162,12 +162,15 @@ namespace WFormsAppWordExport.DataStructures
 
         public void run()
         {
-            voidFunc(Form1.rootData);
+            if (ProjectDataHelper.Instate!=null)
+                 voidFunc(ProjectDataHelper.Instate.rootData);
         }
 
         public bool runBool()
         {
-             return boolFunc(Form1.rootData);
+            if (ProjectDataHelper.Instate != null)
+                return boolFunc(ProjectDataHelper.Instate.rootData);
+            return false;
         }
     }
 

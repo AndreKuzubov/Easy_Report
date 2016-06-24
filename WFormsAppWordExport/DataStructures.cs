@@ -22,6 +22,11 @@ using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using System.IO;
 using System.Windows.Forms;
+using System.Data.Linq;
+using System.Xml.Linq;
+using System.ComponentModel;
+using System.Drawing;
+using WFormsAppWordExport.DataStructures;
 
 namespace WFormsAppWordExport
 {
@@ -53,24 +58,76 @@ namespace WFormsAppWordExport
         }
 
     }
-    [Serializable()]
-    public struct WordStyle
+
+    public static class ConvertFormat
     {
-        public int font;
-        public int size;
+        public static String arrayToString(int[] a)
+        {
+            if (a != null & a.Length > 0) return null;
+            String s = "";
+
+            for (int i = 0, l = a.Length - 1; i < l; i++)
+            {
+                s += a[i] + ", ";
+            }
+            s += a[a.Length - 1];
+            return s;
+        }
+
+        public static int[] stringToArray(String s)
+        {
+            if (s == null || s.Length == 0) return null;
+            int[] a = null;
+            try
+            {
+                String[] sArr = s.Split(',');
+                a = new int[sArr.Length];
+                for (int i = 0; i < sArr.Length; i++)
+                {
+                    a[i] = Int32.Parse(sArr[i]);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Ошибка данных в sql", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            return a;
+        }
+
+        public static Image toImageFromBMP(Object v)
+        {
+            if (v == null) return null;
+           
+            try
+            {
+                return (Image)(new ImageConverter().ConvertFrom((byte[])v));
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Ошибка конвертации картинки", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            return null;
+        }
+
+        public static byte[] toByteArray(Image image)
+        {
+            if (image == null) return null;
+            try
+            {
+                return (byte [])(new ImageConverter().ConvertTo(image, typeof(byte[])));
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Ошибка конвертации картинки", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            return null;
+        }
+
     }
-   
-   // [Serializable()]
-   // public enum DB_SOURCE { ROAD_SIGNS, ROAD_MARKING, NONE = -1 };
 
-    //[Serializable()]
-    //public enum QUESTION_GROUP { AUTO, SCENE, INSPECTOR, SCHOOL, MAN, VICTIM, DRIVER, PASSENGER, PEDENSTRIAN, TOTAL, TELEPHONEMESSAGE }
 
-   
-   /* [Serializable()]
-    public delegate bool IsUseFunc();
-    [Serializable()]
-    public delegate void AfterAnswer();
-    */
-    
+
+
 }

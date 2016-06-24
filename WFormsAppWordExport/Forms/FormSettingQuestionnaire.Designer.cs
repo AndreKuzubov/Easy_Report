@@ -234,7 +234,6 @@
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.Button btAddObject;
         private System.Windows.Forms.Button btDelObject;
         private System.Windows.Forms.SplitContainer splitContainerFeatures;
         private System.Windows.Forms.TabPage tabObjects;
@@ -244,6 +243,7 @@
         private TextRuler.AdvancedTextEditorControl.AdvancedTextEditor advancedTextEditor1;
         private System.Windows.Forms.Button btDel;
         private System.Windows.Forms.Button btNew_SettingScript;
+        private System.Windows.Forms.Button btAddObject;
     }
 }
 

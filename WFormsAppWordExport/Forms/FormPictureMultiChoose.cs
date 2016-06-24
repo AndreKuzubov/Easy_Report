@@ -46,24 +46,6 @@ namespace WFormsAppWordExport
         {
             InitializeComponent();
 
-            
-           /* switch (source)
-            {
-                case DB_SOURCE.ROAD_MARKING:
-                    dbSet = dBGaiMarksDataSet;
-                    // TODO: данная строка кода позволяет загрузить данные в таблицу "dBGaiMarksDataSet.Дорожная_разметка". При необходимости она может быть перемещена или удалена.
-                    this.дорожная_разметкаTableAdapter.Fill(this.dBGaiMarksDataSet.Дорожная_разметка);
-                    break;
-                case DB_SOURCE.ROAD_SIGNS:
-                    dbSet = dBGaiSignsDataSet;
-                    // TODO: данная строка кода позволяет загрузить данные в таблицу "dBGaiSignsDataSet.Знаки_приоритета". При необходимости она может быть перемещена или удалена.
-                    this.предупреждающие_знакиTableAdapter1.Fill(this.dBGaiSignsDataSet.Предупреждающие_знаки);
-                    this.знаки_приоритетаTableAdapter.Fill(this.dBGaiSignsDataSet.Знаки_приоритета);
-                    this.запрещающие_знакиTableAdapter1.Fill(this.dBGaiSignsDataSet.Запрещающие_знаки);
-                    break;
-                default:return;
-            }*/
-          
             int len = dbSet.Tables.Count;
             _ch = new int[len][];
             for (int i = 0; i < len; i++)

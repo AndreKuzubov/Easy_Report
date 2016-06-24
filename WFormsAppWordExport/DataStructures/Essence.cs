@@ -26,6 +26,7 @@ namespace WFormsAppWordExport.DataStructures
     [Serializable()]
     public class Essence : TreeNode, ISerializable
     {
+        [NonSerialized]
         public DelegVoid afterWishUpdateQuestions;
 
         public int idDb;

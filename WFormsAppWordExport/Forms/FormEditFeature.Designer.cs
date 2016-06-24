@@ -42,6 +42,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.btOk = new System.Windows.Forms.Button();
             this.btCancel = new System.Windows.Forms.Button();
+            this.btConditionScript = new System.Windows.Forms.Button();
+            this.btAfterScript = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -62,6 +64,7 @@
             this.textBoxQuestion.Name = "textBoxQuestion";
             this.textBoxQuestion.Size = new System.Drawing.Size(524, 20);
             this.textBoxQuestion.TabIndex = 1;
+            this.textBoxQuestion.TextChanged += new System.EventHandler(this.textBoxQuestion_TextChanged);
             // 
             // label2
             // 
@@ -83,6 +86,7 @@
             "Строка",
             "Число",
             "Выбор",
+            "Да\\Нет",
             "Множественный выбор",
             "Дата",
             "Ссылка на обьект"});
@@ -90,6 +94,7 @@
             this.comboBoxType.Name = "comboBoxType";
             this.comboBoxType.Size = new System.Drawing.Size(524, 21);
             this.comboBoxType.TabIndex = 3;
+            this.comboBoxType.SelectedIndexChanged += new System.EventHandler(this.comboBoxType_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -139,6 +144,7 @@
             this.comboBoxAfterQuestion.Name = "comboBoxAfterQuestion";
             this.comboBoxAfterQuestion.Size = new System.Drawing.Size(524, 21);
             this.comboBoxAfterQuestion.TabIndex = 7;
+            this.comboBoxAfterQuestion.SelectedIndexChanged += new System.EventHandler(this.comboBoxAfterQuestion_SelectedIndexChanged);
             // 
             // label5
             // 
@@ -157,6 +163,7 @@
             this.textBoxScriptCondition.Location = new System.Drawing.Point(140, 129);
             this.textBoxScriptCondition.Multiline = true;
             this.textBoxScriptCondition.Name = "textBoxScriptCondition";
+            this.textBoxScriptCondition.ReadOnly = true;
             this.textBoxScriptCondition.Size = new System.Drawing.Size(524, 164);
             this.textBoxScriptCondition.TabIndex = 9;
             // 
@@ -167,6 +174,7 @@
             this.textBoxScriptAfterAnswer.Location = new System.Drawing.Point(140, 299);
             this.textBoxScriptAfterAnswer.Multiline = true;
             this.textBoxScriptAfterAnswer.Name = "textBoxScriptAfterAnswer";
+            this.textBoxScriptAfterAnswer.ReadOnly = true;
             this.textBoxScriptAfterAnswer.Size = new System.Drawing.Size(524, 194);
             this.textBoxScriptAfterAnswer.TabIndex = 10;
             // 
@@ -202,11 +210,35 @@
             this.btCancel.UseVisualStyleBackColor = true;
             this.btCancel.Click += new System.EventHandler(this.btCancel_Click);
             // 
+            // btConditionScript
+            // 
+            this.btConditionScript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btConditionScript.Location = new System.Drawing.Point(564, 270);
+            this.btConditionScript.Name = "btConditionScript";
+            this.btConditionScript.Size = new System.Drawing.Size(100, 23);
+            this.btConditionScript.TabIndex = 14;
+            this.btConditionScript.Text = "Редактировать";
+            this.btConditionScript.UseVisualStyleBackColor = true;
+            this.btConditionScript.Click += new System.EventHandler(this.btConditionScript_Click);
+            // 
+            // btAfterScript
+            // 
+            this.btAfterScript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btAfterScript.Location = new System.Drawing.Point(564, 470);
+            this.btAfterScript.Name = "btAfterScript";
+            this.btAfterScript.Size = new System.Drawing.Size(100, 23);
+            this.btAfterScript.TabIndex = 15;
+            this.btAfterScript.Text = "Редактировать";
+            this.btAfterScript.UseVisualStyleBackColor = true;
+            this.btAfterScript.Click += new System.EventHandler(this.btAfterScript_Click);
+            // 
             // FormEditFeature
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(676, 534);
+            this.Controls.Add(this.btAfterScript);
+            this.Controls.Add(this.btConditionScript);
             this.Controls.Add(this.btCancel);
             this.Controls.Add(this.btOk);
             this.Controls.Add(this.label6);
@@ -244,5 +276,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btOk;
         private System.Windows.Forms.Button btCancel;
+        private System.Windows.Forms.Button btConditionScript;
+        private System.Windows.Forms.Button btAfterScript;
     }
 }

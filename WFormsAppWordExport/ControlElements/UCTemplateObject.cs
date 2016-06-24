@@ -47,8 +47,6 @@ namespace WFormsAppWordExport
             updateViewData();
         }
 
-
-
         private void updateViewData()
         {
             DBTemplatesHelper.DBObject obj= DBTemplatesHelper.DBObject.get(objId);
@@ -68,6 +66,10 @@ namespace WFormsAppWordExport
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 f.insertToDB(objId);
+                foreach (DBTemplatesHelper.DBAnswer ans in dialog.answers)
+                {
+                    ans.insertAnswer(f.id);
+                }
             }
             dialog.Close();
             updateViewData();
@@ -78,9 +80,18 @@ namespace WFormsAppWordExport
             int index = dataGridView1.CurrentCell.RowIndex;
             DBTemplatesHelper.DBFeature f=DBTemplatesHelper.DBFeature.get((int)dataGridView1.Rows[index].Cells[0].Value);
             FormEditFeature dialog =new FormEditFeature(f, objId);
+            List<DBTemplatesHelper.DBAnswer> oldAnswers = DBTemplatesHelper.DBAnswer.getAnswers(f.id);
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 f.updateToDB();
+                foreach (DBTemplatesHelper.DBAnswer ans in oldAnswers)
+                {
+                    ans.deleleteAnswer();
+                }
+                foreach (DBTemplatesHelper.DBAnswer ans in dialog.answers)
+                {
+                    ans.insertAnswer(f.id);
+                }
                 updateViewData();
             }
             dialog.Close();
@@ -93,7 +104,7 @@ namespace WFormsAppWordExport
             FormEditFeature dialog = new FormEditFeature(f,objId);
             if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question)==DialogResult.Yes)
             {
-                f.dropFromDB();
+                f.deleteFromDB();
             }
             dialog.Close();
             updateViewData();

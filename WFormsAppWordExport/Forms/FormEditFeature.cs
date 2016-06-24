@@ -30,8 +30,17 @@ namespace WFormsAppWordExport.Forms
     {
         private int _idAssociatedObject=0;
         private DBTemplatesHelper.DBFeature _feature=new DBTemplatesHelper.DBFeature();
-        public DBTemplatesHelper.DBFeature feature { get { return _feature; } set { _feature = value; updateView(); } }
+        public DBTemplatesHelper.DBFeature feature
+        {
+            get { return _feature; }
+            set
+            {
+                _feature = value; answers = DBTemplatesHelper.DBAnswer.getAnswers(feature.id); updateView();
+            }
+        }
+        public List<DBTemplatesHelper.DBAnswer> answers = new List<DBTemplatesHelper.DBAnswer>();
         public int idAssociatedObject { get { return _idAssociatedObject; } set { _idAssociatedObject = value; updateView(); } }
+        
 
         public FormEditFeature()
         {
@@ -47,7 +56,13 @@ namespace WFormsAppWordExport.Forms
         private void updateView()
         {
             textBoxQuestion.Text = feature.sQuestion;
-            comboBoxType.SelectedIndex = feature.type;
+            comboBoxType.SelectedIndex = (int)feature.type;
+            if (feature.type == TYPE_ANSWER.CHOOSE || feature.type == TYPE_ANSWER.MULTI_CHOSE
+                || feature.type == TYPE_ANSWER.STRING || feature.type == TYPE_ANSWER.LIST_IDS_OF_ESSENCE)
+            {
+                btAnswers.Enabled = true;
+            }
+            else btAnswers.Enabled = false;
             comboBoxAfterQuestion.Items.Clear();
             List<DBTemplatesHelper.DBFeature> dbFeatures=DBTemplatesHelper.DBFeature.getFeatures(idAssociatedObject);
             for (int i=0,l=dbFeatures.Count;i< l; i++)
@@ -57,13 +72,15 @@ namespace WFormsAppWordExport.Forms
             comboBoxAfterQuestion.SelectedIndex = dbFeatures.Count - 1;
             textBoxScriptCondition.Text = feature.scriptCondition;
             textBoxScriptAfterAnswer.Text = feature.scriptAfter;
+            
+           
 
         }
 
         private void btOk_Click(object sender, EventArgs e)
         {
             feature.sQuestion = textBoxQuestion.Text;
-            feature.type=comboBoxType.SelectedIndex;
+            feature.type=(TYPE_ANSWER)comboBoxType.SelectedIndex;
             feature.pos=comboBoxAfterQuestion.SelectedIndex;
             feature.scriptCondition=textBoxScriptCondition.Text;
             feature.scriptAfter=textBoxScriptAfterAnswer.Text;
@@ -78,7 +95,79 @@ namespace WFormsAppWordExport.Forms
 
         private void btAnswers_Click(object sender, EventArgs e)
         {
+            FormEditChooseAnswers formChooseAnswers = new FormEditChooseAnswers();
 
+            #region prepare Form
+            formChooseAnswers.chooseAnswers = answers;
+            if (feature.type == TYPE_ANSWER.STRING)
+            {
+                formChooseAnswers.btImport.Enabled = false;
+                formChooseAnswers.cbObj.Enabled = false;
+            }
+            if (feature.type == TYPE_ANSWER.CHOOSE || feature.type == TYPE_ANSWER.MULTI_CHOSE)
+            {
+                formChooseAnswers.btImport.Enabled = true;
+                formChooseAnswers.cbObj.Enabled = false;
+            }
+            if (feature.type == TYPE_ANSWER.LIST_IDS_OF_ESSENCE)
+            {
+                formChooseAnswers.btImport.Enabled = false;
+                formChooseAnswers.cbObj.Enabled = true;
+                List <DBTemplatesHelper.DBObject> objects = DBTemplatesHelper.get().getObjects();
+                foreach (DBTemplatesHelper.DBObject obj in objects)
+                {
+                    formChooseAnswers.cbObj.Items.Add(obj.name);
+                    formChooseAnswers.ObjIds.Add(obj.id);
+                }
+                
+            }
+            #endregion
+
+           
+            if (formChooseAnswers.ShowDialog() == DialogResult.OK)
+            {
+                answers = formChooseAnswers.chooseAnswers;
+            }
+           
+
+        }
+
+        private void btConditionScript_Click(object sender, EventArgs e)
+        {
+            FormDevCode formDevCode = new FormDevCode(textBoxScriptCondition.Text,SoftwareSctipt.SCRIPT_TYPE.FUNC_BOOL);
+            if (formDevCode.ShowDialog() == DialogResult.OK)
+            {
+                textBoxScriptCondition.Text = formDevCode.textCode;
+                formDevCode.Close();
+                feature.scriptCondition = textBoxScriptCondition.Text;
+            }
+        }
+
+        private void btAfterScript_Click(object sender, EventArgs e)
+        {
+            FormDevCode formDevCode = new FormDevCode(textBoxScriptAfterAnswer.Text, SoftwareSctipt.SCRIPT_TYPE.VOID);
+            if (formDevCode.ShowDialog() == DialogResult.OK)
+            {
+                textBoxScriptAfterAnswer.Text = formDevCode.textCode;
+                formDevCode.Close();
+                feature.scriptAfter = textBoxScriptAfterAnswer.Text;
+            }
+        }
+
+        private void comboBoxType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            feature.type = (TYPE_ANSWER)comboBoxType.SelectedIndex;
+            updateView();
+        }
+
+        private void comboBoxAfterQuestion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            feature.pos = comboBoxAfterQuestion.SelectedIndex;
+        }
+
+        private void textBoxQuestion_TextChanged(object sender, EventArgs e)
+        {
+            feature.sQuestion = textBoxQuestion.Text;
         }
     }
 }

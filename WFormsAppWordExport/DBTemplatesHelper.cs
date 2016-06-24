@@ -137,7 +137,7 @@ namespace WFormsAppWordExport
             s1 = "CREATE TABLE \"Параграфы\"  (id INTEGER PRIMARY KEY IDENTITY, flag int NOT NULL,Script ntext)";
             s2 = "CREATE TABLE \"Образ Обьекта\"  (id INTEGER PRIMARY KEY IDENTITY, Название ntext NOT NULL, Очередность int,Скрипт ntext, flags int, \"ids абстрактных обьектов\" ntext )";
             s3 = "CREATE TABLE \"Характеристика\"  (id INTEGER PRIMARY KEY IDENTITY,Тип int, Вопрос ntext NOT NULL, Очередность int, \"Условие вопроса\" ntext, \"Скрипт после ответа\" ntext)";
-            s4 = "CREATE TABLE \"Вариант ответа\"  (id INTEGER PRIMARY KEY IDENTITY, Очередность int, \"Звучание по вопросу\" ntext NOT NULL, \"Звучание по ответу\" ntext, Картинка image)";
+            s4 = "CREATE TABLE \"Вариант ответа\"  (id INTEGER PRIMARY KEY IDENTITY, Очередность int, \"Звучание по вопросу\" ntext NOT NULL, \"Звучание по ответу\" ntext, Картинка image, Обьект int)";
             s5 = "CREATE TABLE \"Выборка\"  (id INTEGER PRIMARY KEY IDENTITY, \"id характеристики\" INTEGER FOREIGN KEY REFERENCES Характеристика (id),"
                 + " \"id варианта\" INTEGER FOREIGN KEY REFERENCES \"Вариант ответа\" (id)  ON DELETE CASCADE )";
             s6 = "CREATE TABLE \"Описание обьекта\"  (id INTEGER PRIMARY KEY IDENTITY, \"id Образа обьекта\" INTEGER FOREIGN KEY REFERENCES \"Образ Обьекта\"  (id),"
@@ -234,7 +234,7 @@ namespace WFormsAppWordExport
                     outNodes.Add(es);
 
                     outNodesIds.Add((int)r[0]);
-                    contextNodesGroupsIds.Add(r.IsDBNull(5)?null:DBConvertFormat.stringToArray(r[5].ToString()));
+                    contextNodesGroupsIds.Add(r.IsDBNull(5)?null:ConvertFormat.stringToArray(r[5].ToString()));
                 }
                
             }
@@ -251,13 +251,13 @@ namespace WFormsAppWordExport
             for (int i=0,l=outNodes.Count;i< l;i++)
             {
                 es = outNodes[i];
-                fillFeatures(es, (int)outNodesIds[i]);
+                getFeatures(es, (int)outNodesIds[i]);
             }
 
             for (int i = 0, l = outNodes.Count; i < l; i++)
             {
                 es = outNodes[i];
-                fillAbstractEssences(es, contextNodesGroupsIds[i]);
+                getAbstractEssences(es, contextNodesGroupsIds[i]);
             }
             #endregion
 
@@ -370,8 +370,7 @@ namespace WFormsAppWordExport
         #endregion
 
         #region private methods 
-
-        private void fillAbstractEssences(Essence outNode,int[] idsEs)
+        private void getAbstractEssences(Essence outNode,int[] idsEs)
         {
             if (idsEs == null || idsEs.Length == 0) return;
 
@@ -398,7 +397,7 @@ namespace WFormsAppWordExport
                     outNode.abstrEssences.Add(es);
 
                     outNodesIds.Add((int)r[0]);
-                    contextNodesGroupsIds.Add(r.IsDBNull(5) ? null : DBConvertFormat.stringToArray(r[5].ToString()));
+                    contextNodesGroupsIds.Add(r.IsDBNull(5) ? null : ConvertFormat.stringToArray(r[5].ToString()));
                 }
 
             }
@@ -414,18 +413,18 @@ namespace WFormsAppWordExport
             for (int i = 0, l = outNodesIds.Count; i < l; i++)
             {
                 es = outNode.abstrEssences[i];
-                fillFeatures(es, (int)outNodesIds[i]);
+                getFeatures(es, (int)outNodesIds[i]);
             }
 
             for (int i = 0, l = outNodesIds.Count; i < l; i++)
             {
                 es = outNode.abstrEssences[i];
-                fillAbstractEssences(es, contextNodesGroupsIds[i]);
+                getAbstractEssences(es, contextNodesGroupsIds[i]);
             }
             #endregion
         }
 
-        private void fillFeatures(Essence outEs,int idEss)
+        private void getFeatures(Essence outEs,int idEss)
         {
             String s = "SELECT [Характеристика].* FROM [Образ Обьекта],[Характеристика], [Описание обьекта] WHERE [Образ Обьекта].id = " + idEss
                + " and [Описание обьекта].[id Образа обьекта]=[Образ Обьекта].id and [Описание обьекта].[id характеристики]=Характеристика.id "
@@ -457,12 +456,12 @@ namespace WFormsAppWordExport
             }
             for (int i=0,l=outEs.features.Count;i< l; i++)
             {
-                fillAnswersToFeature(outEs.features[i], idsFeatures[i]);
+                getChooseAnswersToFeature(outEs.features[i], idsFeatures[i]);
             }
 
         }
 
-        private void fillAnswersToFeature(Feature outFeature,int idFeature)
+        private void getChooseAnswersToFeature(Feature outFeature,int idFeature)
         {
             String s = "SELECT [Вариант ответа].* FROM [Вариант ответа],[Характеристика], [Выборка] WHERE [Характеристика].id = " + idFeature
             + " and [Выборка].[id характеристики]=[Характеристика].id and [Выборка].[id варианта]=[Вариант ответа].id "
@@ -474,12 +473,13 @@ namespace WFormsAppWordExport
                 r = new SqlCommand(s, myConn).ExecuteReader();
                 while (r.Read())
                 {
-                    Chooce_Answer ans = new Chooce_Answer();
+                    Choose_Answer ans = new Choose_Answer();
+                    ans.id = (int)r[0];
                     ans.sName = r[2].ToString();
                     if (!r.IsDBNull(3))
                          ans.sExport = r[3].ToString();
                     if (!r.IsDBNull(4))
-                        ans.image = DBConvertFormat.toImage(r[4]);
+                        ans.image = ConvertFormat.toImageFromBMP(r[4]);
                     outFeature.sAnswers.Add(ans);
                 }
 
@@ -549,7 +549,7 @@ namespace WFormsAppWordExport
         public class DBFeature
         {
             public int id = 0;
-            public int type =0;
+            public TYPE_ANSWER type =0;
             public String sQuestion = null;
             public int pos = -1;
             public String scriptCondition = null;
@@ -583,7 +583,7 @@ namespace WFormsAppWordExport
                 DBFeature f = new DBFeature();
                 f.id = (int)r[0];
                 if (!r.IsDBNull(1))
-                    f.type = (int)r[1];
+                    f.type = (TYPE_ANSWER)(int)r[1];
                 f.sQuestion = r[2].ToString();
                 if (!r.IsDBNull(3))
                     f.pos = (int)r[3];
@@ -604,7 +604,7 @@ namespace WFormsAppWordExport
                 List<DBFeature> features=new List<DBFeature>();
                 String s= "SELECT [Характеристика].* FROM [Образ Обьекта],[Характеристика], [Описание обьекта] WHERE [Образ Обьекта].id = " + idObj
              + " and [Описание обьекта].[id Образа обьекта]=[Образ Обьекта].id and [Описание обьекта].[id характеристики]=Характеристика.id "
-             + "order by  isnull([Характеристика].Очередность,2147483647)"; ;
+             + "order by  isnull([Характеристика].Очередность,2147483647)";
                 if (idObj == -1)
                 {
                     s = "SELECT [Характеристика].* FROM [Характеристика] "
@@ -635,7 +635,7 @@ namespace WFormsAppWordExport
             public void updateToDB()
             {
                 String s="UPDATE [Характеристика] SET [Вопрос]=N'"+sQuestion+"' "
-                    +", [Тип] ="+type;
+                    +", [Тип] ="+(int)type;
                 if (pos != -1)
                 {
                     s += " ,[Очередность] = " + pos;
@@ -652,10 +652,10 @@ namespace WFormsAppWordExport
                 new SqlCommand(s , DBTemplatesHelper.get().myConn).ExecuteNonQuery();
             }
 
-            public void insertToDB()
+            private void insertToDB()
             {
                 //TODO доделать выравнивание очередности
-                String s = "INSERT INTO [Характеристика] ( Тип,Вопрос ", p = " Values ("+type+",N'"+sQuestion+"'";
+                String s = "INSERT INTO [Характеристика] ( Тип,Вопрос ", p = " Values ("+(int)type+",N'"+sQuestion+"'";
                 if (pos != -1)
                 {
                     s += ", Очередность ";
@@ -686,7 +686,7 @@ namespace WFormsAppWordExport
                 {
                     r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
                     r.Read();
-                    int id = (int)Decimal.ToInt32( (Decimal)r[0]);
+                    id = (int)Decimal.ToInt32( (Decimal)r[0]);
                     s = "INSERT INTO \"Описание Обьекта\" (\"id характеристики\",\"id образа обьекта\") VALUES ("+ id + ","+ idObject + ")";
                 }
                 catch (System.Exception ex)
@@ -701,68 +701,127 @@ namespace WFormsAppWordExport
                 new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
             }
 
-            public void dropFromDB()
+            public void deleteFromDB()
             {
                 String s = "Delete from [Характеристика]  WHERE[id] =" + id;
                 new SqlCommand(s , DBTemplatesHelper.get().myConn).ExecuteNonQuery();
             }
 
+        }
+
+        public class DBAnswer
+        {
+            public int id = -1;
+            public int pos = 0;
+            public String sName = null;
+            public String sExport = null;
+            public Image image = null;
+            public int idObject = -1;
+
+            public static DBAnswer read(SqlDataReader r)
+            {
+                DBAnswer a = new DBAnswer();
+                a.id = (int)r[0];
+                if (!r.IsDBNull(1))
+                    a.pos = (int)r[1];
+                a.sName = r[2].ToString();
+                if (!r.IsDBNull(3))
+                    a.sExport = r[3].ToString();
+                if (!r.IsDBNull(4))
+                a.idObject = (int)r[4];
+                return a;
+            }
+
+            public static List<DBAnswer> getAnswers(int idFeature)
+            {
+                List<DBAnswer> answers = new List<DBAnswer>();
+                String s = "SELECT [Вариант ответа].* FROM [Вариант ответа],[Выборка],[Характеристика] "
+                    + " WHERE [Характеристика].id= " + idFeature + " and [Характеристика].id=[Выборка].[id Характеристики] and [Вариант ответа].id=[Выборка].[id Варианта] "
+                    + "order by  isnull([Вариант ответа].Очередность,2147483647)";
+
+                SqlDataReader r = null;
+                try
+                {
+                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    while (r.Read())
+                    {
+                        answers.Add(DBAnswer.read(r));
+                    }
+
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Ошибка sql загрузка ответ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                finally
+                {
+                    r.Close();
+                }
+
+                return answers;
+            }
+
+            public void deleleteAnswer()
+            {
+                String s;
+                s = "Delete from [Вариант ответа]  WHERE [id] =" + id;
+                new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+            }
+
+            public void insertAnswer(int idFeature)
+            {
+                #region insert to [вариант ответа]
+                String s = "INSERT INTO [Вариант ответа] ([Звучание по вопросу]", p = " VALUES(N'" + sName + "' ";
+                if (pos != -1)
+                {
+                    s += ", Очередность ";
+                    p += "," + pos + " ";
+                }
+                if (sExport != null)
+                {
+                    s += ",[Звучание по ответу]";
+                    p += ",N'" + sExport + "' ";
+                }
+                if (image != null)
+                {
+                    s += ",Картинка ";
+                    p += "," + ConvertFormat.toByteArray(image);
+                }
+                if (idObject != -1)
+                {
+                    s += ", Обьект ";
+                    p += "," + idObject;
+                }
+                s += ")"; p += ")";
+                new SqlCommand(s + p, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+                #endregion
+
+                s = "SELECT @@IDENTITY";
+                SqlDataReader r = null;
+                try
+                {
+                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    r.Read();
+                    int id = (int)Decimal.ToInt32((Decimal)r[0]);
+                    s = "INSERT INTO [Выборка] ([id варианта],[id характеристики]) VALUES (" + id + "," + idFeature + ")";
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Ошибка sql связка Характеристики с обьектом", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                finally
+                {
+                    if (r != null)
+                        r.Close();
+                }
+                new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
             
 
-        }
-
-        private static class DBConvertFormat
-        {
-            public static String arrayToString(int [] a)
-            {
-                if (a != null & a.Length > 0) return null;
-                String s ="";
-
-                for (int i = 0,l = a.Length - 1; i <l; i++)
-                {
-                    s += a[i] + ", ";
-                }
-                s += a[a.Length - 1];
-                return s;
-            }
-
-            public static int [] stringToArray (String s)
-            {
-                if (s == null || s.Length == 0) return null;
-                int[] a=null;
-                try
-                {
-                    String[] sArr = s.Split(',');
-                    a = new int[sArr.Length];
-                    for (int i = 0; i < sArr.Length; i++)
-                    {
-                        a[i] = Int32.Parse(sArr[i]);
-                    }
-                }
-                catch (System.Exception ex)
-                {
-                    MessageBox.Show(ex.ToString(), "Ошибка данных в sql", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                return a;  
-            }
-
-            public static Image toImage(Object v)
-            {
-                if (v == null) return null;
-                try
-                {
-                    return (Image)(new ImageConverter().ConvertFrom((byte[])v));
-                }
-                catch (System.Exception ex)
-                {
-                    MessageBox.Show(ex.ToString(), "Ошибка sql Картинки", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-
-                return null;
-            }
-
 
         }
+
+        }
+
         #endregion
     }
 }

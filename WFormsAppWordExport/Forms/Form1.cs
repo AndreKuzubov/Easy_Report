@@ -32,8 +32,9 @@ namespace WFormsAppWordExport
 {
     public partial class Form1 : Form
     {
-        public static TreeNodeCollection rootData;
-        String fileName=null;
+       
+        ProjectDataHelper projectData;
+      
       
     //   Questions questions;
         //  List<TreeNode> roots;
@@ -48,23 +49,16 @@ namespace WFormsAppWordExport
         public Form1(String fileName) : base()
         {
             InitializeComponent();
-            rootData = treeView1.Nodes;
+            projectData = new ProjectDataHelper();
+            projectData.rootData = treeView1.Nodes;
             if (File.Exists(fileName))
             {
-                this.fileName = fileName;
+                projectData.fileName = fileName;
                 FileStream fileStream = new FileStream(fileName, FileMode.Open);
                 BinaryFormatter serializer = new BinaryFormatter();
                 Essence[] a = (Essence[])serializer.Deserialize(fileStream);
-                for (int i = 0; i < a.Length; i++)
-                {
-               //     a[i].OnDeserial();
-                }
-
                 treeView1.Nodes.AddRange(a);
                 fileStream.Close();
-                //Auto = (Essence)a[1];
-
-
             } else
             {
                 loadNewTree();
@@ -73,65 +67,13 @@ namespace WFormsAppWordExport
             
         }
 
-        public void saveToFile(String fileName)
-        {
-            this.fileName = fileName;
-            int len = treeView1.Nodes.Count;
-            Essence[] eEssences = new Essence[len];
-            for (int i=0;i< len; i++)
-            {
-                eEssences[i] = (Essence)treeView1.Nodes[i];
-            }
-            FileStream fileStream;
-            if (File.Exists(fileName))
-                fileStream = new FileStream(fileName, FileMode.Truncate);
-            else fileStream = new FileStream(fileName, FileMode.CreateNew);
-
-            BinaryFormatter serializer = new BinaryFormatter();
-            serializer.Serialize(fileStream, eEssences);
-            fileStream.Close();
-        }
-
-        public bool saveToFile()
-        {
-            if (fileName == null ) return false;
-            saveToFile(fileName);
-            return true;
-        }
-
-        public void exportDoc(String filename)
-        {
-            Word.Application app = new Word.Application();
-            app.Visible = false;
-            Word.Document doc;
-
-            Object template = MyFiles.getMyTemplate();
-            Object newTemplate = false;
-            Object documentType = 0;
-            Object visible = false;
-
-         
-            doc = app.Documents.Add(
-            template,  newTemplate,  documentType,  visible);
-           doc.Activate();
-
-            Exporter.exportAll(app, treeView1.Nodes);
-           
-             
-            doc.SaveAs2(filename, 16, false, Type.Missing, false,
-               Type.Missing, false, false, false, false, false, 0,
-               false, false, true);
-            app.Quit(0, 0, false);
-
-
-        }
 
         private void loadNewTree()
         {
             List<Essence> ess;
             List<Essence> contextEssens;
             DBTemplatesHelper.get().fillProjectTree(out ess,out contextEssens);
-            rootData.AddRange(ess.ToArray());
+            projectData.rootData.AddRange(ess.ToArray());
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
