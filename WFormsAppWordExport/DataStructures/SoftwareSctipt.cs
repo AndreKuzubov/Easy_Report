@@ -32,8 +32,8 @@ namespace WFormsAppWordExport.DataStructures
         public enum SCRIPT_TYPE { FUNC_BOOL,VOID,STRING }
         public String script { get; private set; }
 
-        private Func<TreeNodeCollection, bool> boolFunc= delegate (TreeNodeCollection es){return true;};
-        private Action<TreeNodeCollection> voidFunc = delegate (TreeNodeCollection es) { };
+        private Func<ProjectDataHelper, bool> boolFunc= delegate (ProjectDataHelper es){return true;};
+        private Action<ProjectDataHelper> voidFunc = delegate (ProjectDataHelper es) { };
 
         public SoftwareSctipt (String script,SCRIPT_TYPE type)
         {
@@ -52,7 +52,8 @@ namespace WFormsAppWordExport.DataStructures
             String methodType=null;
             switch (type)
             {
-                case SCRIPT_TYPE.FUNC_BOOL:methodType = @"bool";
+                case SCRIPT_TYPE.FUNC_BOOL:
+                    methodType = @"bool";
                     break;
                 case SCRIPT_TYPE.VOID:
                     methodType = @"void";
@@ -75,16 +76,15 @@ namespace WFormsAppWordExport.DataStructures
             
         namespace WFormsAppWordExport
         {                
-            public class BinaryFunction
+            public static class BinaryFunction
             {                
-                public static " + methodType + @" Function(TreeNodeCollection rootData)
+                public static " + methodType + @" Function(ProjectDataHelper DataProject)
                 {
                     func_xy
                 }
             }
         }
     ";
-            var delegateType = Expression.GetFuncType(typeof(Essence), typeof(bool));
 
             string finalCode = code.Replace("func_xy", script);
 
@@ -95,9 +95,9 @@ namespace WFormsAppWordExport.DataStructures
             };
             String path = Assembly.GetExecutingAssembly().Location;
             p.ReferencedAssemblies.Add(path);
-            var assemblies = typeof(TreeNodeCollection).Assembly.GetReferencedAssemblies().ToList();
+            var assemblies = typeof(ProjectDataHelper).Assembly.GetReferencedAssemblies().ToList();
             var assemblyLocations = assemblies.Select(a => Assembly.ReflectionOnlyLoad(a.FullName).Location).ToList();
-            assemblyLocations.Add(typeof(TreeNodeCollection).Assembly.Location);
+            assemblyLocations.Add(typeof(ProjectDataHelper).Assembly.Location);
             p.ReferencedAssemblies.AddRange(assemblyLocations.ToArray());
 
             return provider.CompileAssemblyFromSource(p, new string[] { finalCode });
@@ -105,72 +105,38 @@ namespace WFormsAppWordExport.DataStructures
 
         private void bild(SCRIPT_TYPE type)
         {
-         /*   if (script == null || script.Length == 0)
-            {
-                boolFunc = delegate (TreeNodeCollection es) { return true; };
-                return;
-            }
-
-
-            string code = @"
-        using System;
-        using System.Collections.Generic;
-       // using System.Linq;
-        using System.Text;
-        using System.Threading.Tasks;
-        using System.Runtime.Serialization;
-       // using System.Xml.Serialization;
-        using System.IO;
-        using System.Windows.Forms;
-        using  WFormsAppWordExport.DataStructures;
-            
-        namespace WFormsAppWordExport
-        {                
-            public class BinaryFunction
-            {                
-                public static "+((type==SCRIPT_TYPE.FUNC_BOOL)?"bool":"void")+@" Function(TreeNodeCollection rootData)
-                {
-                    func_xy
-                }
-            }
-        }
-    ";
-            var delegateType = Expression.GetFuncType(typeof(Essence), typeof(bool));
-
-            string finalCode = code.Replace("func_xy", script);
-
-            CSharpCodeProvider provider = new CSharpCodeProvider();
-            CompilerParameters p = new CompilerParameters();
-            p.GenerateInMemory = true;
-            String path = Assembly.GetExecutingAssembly().Location;
-            p.ReferencedAssemblies.Add(path);
-            var assemblies = typeof(TreeNodeCollection).Assembly.GetReferencedAssemblies().ToList();
-            var assemblyLocations = assemblies.Select(a =>Assembly.ReflectionOnlyLoad(a.FullName).Location).ToList();
-            assemblyLocations.Add(typeof(TreeNodeCollection).Assembly.Location);
-            p.ReferencedAssemblies.AddRange(assemblyLocations.ToArray());
-            */
-
-            CompilerResults results = compile(script, type);//  provider.CompileAssemblyFromSource(p, new string[] { finalCode });
+            CompilerResults results = compile(script, type);
             if (results == null) return;
             Type binaryFunction = results.CompiledAssembly.GetType("WFormsAppWordExport.BinaryFunction");
             MethodInfo method = binaryFunction.GetMethod("Function");
-            if (type==SCRIPT_TYPE.FUNC_BOOL)
-                boolFunc=(Func<TreeNodeCollection, bool>) Delegate.CreateDelegate(typeof(Func<TreeNodeCollection, bool>),method);
-            else
-                voidFunc = (Action<TreeNodeCollection>)Delegate.CreateDelegate(typeof(Action<TreeNodeCollection>), method);
+
+            switch (type)
+            {
+                case SCRIPT_TYPE.FUNC_BOOL:
+                    boolFunc = (Func<ProjectDataHelper, bool>)Delegate.CreateDelegate(typeof(Func<ProjectDataHelper, bool>), method);
+                    break;
+                case SCRIPT_TYPE.VOID:
+                    voidFunc = (Action<ProjectDataHelper>)Delegate.CreateDelegate(typeof(Action<ProjectDataHelper>), method);
+                    break;
+                case SCRIPT_TYPE.STRING:
+                    //methodType = @"string";
+                    break;
+            }
+
+                
         }
 
         public void run()
         {
-            if (ProjectDataHelper.Instate!=null)
-                 voidFunc(ProjectDataHelper.Instate.rootData);
+            if (ProjectDataHelper.Initial!=null)
+                 voidFunc(ProjectDataHelper.Initial);
         }
 
-        public bool runBool()
+        public bool runBool(bool def)
         {
-            if (ProjectDataHelper.Instate != null)
-                return boolFunc(ProjectDataHelper.Instate.rootData);
-            return false;
+            if (ProjectDataHelper.Initial != null)
+                return boolFunc(ProjectDataHelper.Initial);
+            return def;
         }
     }
 

@@ -27,12 +27,15 @@ namespace WFormsAppWordExport
    
     public partial class QuestionDate : WFormsAppWordExport.Question
     {
-        public QuestionDate(Feature ffQuestion, int iIndex) : base(ffQuestion, iIndex)
+        DateSaver date;
+        public QuestionDate(Feature ffQuestion, int iIndex,Form1 f) : base(ffQuestion, iIndex,f)
         {
             InitializeComponent();
+            datePicker.Value = DateTime.Today;
+            timePicker.Value = DateTime.Today;
             if (feature.isAnswered)
             {
-                DateSaver saver = (DateSaver)(feature.answer.oAnswer);
+                DateSaver saver = (feature.answer.dateAnswer);
                 datePicker.Value = saver.date;
                 datePicker.Checked = saver.isDate;
                 timePicker.Value = saver.time;
@@ -52,22 +55,30 @@ namespace WFormsAppWordExport
 
         private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
         {
-            setAnswer(save());
+            saveChanges();
+            setAnswer(date, getStringAnswer());
          }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            setAnswer(save());
+            saveChanges();
+            setAnswer(date, getStringAnswer());
         }
 
-        private Object save()
+        private void saveChanges()
         {
-            DateSaver s;
-            s.date = datePicker.Value;
-            s.isDate = datePicker.Checked;
-            s.time = timePicker.Value;
-            s.isTime = timePicker.Checked;
-            return (Object)s;
+            date.date = datePicker.Value;
+            date.isDate = datePicker.Checked;
+            date.time = timePicker.Value;
+            date.isTime = timePicker.Checked;
         }
+        private String getStringAnswer()
+        {
+            String s="";
+            if (date.isDate) s += date.date.ToLongDateString();
+            if (date.isTime && date.isDate) s += "  ";
+            if (date.isTime) s += date.time.ToLongTimeString();
+            return s;
+        } 
     }
 }

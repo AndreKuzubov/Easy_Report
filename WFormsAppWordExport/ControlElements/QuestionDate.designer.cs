@@ -51,7 +51,6 @@
             // 
             // datePicker
             // 
-            this.datePicker.Checked = false;
             this.datePicker.CustomFormat = "mm";
             this.datePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.datePicker.Location = new System.Drawing.Point(3, 32);
@@ -60,14 +59,15 @@
             this.datePicker.ShowUpDown = true;
             this.datePicker.Size = new System.Drawing.Size(177, 20);
             this.datePicker.TabIndex = 4;
+            this.datePicker.Value = new System.DateTime(2016, 6, 25, 15, 43, 38, 0);
             this.datePicker.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
-            // DateQuestion
+            // QuestionDate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.Controls.Add(this.timePicker);
             this.Controls.Add(this.datePicker);
-            this.Name = "DateQuestion";
+            this.Name = "QuestionDate";
             this.Size = new System.Drawing.Size(348, 69);
             this.Controls.SetChildIndex(this.labelAuthor, 0);
             this.Controls.SetChildIndex(this.datePicker, 0);

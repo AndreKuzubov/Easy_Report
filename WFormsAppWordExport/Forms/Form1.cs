@@ -34,13 +34,8 @@ namespace WFormsAppWordExport
     {
        
         ProjectDataHelper projectData;
-      
-      
-    //   Questions questions;
-        //  List<TreeNode> roots;
-        // Event ev=new Event();
 
-       // Essence Auto;
+        #region constructions
         public Form1():this(null)
         {
           
@@ -66,62 +61,71 @@ namespace WFormsAppWordExport
 
             
         }
+        #endregion
 
-
-        private void loadNewTree()
-        {
-            List<Essence> ess;
-            List<Essence> contextEssens;
-            DBTemplatesHelper.get().fillProjectTree(out ess,out contextEssens);
-            projectData.rootData.AddRange(ess.ToArray());
-        }
-
-        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            setEssence((Essence)(treeView1.SelectedNode));
-        }
-
-        public void updateEssences()
+        public void updateShowingEssences()
         {
             Essence es = (Essence)treeView1.SelectedNode;
-            updateEssences(es.features);
+            updateShowingFeatures(es.features);
             foreach (Essence abstrEssence in es.abstrEssences)
             {
-                updateEssences(abstrEssence.features);
+                updateShowingFeatures(abstrEssence.features);
             }
         }
 
-        private void updateEssences(List<Feature> features)
+        #region events
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            for (int i=0, l=flowLayoutPanel1.Controls.Count; i<l ; i++)
+            setSelectedEssence((Essence)(treeView1.SelectedNode));
+        }
+        private void Form1_Closing(object sender, FormClosingEventArgs e)
+        {
+            ProjectDataHelper.closeProject();
+        }
+        #endregion
+
+        #region private methods
+        private void updateShowingFeatures(List<Feature> features)
+        {
+            for (int i = 0, l = flowLayoutPanel1.Controls.Count; i < l; i++)
             {
                 flowLayoutPanel1.Controls[i].Visible = (((Question)flowLayoutPanel1.Controls[i]).feature.isUsable());
             }
         }
-
-        private void setEssence(Essence eEssence)
+    
+        private void setSelectedEssence(Essence eEssence)
         {
             if (eEssence == null) return;
             eEssence.afterWishUpdateQuestions = delegate
             {
                 flowLayoutPanel1.Controls.Clear();
-                initEssences();
-                updateEssences();
+                initShowingEssences();
+                updateShowingEssences();
             };
             eEssence.afterWishUpdateQuestions();
         }
 
-        private void initEssences()
+        private void initShowingEssences()
         {
+            List<Feature> allFeatures = new List<Feature>();
             Essence es = (Essence)treeView1.SelectedNode;
-            initEssences(es.features);
+            allFeatures.AddRange(es.features);
             foreach (Essence abstrEssence in es.abstrEssences)
             {
-                initEssences(abstrEssence.features);
+                #region paste abstract to spec place
+                int index = -1;
+                foreach (Feature f in allFeatures)
+                    if (abstrEssence.idFeatureAfterShow == f.idDB) index = es.features.IndexOf(f);
+                #endregion
+                if (index!=-1)
+                    allFeatures.InsertRange(index, abstrEssence.features);          
+                else
+                    allFeatures.AddRange(abstrEssence.features);
             }
+            initShowingFeatures(allFeatures);
         }
 
-        private void initEssences(List<Feature> features)
+        private void initShowingFeatures(List<Feature> features)
         {
             UserControl uc = null;
             Feature feature;
@@ -132,29 +136,43 @@ namespace WFormsAppWordExport
                 switch (feature.typeAnswer)
                 {
                     case TYPE_ANSWER.TRUE_FALSE:
-                        uc = new QuestionTrueFalse(feature, i);
+                        uc = new QuestionTrueFalse(feature, i,this);
                         break;
                     case TYPE_ANSWER.STRING:
-                        uc = new QuestionString(feature, i);
+                        uc = new QuestionString(feature, i, this);
                         break;
                     case TYPE_ANSWER.NUMBER:
-                        uc = new QuestionNumeric(feature, i);
+                        uc = new QuestionNumeric(feature, i, this);
                         break;
                     case TYPE_ANSWER.DATE:
-                        uc = new QuestionDate(feature, i);
+                        uc = new QuestionDate(feature, i, this);
                         break;
                     case TYPE_ANSWER.CHOOSE:
-                        uc = new QuestionChoose(feature, i);
+                        uc = new QuestionChoose(feature, i, this);
                         break;
                     case TYPE_ANSWER.MULTI_CHOSE:
-                        uc = new QuestionMultiChoose(feature, i);
+                        uc = new QuestionMultiChoose(feature, i, this);
                         break;
-                        //    us = new QuestionPictMultiChose(fQuestion, i);
-                        //    break;              
+                    case TYPE_ANSWER.LIST_IDS_OF_ESSENCE:
+                       uc = new ControlElements.QuestionLinkEssence(feature, i,this);
+                            break;              
                 }
                 flowLayoutPanel1.Controls.Add(uc);
-                
+
+
             }
         }
+
+        private void loadNewTree()
+        {
+            List<Essence> ess;
+            List<Essence> contextEssens;
+            DBTemplatesHelper.get().fillProjectTree(out ess, out contextEssens);
+            projectData.rootData.AddRange(ess.ToArray());
+        }
+        #endregion
+
+    
     }
+
 }

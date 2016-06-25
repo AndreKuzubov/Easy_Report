@@ -274,9 +274,7 @@
         private System.Windows.Forms.Button btOk;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox tbQuestionName;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBoxExportName;
         private System.Windows.Forms.Button btUp;
         private System.Windows.Forms.Button btDown;
         private System.Windows.Forms.Label label5;
@@ -285,5 +283,7 @@
         public System.Windows.Forms.PictureBox pictureBox1;
         public System.Windows.Forms.ComboBox cbObj;
         private System.Windows.Forms.ListBox listBox1;
+        public System.Windows.Forms.TextBox textBoxExportName;
+        public System.Windows.Forms.TextBox tbQuestionName;
     }
 }

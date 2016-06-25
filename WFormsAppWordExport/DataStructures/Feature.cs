@@ -47,8 +47,21 @@ namespace WFormsAppWordExport.DataStructures
         public String sQuestion { get; private set; }
         //тип ответа (вопроса) 
         public TYPE_ANSWER typeAnswer { get; private set; }
+        private List<Choose_Answer> _sAnswers;
         //выборы ответа если тип ответа CHOOSE
-        public List <Choose_Answer> sAnswers { get; private set; }
+        public List<Choose_Answer> sAnswers
+        {
+            get
+            {
+                if (_sAnswers == null) _sAnswers = new List<Choose_Answer>();
+                return _sAnswers;
+            }
+            private set
+            {
+                _sAnswers = value;
+            }
+
+        } 
         //автор ответа
         public String sAuthor {  get; private set;  }
         //ответ на вопрос
@@ -97,12 +110,13 @@ namespace WFormsAppWordExport.DataStructures
         {
             this.answer = answer;
             this.sAuthor = sAuthor;
+            _isAnswered = true;
         }
 
         public bool isUsable()
         {
             if (sIsUsable != null)
-                return this.sIsUsable.runBool();
+                return this.sIsUsable.runBool(true);
             else return true;
         }
 
@@ -190,12 +204,20 @@ namespace WFormsAppWordExport.DataStructures
     } 
 
     [Serializable]
-    public class Choose_Answer:DBTemplatesHelper.DBAnswer
+    public class Choose_Answer
     {
-        public new String sExport { get { return (base.sExport == null) ? sName : base.sExport; }
-            set { base.sExport = value; } }
+        public int id = -1;
+        public int pos = 0;
+        public String sName = null;
+        private String _sExport = null;
+        public Image image = null;
+        public int idObject = -1;
+
+        public String sExport { get { return (_sExport == null) ? sName : _sExport; }
+            set { _sExport = value; } }
 
         public Choose_Answer() { }
+
         public Choose_Answer(String sName)
         {
             this.sName = sName;

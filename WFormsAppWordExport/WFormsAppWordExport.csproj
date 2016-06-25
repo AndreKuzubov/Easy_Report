@@ -115,6 +115,12 @@
     <Compile Include="ControlElements\QuestionDate.designer.cs">
       <DependentUpon>QuestionDate.cs</DependentUpon>
     </Compile>
+    <Compile Include="ControlElements\QuestionLinkEssence.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControlElements\QuestionLinkEssence.Designer.cs">
+      <DependentUpon>QuestionLinkEssence.cs</DependentUpon>
+    </Compile>
     <Compile Include="ControlElements\QuestionMultiChoose.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -237,11 +243,11 @@
     <Compile Include="ControlElements\UCTemplateObject.Designer.cs">
       <DependentUpon>UCTemplateObject.cs</DependentUpon>
     </Compile>
-    <Compile Include="ControlElements\UseControlChoosePict.cs">
+    <Compile Include="ControlElements\UCChoosePict.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ControlElements\UseControlChoosePict.Designer.cs">
-      <DependentUpon>UseControlChoosePict.cs</DependentUpon>
+    <Compile Include="ControlElements\UCChoosePict.Designer.cs">
+      <DependentUpon>UCChoosePict.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="AdvancedTextEditorControl\AdvancedTextEditor.resx">
       <DependentUpon>AdvancedTextEditor.cs</DependentUpon>
@@ -254,6 +260,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ControlElements\QuestionDate.resx">
       <DependentUpon>QuestionDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlElements\QuestionLinkEssence.resx">
+      <DependentUpon>QuestionLinkEssence.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ControlElements\QuestionMultiChoose.resx">
       <DependentUpon>QuestionMultiChoose.cs</DependentUpon>
@@ -311,8 +320,8 @@
     <EmbeddedResource Include="ControlElements\UCTemplateObject.resx">
       <DependentUpon>UCTemplateObject.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ControlElements\UseControlChoosePict.resx">
-      <DependentUpon>UseControlChoosePict.cs</DependentUpon>
+    <EmbeddedResource Include="ControlElements\UCChoosePict.resx">
+      <DependentUpon>UCChoosePict.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />

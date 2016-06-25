@@ -76,7 +76,7 @@ namespace WFormsAppWordExport
         private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             toolStripStatusLabel.Text = "Состояние: Сохранение файла";
-            if (ProjectDataHelper.Instate==null)
+            if (ProjectDataHelper.Initial==null)
             {
                 errFormNoOpen();
                 return;
@@ -89,7 +89,7 @@ namespace WFormsAppWordExport
             if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 string fileName = saveFileDialog.FileName;
-                ProjectDataHelper.Instate.saveToFile(fileName);
+                ProjectDataHelper.Initial.saveToFile(fileName);
             }
             stateNorm();
         }
@@ -157,12 +157,12 @@ namespace WFormsAppWordExport
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             toolStripStatusLabel.Text = "Состояние: Сохранение файла";
-            if (ProjectDataHelper.Instate==null)
+            if (ProjectDataHelper.Initial==null)
             {
                 errFormNoOpen();
                 return;
             }
-            if (!ProjectDataHelper.Instate.saveToFile())
+            if (!ProjectDataHelper.Initial.saveToFile())
                 SaveAsToolStripMenuItem_Click(sender, e);
             stateNorm();
         }
@@ -185,7 +185,7 @@ namespace WFormsAppWordExport
         private void exportDocToolStripMenuItem_Click(object sender, EventArgs e)
         {
           
-            if (ProjectDataHelper.Instate == null)
+            if (ProjectDataHelper.Initial == null)
             {
                 errFormNoOpen();
                 return;
@@ -213,7 +213,7 @@ namespace WFormsAppWordExport
                 {
 
                     string fileName = saveFileDialog.FileName;
-                    ProjectDataHelper.Instate.exportDoc(fileName);
+                    ProjectDataHelper.Initial.exportDoc(fileName);
 
                 }
                

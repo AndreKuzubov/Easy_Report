@@ -25,7 +25,7 @@ namespace WFormsAppWordExport
 {
     public partial class QuestionTrueFalse : Question
     {
-        public QuestionTrueFalse(Feature ffQuestion, int iIndex) : base(ffQuestion, iIndex)
+        public QuestionTrueFalse(Feature ffQuestion, int iIndex, Form1 f) : base(ffQuestion, iIndex,f)
         {
             InitializeComponent();
             if ((feature.isAnswered))
@@ -41,13 +41,13 @@ namespace WFormsAppWordExport
 
         private void buttonTrue_Click(object sender, EventArgs e)
         {
-            setAnswer(1);
+            setAnswer(1,"да");
             this.labelAnswer.Text = "да";
         }
 
         private void buttonFalse_Click(object sender, EventArgs e)
         {
-            setAnswer(0);
+            setAnswer(0,"нет");
             this.labelAnswer.Text = "нет";
         }
     }

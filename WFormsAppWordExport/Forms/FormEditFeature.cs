@@ -113,6 +113,8 @@ namespace WFormsAppWordExport.Forms
             {
                 formChooseAnswers.btImport.Enabled = false;
                 formChooseAnswers.cbObj.Enabled = true;
+                formChooseAnswers.textBoxExportName.Enabled = false;
+                formChooseAnswers.tbQuestionName.Enabled = false;
                 List <DBTemplatesHelper.DBObject> objects = DBTemplatesHelper.get().getObjects();
                 foreach (DBTemplatesHelper.DBObject obj in objects)
                 {

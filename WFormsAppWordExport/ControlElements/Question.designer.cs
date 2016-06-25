@@ -30,7 +30,7 @@
         {
             this.labelQuestion = new System.Windows.Forms.Label();
             this.buttonReset = new System.Windows.Forms.Button();
-            this.labelAuthor = new AlignedLabel();
+            this.labelAuthor = new WFormsAppWordExport.AlignedLabel();
             this.SuspendLayout();
             // 
             // labelQuestion
@@ -65,7 +65,7 @@
             this.labelAuthor.TabIndex = 3;
             this.labelAuthor.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // UseFormQuestion
+            // Question
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -75,7 +75,7 @@
             this.Controls.Add(this.buttonReset);
             this.Controls.Add(this.labelAuthor);
             this.Controls.Add(this.labelQuestion);
-            this.Name = "UseFormQuestion";
+            this.Name = "Question";
             this.Size = new System.Drawing.Size(348, 69);
             this.Load += new System.EventHandler(this.load);
             this.ResumeLayout(false);
@@ -84,9 +84,8 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label labelQuestion;
         protected AlignedLabel labelAuthor;
         private System.Windows.Forms.Button buttonReset;
+        public System.Windows.Forms.Label labelQuestion;
     }
 }

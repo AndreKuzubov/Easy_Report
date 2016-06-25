@@ -161,14 +161,17 @@ namespace WFormsAppWordExport.Forms
 
         private void btImportImage_Click(object sender, EventArgs e)
         {
-           
+            if (selectedItem == -1 || chooseAnswers.Count==0) return;
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             openFileDialog.Filter = "файлы bmp (*.bmp)|*.bmp";
             if (openFileDialog.ShowDialog(this) == DialogResult.OK)
             {
+
                 string FileName = openFileDialog.FileName;
                 int i = selectedItem;
+                
                 DBTemplatesHelper.DBAnswer a = chooseAnswers[i];
                 a.image = Image.FromFile(FileName);
                 updateDataToView();
@@ -228,8 +231,14 @@ namespace WFormsAppWordExport.Forms
         {
             if (chooseAnswers.Count > 0)
                 if (this.cbObj.SelectedIndex != -1)
+                {
                     chooseAnswers[selectedItem].idObject = ObjIds[this.cbObj.SelectedIndex];
-                else chooseAnswers[selectedItem].idObject = -1;
+                    currentName = cbObj.Items[cbObj.SelectedIndex].ToString();
+                }else
+                {
+                    chooseAnswers[selectedItem].idObject = -1;
+                    currentName = "answer";
+                }
         }
     }
 }

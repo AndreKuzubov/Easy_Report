@@ -36,7 +36,7 @@
             // labelAnswer
             // 
             this.labelAnswer.AutoSize = true;
-            this.labelAnswer.Location = new System.Drawing.Point(91, 2);
+            this.labelAnswer.Location = new System.Drawing.Point(184, 38);
             this.labelAnswer.Name = "labelAnswer";
             this.labelAnswer.Size = new System.Drawing.Size(0, 13);
             this.labelAnswer.TabIndex = 4;
@@ -63,13 +63,14 @@
             this.buttonFalse.UseVisualStyleBackColor = true;
             this.buttonFalse.Click += new System.EventHandler(this.buttonFalse_Click);
             // 
-            // TrueFalseQuestion
+            // QuestionTrueFalse
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.Controls.Add(this.buttonFalse);
             this.Controls.Add(this.buttonTrue);
             this.Controls.Add(this.labelAnswer);
-            this.Name = "TrueFalseQuestion";
+            this.Name = "QuestionTrueFalse";
+            this.Size = new System.Drawing.Size(348, 69);
             this.Controls.SetChildIndex(this.labelAuthor, 0);
             this.Controls.SetChildIndex(this.labelAnswer, 0);
             this.Controls.SetChildIndex(this.buttonTrue, 0);

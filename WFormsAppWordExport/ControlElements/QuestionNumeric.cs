@@ -26,12 +26,12 @@ namespace WFormsAppWordExport
 {
     public partial class QuestionNumeric : WFormsAppWordExport.Question
     {
-        public QuestionNumeric(Feature ffQuestion, int iIndex) : base(ffQuestion, iIndex)
+        public QuestionNumeric(Feature feature, int iIndex,Form1 f) : base(feature, iIndex,f)
         {
             InitializeComponent();
-            if (feature.isAnswered)
+            if (base.feature.isAnswered)
             {
-                numericUpDown1.Value = (int)feature.answer.oAnswer;
+                numericUpDown1.Value = base.feature.answer.intAnswer;
             }
         }
 

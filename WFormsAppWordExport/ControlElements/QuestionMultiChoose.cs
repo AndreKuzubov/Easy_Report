@@ -26,36 +26,72 @@ namespace WFormsAppWordExport
 {
     public partial class QuestionMultiChoose : WFormsAppWordExport.Question
     {
-        public QuestionMultiChoose(Feature ffQuestion,int iIndex):base(ffQuestion,iIndex)
+        
+        public QuestionMultiChoose(Feature feature,int iIndex,Form1 f):base(feature,iIndex,f)
         {
+            
             InitializeComponent();
-            //checkedListBox1.Items.AddRange(fQuestion.sAnswers);
-            if (feature.isAnswered)
+            bool haveImage=false;
+            if (feature.sAnswers!=null&&feature.sAnswers.Count > 0)
             {
-                int []a = (int [])(feature.answer.oAnswer);
-                for (int i = 0; i < a.Length; i++)
+                foreach(Choose_Answer ans in feature.sAnswers)
                 {
-                    checkedListBox1.SetItemChecked(i, (a[i]==1)?true:false);
+                    checkedListBox1.Items.Add(ans.sName);
+                    if (ans.image != null) haveImage = true;
                 }
             }
+            btExpose.Visible = btExpose.Enabled = haveImage;
+            updateAnswer();
         }
 
         protected override void reset()
         {
-            checkedListBox1.SelectedItems.Clear();
+            checkedListBox1.ClearSelected();
+            for (int i = 0,l= checkedListBox1.Items.Count; i <l ; i++)
+                checkedListBox1.SetItemChecked(i, false);
         }
 
         private void checkedListBox1_ItemChecked(object sender, ItemCheckEventArgs e)
         {
+            String s = "",divider="";
             int[] a = new int[checkedListBox1.Items.Count];
             for (int i = 0; i < a.Length; i++)
             {
                 if (checkedListBox1.GetItemChecked(i))
+                {
                     a[i] = 1;
+                    s += divider + feature.sAnswers[i].sExport ;
+                    divider = ", ";
+                }
+                  
                 else a[i] = 0;
+
+                
             }
             a[e.Index] = (e.NewValue == CheckState.Checked) ? 1:0;
-            setAnswer(a);
+            setAnswer(a,s);
+        }
+
+        private void btExpose_Click(object sender, EventArgs e)
+        {
+            FormPictureMultiChoose form = new FormPictureMultiChoose(feature.sAnswers);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                setAnswer(form.check, form.getStringAnswer());
+                updateAnswer();
+            }
+        }
+
+        private void updateAnswer()
+        {
+            if (base.feature.isAnswered)
+            {
+                int[] a = (int[])(base.feature.answer.oAnswer);
+                for (int i = 0; i < a.Length; i++)
+                {
+                    checkedListBox1.SetItemChecked(i, (a[i] == 1) ? true : false);
+                }
+            }
         }
     }
 }

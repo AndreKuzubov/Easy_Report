@@ -26,24 +26,24 @@ namespace WFormsAppWordExport
 {
     public partial class QuestionString : WFormsAppWordExport.Question
     {
-        public QuestionString(Feature ffQuestion, int iIndex):base(ffQuestion,iIndex)
+        public QuestionString(Feature feature, int iIndex,Form1 p):base(feature,iIndex,p)
         {
             InitializeComponent();
-            if ((feature.isAnswered))
+            if ((base.feature.isAnswered))
             {
-                comboBox1.Text = (String)feature.answer.oAnswer;
+                comboBox1.Text = (String)base.feature.answer.sAnswer;
             }
-           // if (fQuestion.sAnswers != null && fQuestion.sAnswers.Length > 0)
-             //   comboBox1.Items.AddRange(fQuestion.sAnswers);
-           // else
-             //   comboBox1.DropDownStyle = ComboBoxStyle.Simple;
+            if (base.feature.sAnswers != null && feature.sAnswers.Count > 0)
+                foreach (Choose_Answer ans in feature.sAnswers)
+                {
+                    comboBox1.Items.Add(ans.sName);
+                }
         }
 
         protected override void reset()
         {
             comboBox1.Text = "";
         }
-
       
         private void expose_Click(object sender, EventArgs e)
         {
@@ -60,12 +60,13 @@ namespace WFormsAppWordExport
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            setAnswer((Object)comboBox1.Text);
+            int index = comboBox1.SelectedIndex;
+            setAnswer(index, feature.sAnswers[index].sExport);
         }
 
         private void comboBox1_TextUpdate(object sender, EventArgs e)
         {
-            setAnswer((Object)comboBox1.Text);
+            setAnswer(-1, comboBox1.Text);
         }
     }
 }

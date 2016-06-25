@@ -22,16 +22,18 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using WFormsAppWordExport.DataStructures;
 
 namespace WFormsAppWordExport
 {
     public partial class FormPictureMultiChoose : Form
     {
-        private int[][] _ch;
-        public int [][] check{
+        private int[] _ch;
+        private List<Choose_Answer> answers=null;
+        public int [] check{
              set
             {
-                updateGrid();
+                updateView();
                 _ch = value;
             }
             get
@@ -39,65 +41,45 @@ namespace WFormsAppWordExport
                 return _ch;
             }
             }
+        
 
-        private DataSet dbSet = null;
-
-        public FormPictureMultiChoose()
+        public FormPictureMultiChoose(List<Choose_Answer> answers)
         {
             InitializeComponent();
-
-            int len = dbSet.Tables.Count;
-            _ch = new int[len][];
-            for (int i = 0; i < len; i++)
-            {
-                TreeNode node = new TreeNode(dbSet.Tables[i].TableName);
-                node.Tag = i;
-                treeView1.Nodes.Add(node);
-                _ch[i] = new int[dbSet.Tables[i].Rows.Count]; 
-            }
+            this.answers = answers;
+            if (answers == null) return;
+            int len = answers.Count;
+            _ch = new int[len];
                     
         }
 
         public string getStringAnswer()
         {
+            if (answers == null) return null;
             string s = "";
             string separator = "";
-            for (int i = 0, len = dbSet.Tables.Count; i < len; i++)
+            for (int i = 0, l = answers.Count; i < l; i++)
             {
-                DataRowCollection rows = dbSet.Tables[i].Rows;
-                for (int j = 0, l = rows.Count; j < l; j++)
-                {
-                    if (_ch[i][j] == 0) continue; 
-                    DataRow row = rows[j];
-                    s += separator+row.ItemArray[2].ToString();
-                    separator = ", ";
-
-                }
+                s += separator + answers[i].sExport;
+                separator = ", ";
             }
-            s += ".";
             return s;
         }
 
-        private void updateGrid()
+        private void updateView()
         {
-            
+           
             flowLayoutPanel1.Controls.Clear();
-            if (treeView1.SelectedNode == null) return;
-            int j = (int)treeView1.SelectedNode.Tag;
-            DataTable table = dbSet.Tables[(int)treeView1.SelectedNode.Tag];
-            DataRowCollection rows = table.Rows;
-
-            for (int i = 0, l = rows.Count; i < l; i++)
+            if (answers == null) return;
+            for (int i = 0, l = answers.Count; i < l; i++)
             {
-                DataRow row = rows[i];
-                UseControlChoosePict choosePict = new UseControlChoosePict();
-                choosePict.checkBox1.Text = row.ItemArray[0].ToString();//+"  "+ row.ItemArray[2].ToString();
-                choosePict.checkBox1.Image = (Image)(new ImageConverter().ConvertFrom((byte[])row.ItemArray[1]));
-                choosePict.checkBox1.Tag = (int)treeView1.SelectedNode.Tag * 1000 + i;
+                UCChoosePict choosePict = new UCChoosePict();
+                choosePict.checkBox1.Text = answers[i].sName;
+                choosePict.checkBox1.Image = answers[i].image;
+                choosePict.checkBox1.Tag = i;
                 choosePict.checkBox1.CheckedChanged += new EventHandler(checkBox_checked);
-                if (_ch[j][i] == 1) choosePict.checkBox1.CheckState = CheckState.Checked;
+                if (_ch[i] == 1) choosePict.checkBox1.CheckState = CheckState.Checked;
                 flowLayoutPanel1.Controls.Add(choosePict);
-
             }
 
         }
@@ -118,16 +100,12 @@ namespace WFormsAppWordExport
             DialogResult = DialogResult.Cancel;
         }
 
-        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            updateGrid();
-        }
-
         private void checkBox_checked(object sender, EventArgs e)
         {
+            if (answers == null) return;
             int a =(int) ((Control)sender).Tag;
             bool value = ((CheckBox)sender).Checked;
-            _ch[a / 1000][a % 1000] = (value) ? 1 : 0;
+            _ch[a]= (value) ? 1 : 0;
         }
 
     }

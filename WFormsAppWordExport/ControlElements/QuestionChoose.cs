@@ -26,15 +26,24 @@ namespace WFormsAppWordExport
 {
     public partial class QuestionChoose : WFormsAppWordExport.Question
     {
+        private bool haveImages = false;
 
-        public QuestionChoose(Feature ffQuestion, int iIndex) : base(ffQuestion, iIndex)
+        public QuestionChoose(Feature feature, int iIndex,Form1 f) : base(feature, iIndex,f)
         {
             InitializeComponent();
-            //comboBox1.Items.AddRange(fQuestion.sAnswers);
-            this.SetStyle(ControlStyles.Selectable, false);
-            if (feature.isAnswered)
+            if (feature.sAnswers != null&& feature.sAnswers.Count > 0)
             {
-               // comboBox1.SelectedIndex = (int)(fQuestion.Answer);
+                foreach (Choose_Answer  ans in feature.sAnswers)
+                {
+                    comboBox1.Items.Add(ans.sName);
+                    if (ans.image != null) haveImages = true;
+                }
+            }
+            btExpose.Visible = haveImages;
+            this.SetStyle(ControlStyles.Selectable, false);
+            if (base.feature.isAnswered)
+            {
+                comboBox1.SelectedIndex = feature.answer.intAnswer;
             }
             comboBox1.MouseWheel += new MouseEventHandler(this.ComboBox1_MouseWheel);
                                
@@ -52,7 +61,12 @@ namespace WFormsAppWordExport
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            setAnswer((Object)(comboBox1.SelectedIndex));
+
+            int index = comboBox1.SelectedIndex;
+            if (index != -1)
+                setAnswer(index, feature.sAnswers[index].sExport);
+            else
+                setAnswer(index);
         }
 
         private void comboBox1_MouseHover(object sender, EventArgs e)
@@ -65,5 +79,9 @@ namespace WFormsAppWordExport
 
         }
 
+        private void btExpose_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

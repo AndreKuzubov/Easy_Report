@@ -28,10 +28,24 @@ namespace WFormsAppWordExport.DataStructures
     {
         [NonSerialized]
         public DelegVoid afterWishUpdateQuestions;
+        /// <summary>
+        /// id of feature which after the !abstract! essence will show 
+        /// </summary>
+        public int idFeatureAfterShow=-1;
 
         public int idDb;
 
-        public String sName { get; private set; }
+        public String sName
+        {
+            get
+            {
+                return Name;
+            }
+            set
+            {
+                Name = value;
+            }
+        }
 
         public SoftwareSctipt script { get; private set; }
 

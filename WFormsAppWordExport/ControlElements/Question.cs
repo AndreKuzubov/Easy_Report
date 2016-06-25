@@ -24,21 +24,23 @@ using WFormsAppWordExport.DataStructures;
 
 namespace WFormsAppWordExport
 {
-    public  partial class Question : UserControl
+    public abstract  partial class Question : UserControl
     {
         public Feature feature { get; protected set; }
+        private Form1 parentControl;
 
-        protected virtual void reset() { }
+        protected abstract void reset();
 
         public Question()
         {
             InitializeComponent();
         }
 
-        public Question(Feature fQuestion, int iTabIndex)
+        public Question(Feature fQuestion, int iTabIndex,Form1 parentControl)
         {
             this.feature = fQuestion;
             this.TabIndex = iTabIndex;
+            this.parentControl = parentControl;
             InitializeComponent();
             this.labelQuestion.Text = fQuestion.sQuestion;
             if ((fQuestion.isAnswered))
@@ -56,21 +58,19 @@ namespace WFormsAppWordExport
         {
             feature.setAnswer(new Answer(oAnswer,strAnswer), Program.sUser);
             labelAuthor.Text = Program.sUser;
-            if (this.Parent != null)
+            if (parentControl != null)
             {
-                //((Feature)(this.Parent))();
+                parentControl.updateShowingEssences();
             }
 
         }
-
-      
 
         private void buttonReset_Click(object sender, EventArgs e)
         {
             reset();
             feature.resetAns();
-          //  ((Feature)(this.Parent)).update();
             labelAuthor.Text = "";
+            parentControl.updateShowingEssences();
         }
 
         private void load(object sender, EventArgs e)

@@ -374,13 +374,13 @@ namespace WFormsAppWordExport
         {
             if (idsEs == null || idsEs.Length == 0) return;
 
-            String s = "SELECT * FROM [Образ Обьекта] WHERE id = " + idsEs[0] 
-                + "order by  isnull([Образ Обьекта].Очередность,2147483647)";
+            String s = "SELECT * FROM [Образ Обьекта] WHERE id = " + idsEs[0];
+                
             for (int i = 1; i < idsEs.Length; i++)
             {
                 s += " or id=" + idsEs[i]+" ";
             }
-
+            s+= "order by  isnull([Образ Обьекта].Очередность,2147483647)";
             List<int> outNodesIds = new List<int>();
             List<int[]> contextNodesGroupsIds = new List<int[]>();
             SqlDataReader r = null;
@@ -437,8 +437,8 @@ namespace WFormsAppWordExport
                 r = new SqlCommand(s, myConn).ExecuteReader();
                 while (r.Read())
                 {
-                    Feature f=new Feature((int)r[0],r[2].ToString(),null, r.IsDBNull(1)?0:(TYPE_ANSWER)(int)r[1], r.IsDBNull(3)?null:r[3].ToString(), 
-                        r.IsDBNull(4)?null:r[4].ToString());
+                    Feature f=new Feature((int)r[0],r[2].ToString(),null, r.IsDBNull(1)?0:(TYPE_ANSWER)(int)r[1], r.IsDBNull(4)?null:r[4].ToString(), 
+                        r.IsDBNull(5)?null:r[5].ToString());
                     idsFeatures.Add((int)r[0]);
                     outEs.features.Add(f);
                  
@@ -473,14 +473,7 @@ namespace WFormsAppWordExport
                 r = new SqlCommand(s, myConn).ExecuteReader();
                 while (r.Read())
                 {
-                    Choose_Answer ans = new Choose_Answer();
-                    ans.id = (int)r[0];
-                    ans.sName = r[2].ToString();
-                    if (!r.IsDBNull(3))
-                         ans.sExport = r[3].ToString();
-                    if (!r.IsDBNull(4))
-                        ans.image = ConvertFormat.toImageFromBMP(r[4]);
-                    outFeature.sAnswers.Add(ans);
+                    outFeature.sAnswers.Add(new Choose_Answer(DBAnswer.read(r)));
                 }
 
             }
@@ -663,12 +656,12 @@ namespace WFormsAppWordExport
                 }
                 if (scriptCondition != null && scriptCondition.Length > 0)
                 {
-                    s += ", Условие вопроса ";
+                    s += ", [Условие вопроса] ";
                     p += ",N'"+scriptCondition+"'";
                 }
                 if (scriptAfter != null && scriptAfter.Length > 0)
                 {
-                    s += ", Скрипт после вопроса ";
+                    s += ", [Скрипт после ответа] ";
                     p += ",N'" + scriptAfter+"'";
                 }
                 s += ")";
@@ -728,7 +721,9 @@ namespace WFormsAppWordExport
                 if (!r.IsDBNull(3))
                     a.sExport = r[3].ToString();
                 if (!r.IsDBNull(4))
-                a.idObject = (int)r[4];
+                    a.image = ConvertFormat.toImageFromBMP((byte[])r[4]);
+                if (!r.IsDBNull(5))
+                    a.idObject = (int)r[5];
                 return a;
             }
 
@@ -771,6 +766,7 @@ namespace WFormsAppWordExport
             public void insertAnswer(int idFeature)
             {
                 #region insert to [вариант ответа]
+                SqlCommand cmd = new SqlCommand();
                 String s = "INSERT INTO [Вариант ответа] ([Звучание по вопросу]", p = " VALUES(N'" + sName + "' ";
                 if (pos != -1)
                 {
@@ -785,7 +781,8 @@ namespace WFormsAppWordExport
                 if (image != null)
                 {
                     s += ",Картинка ";
-                    p += "," + ConvertFormat.toByteArray(image);
+                    p += ",@PIC";
+                    cmd.Parameters.Add("@PIC", SqlDbType.Image).Value=ConvertFormat.toByteArray(image);
                 }
                 if (idObject != -1)
                 {
@@ -793,7 +790,9 @@ namespace WFormsAppWordExport
                     p += "," + idObject;
                 }
                 s += ")"; p += ")";
-                new SqlCommand(s + p, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+                cmd.CommandText = s + p;
+                cmd.Connection=DBTemplatesHelper.get().myConn;
+                cmd.ExecuteNonQuery();
                 #endregion
 
                 s = "SELECT @@IDENTITY";

@@ -32,7 +32,7 @@ using WFormsAppWordExport.DataStructures;
 
 namespace WFormsAppWordExport
 {
-    class ProjectDataHelper
+    public class ProjectDataHelper
     {
       
 
@@ -40,15 +40,20 @@ namespace WFormsAppWordExport
         public String fileName ;
 
         #region constructions
-        public static ProjectDataHelper Instate { get; private set; } = null;
+        public static ProjectDataHelper Initial { get; private set; } = null;
+        public static void closeProject()
+        {
+            Initial = null;
+        } 
+
         public ProjectDataHelper()
         {
-            Instate = this;
+            Initial = this;
         }
 
        ~ProjectDataHelper()
         {
-            Instate = null;
+        //    Instate = null;
         }
         #endregion
 
@@ -103,6 +108,19 @@ namespace WFormsAppWordExport
             app.Quit(0, 0, false);
 
 
+        }
+
+        public List<Essence> getEssencesByImage(int idofImageObject)
+        {
+            List<Essence> essences=new List<Essence>();
+            foreach (Essence es in rootData)
+            {
+                if (es.idDb == idofImageObject)
+                {
+                    essences.Add(es);
+                }
+            }
+            return essences;
         }
 
     }
