@@ -34,6 +34,7 @@ namespace WFormsAppWordExport.DataStructures
 
         private Func<ProjectDataHelper, bool> boolFunc= delegate (ProjectDataHelper es){return true;};
         private Action<ProjectDataHelper> voidFunc = delegate (ProjectDataHelper es) { };
+        private Func<ProjectDataHelper, String> stringFunc = delegate (ProjectDataHelper es) { return ""; };
 
         public SoftwareSctipt (String script,SCRIPT_TYPE type)
         {
@@ -120,11 +121,14 @@ namespace WFormsAppWordExport.DataStructures
                     break;
                 case SCRIPT_TYPE.STRING:
                     //methodType = @"string";
+                    stringFunc = (Func<ProjectDataHelper, String>)Delegate.CreateDelegate(typeof(Func<ProjectDataHelper, String>), method);
                     break;
             }
 
                 
         }
+
+
 
         public void run()
         {
@@ -136,6 +140,13 @@ namespace WFormsAppWordExport.DataStructures
         {
             if (ProjectDataHelper.Initial != null)
                 return boolFunc(ProjectDataHelper.Initial);
+            return def;
+        }
+
+        public String runString(String def)
+        {
+            if (ProjectDataHelper.Initial != null)
+                return stringFunc(ProjectDataHelper.Initial);
             return def;
         }
     }

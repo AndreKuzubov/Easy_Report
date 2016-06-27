@@ -148,6 +148,7 @@
     <Compile Include="DataStructures.cs" />
     <Compile Include="DataStructures\Essence.cs" />
     <Compile Include="DataStructures\Feature.cs" />
+    <Compile Include="DataStructures\RTFHelpener.cs" />
     <Compile Include="DataStructures\SoftwareSctipt.cs" />
     <Compile Include="DBTemplatesHelper.cs" />
     <Compile Include="Exporter.cs" />

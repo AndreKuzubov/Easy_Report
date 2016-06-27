@@ -39,11 +39,14 @@ namespace WFormsAppWordExport
             this.advancedTextEditor1.TextEditor.SelectionChanged += TextEditor_SelectionChanged;
         }
 
+
+        #region events 
+
         private void TextEditor_SelectionChanged(object sender, EventArgs e)
         {
             int indexSelected = this.advancedTextEditor1.TextEditor.SelectionStart;
-            int i=this.advancedTextEditor1.TextEditor.getIdSript(indexSelected);
-            if (i!=-1)
+            int i = this.advancedTextEditor1.TextEditor.getIdSript(indexSelected);
+            if (i != -1)
             {
                 btNew_SettingScript.Text = "Редактировать";
                 btNew_SettingScript.Tag = i;
@@ -55,8 +58,6 @@ namespace WFormsAppWordExport
                 btNew_SettingScript.Tag = i;
             }
         }
-
-        #region events 
 
         private void btAddObject_Click(object sender, EventArgs e)
         {
@@ -70,7 +71,8 @@ namespace WFormsAppWordExport
 
         private void FormSettingQuestionnaire_Load(object sender, EventArgs e)
         {
-           myDb  = DBTemplatesHelper.get(); 
+           myDb  = DBTemplatesHelper.get();
+           loadText();
         }
 
         private void FormSettingQuestionnaire_Shown(object sender, EventArgs e)
@@ -100,6 +102,7 @@ namespace WFormsAppWordExport
         }
         #endregion
 
+        #region private methods
         private void advancedTextEditor1_MouseMove(object sender, MouseEventArgs e)
         {
 
@@ -167,5 +170,14 @@ namespace WFormsAppWordExport
             DBTemplatesHelper.get().updateTextParagraph(advancedTextEditor1.TextEditor.Rtf);
             toolStripStatusLabel.Text = "состояние";
         }
+
+        private void loadText()
+        {
+            DBTemplatesHelper.DBParagraph p = DBTemplatesHelper.DBParagraph.getText();
+            if (p == null) return;
+            advancedTextEditor1.TextEditor.Rtf = p.text;
+        }
+
+        #endregion
     }
 }

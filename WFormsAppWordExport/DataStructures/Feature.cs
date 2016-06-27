@@ -32,9 +32,9 @@ namespace WFormsAppWordExport.DataStructures
     [Serializable()]
     public enum TYPE_ANSWER
     {
-        STRING, NUMBER, CHOOSE, TRUE_FALSE, MULTI_CHOSE, DATE,
+        STRING=0, NUMBER=1, CHOOSE=2, TRUE_FALSE=3, MULTI_CHOSE=4, DATE=5,
         /* ссылки на обьекты события*/
-        LIST_IDS_OF_ESSENCE
+        LIST_IDS_OF_ESSENCE=6
     };
 
     // вопросы описывающие участников
@@ -65,7 +65,7 @@ namespace WFormsAppWordExport.DataStructures
         //автор ответа
         public String sAuthor {  get; private set;  }
         //ответ на вопрос
-        public Answer answer;
+        public Answer answer { get; private set; }
         //спрашивать вопрос?  
         private SoftwareSctipt sIsUsable=null;
         //что делает после принятого ответа
@@ -166,7 +166,7 @@ namespace WFormsAppWordExport.DataStructures
     [Serializable]
     public class Answer
     {
-        public List<Choose_Answer> lChosen_Answers=new List<Choose_Answer>();
+       // public List<Choose_Answer> lChosen_Answers=new List<Choose_Answer>();
 
         private String _sAnswer;
 
@@ -192,14 +192,14 @@ namespace WFormsAppWordExport.DataStructures
         {
             oAnswer = info.GetValue("oAnswer",typeof(Object));
             sAnswer = info.GetString("sAnswer");
-            lChosen_Answers = (List<Choose_Answer>)info.GetValue("chosenDB", typeof(List<Choose_Answer>));
+         //   lChosen_Answers = (List<Choose_Answer>)info.GetValue("chosenDB", typeof(List<Choose_Answer>));
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("oAnswer", oAnswer);
             info.AddValue("sAnswer", sAnswer);
-            info.AddValue("chosenDB", lChosen_Answers);
+       //     info.AddValue("chosenDB", lChosen_Answers);
         }
     } 
 
@@ -254,6 +254,5 @@ namespace WFormsAppWordExport.DataStructures
         }
 
     }
-
 
 }

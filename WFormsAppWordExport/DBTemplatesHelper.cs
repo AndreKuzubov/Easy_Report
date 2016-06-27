@@ -263,6 +263,8 @@ namespace WFormsAppWordExport
 
         }
 
+      
+
         #region table [Параграфы]
         public String getTextParagraph()
         {
@@ -299,8 +301,10 @@ namespace WFormsAppWordExport
 
         public void updateTextParagraph(String rtfText)
         {
-            String s = "Update [Параграфы] SET Script= '" + rtfText + "' WHERE flag = 1";
-            new SqlCommand(s, myConn).ExecuteNonQuery();
+            String s = "Update [Параграфы] SET Script= @T WHERE flag = 1";
+            SqlCommand cmd = new SqlCommand(s,myConn);
+            cmd.Parameters.Add("@T", SqlDbType.NText).Value=rtfText;
+            cmd.ExecuteNonQuery();
         }
 
 
@@ -819,6 +823,77 @@ namespace WFormsAppWordExport
 
         }
 
+        }
+
+        public class DBParagraph
+        {
+            public int id;
+            public int flag=0;
+            public String text;
+
+            public static DBParagraph read(SqlDataReader r)
+            {
+                DBParagraph p = new DBParagraph();
+                p.id = (int)r[0];
+                if (!r.IsDBNull(1))
+                   p.flag = (int)r[1];
+                if (!r.IsDBNull(2))
+                    p.text = r[2].ToString();
+                return p;
+            }
+
+            public static List<DBParagraph> getAllParagraphs()
+            {
+                List<DBParagraph> paragraphs = new List<DBParagraph>();
+                String s = "SELECT * FROM [Параграфы]";
+
+                SqlDataReader r = null;
+                try
+                {
+                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    while (r.Read())
+                    {
+                        paragraphs.Add(DBParagraph.read(r));
+                    }
+
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Ошибка sql загрузка параграфов", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                finally
+                {
+                    r.Close();
+                }
+
+                return paragraphs;
+            }
+
+            public static DBParagraph getText()
+            {
+                List<DBParagraph> paragraphs = new List<DBParagraph>();
+                String s = "SELECT * FROM [Параграфы] WHERE flag = 1";
+
+                SqlDataReader r = null;
+                try
+                {
+                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    r.Read();
+                    return DBParagraph.read(r);
+                    
+
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Ошибка sql загрузка текста параграфа", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                finally
+                {
+                    r.Close();
+                }
+
+                return null;
+            }
         }
 
         #endregion

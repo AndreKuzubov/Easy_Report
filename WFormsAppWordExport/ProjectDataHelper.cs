@@ -57,6 +57,7 @@ namespace WFormsAppWordExport
         }
         #endregion
 
+
         public bool saveToFile()
         {
             if (fileName == null) return false;
@@ -85,28 +86,7 @@ namespace WFormsAppWordExport
 
         public void exportDoc(String filename)
         {
-            Word.Application app = new Word.Application();
-            app.Visible = false;
-            Word.Document doc;
-
-            Object template = MyFiles.getMyTemplate();
-            Object newTemplate = false;
-            Object documentType = 0;
-            Object visible = false;
-
-
-            doc = app.Documents.Add(
-            template, newTemplate, documentType, visible);
-            doc.Activate();
-
-            Exporter.exportAll(app, rootData);
-
-
-            doc.SaveAs2(filename, 16, false, Type.Missing, false,
-               Type.Missing, false, false, false, false, false, 0,
-               false, false, true);
-            app.Quit(0, 0, false);
-
+            Exporter.exportAll( filename);
 
         }
 

@@ -170,6 +170,7 @@
             // 
             // btNew_SettingScript
             // 
+            this.btNew_SettingScript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btNew_SettingScript.Location = new System.Drawing.Point(568, 3);
             this.btNew_SettingScript.Name = "btNew_SettingScript";
             this.btNew_SettingScript.Size = new System.Drawing.Size(115, 23);
@@ -180,6 +181,7 @@
             // 
             // btDel
             // 
+            this.btDel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btDel.Location = new System.Drawing.Point(689, 3);
             this.btDel.Name = "btDel";
             this.btDel.Size = new System.Drawing.Size(115, 23);

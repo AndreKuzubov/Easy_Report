@@ -184,40 +184,28 @@ namespace WFormsAppWordExport
 
         private void exportDocToolStripMenuItem_Click(object sender, EventArgs e)
         {
-          
+
             if (ProjectDataHelper.Initial == null)
             {
                 errFormNoOpen();
                 return;
             }
             toolStripStatusLabel.Text = "Состояние: экспорт документа";
-            if (!File.Exists(MyFiles.getMyTemplate()))
+
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            if (isDebugMode)
+                saveFileDialog.InitialDirectory = "D:\\work\\Visual Studio\\projects\\WinForms(Gai)\\WinForms(Gai)\\bin\\x86\\Debug";
+            saveFileDialog.Filter = "Файлы word (*.doc)|*.doc|Все файлы (*.*)|*.*";
+            if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
             {
-                DialogResult dialogResult = MessageBox.Show("Выберете шаблон. В шаблоне начало расположите на 1 странице, концовку на 2", "Нет шаблона для создания файла Word", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-                if (dialogResult == DialogResult.OK)
-                {
-                    setTemlateToolStripMenuItem_Click(sender, e);
-                }
+
+                string fileName = saveFileDialog.FileName;
+                ProjectDataHelper.Initial.exportDoc(fileName);
+
             }
 
-
-            if (File.Exists(MyFiles.getMyTemplate()))
-            {
-               
-                SaveFileDialog saveFileDialog = new SaveFileDialog();
-                saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-                if (isDebugMode)
-                    saveFileDialog.InitialDirectory = "D:\\work\\Visual Studio\\projects\\WinForms(Gai)\\WinForms(Gai)\\bin\\x86\\Debug";
-                saveFileDialog.Filter = "Файлы word (*.doc)|*.doc|Все файлы (*.*)|*.*";
-                if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
-                {
-
-                    string fileName = saveFileDialog.FileName;
-                    ProjectDataHelper.Initial.exportDoc(fileName);
-
-                }
-               
-            }
             stateNorm();
         }
 
@@ -259,7 +247,7 @@ namespace WFormsAppWordExport
             }
         }
 
-        public void prepereWordTemplate(String filename)
+/*        public void prepereWordTemplate(String filename)
         {
             toolStripStatusLabel.Text = "Состояние: обрабатывается шаблон для дальнейшего использования";
             Word.Application app = new Word.Application();
@@ -306,13 +294,6 @@ namespace WFormsAppWordExport
             count = 1;
             app.Selection.MoveStart( unit,  count);
 
-            app.Selection.Text = "\n\n " + Exporter.TEG_TOTAL + " \n\n" +
-                "\n\n " + Exporter.TEG_VICTIM + " \n\n"
-                + "\n\n " + Exporter.TEG_DRIVERS + " \n\n"
-                + "\n\n " + Exporter.TEG_AUTO + " \n\n"
-                + "\n\n " + Exporter.TEG_SCENE + " \n\n"
-                  + "\n\n " + Exporter.TEG_INSPECTOR + " \n\n"
-                   + "\n\n " + Exporter.TEG_SCHOOL + " \n\n";
 
             doc.SaveAs2(MyFiles.getMyTemplate(), WordEnums.WdSaveFormat.wdFormatDocumentDefault, false, Type.Missing, false,
            Type.Missing, false, false, false, false, false, 0,
@@ -320,7 +301,7 @@ namespace WFormsAppWordExport
             app.Quit(WordEnums.WdSaveOptions.wdSaveChanges, WordEnums.WdSaveFormat.wdFormatDocument97, false);
 
             stateNorm();
-        }
+        }*/
 
         private bool hasText(String st)
         {

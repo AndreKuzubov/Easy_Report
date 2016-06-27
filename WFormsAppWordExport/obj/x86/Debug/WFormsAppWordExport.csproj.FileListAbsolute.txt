@@ -38,4 +38,3 @@ D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\D
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.exe
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.pdb
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.csprojResolveAssemblyReference.cache
-D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.ControlElements.UCDividerEssences.resources
