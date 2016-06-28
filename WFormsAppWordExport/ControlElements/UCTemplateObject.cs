@@ -32,6 +32,8 @@ namespace WFormsAppWordExport
         DBTemplatesHelper db = DBTemplatesHelper.get();
         SqlDataAdapter sqlAdapter = new SqlDataAdapter();
         BindingSource bindingSource = new BindingSource();
+        DBTemplatesHelper.DBObject obj;
+        public FormSettingQuestionnaire parent;
 
         private int objId;
         public UCTemplateObject()
@@ -49,12 +51,11 @@ namespace WFormsAppWordExport
 
         private void updateViewData()
         {
-            DBTemplatesHelper.DBObject obj= DBTemplatesHelper.DBObject.get(objId);
+            obj= DBTemplatesHelper.DBObject.get(objId);
             textBoxName.Text = obj.name;
-            textBoxObjFlags.Text = obj.flags.ToString();
+            comboBoxFlags.SelectedIndex = obj.flags;
             textBoxObjScript.Text = obj.script;
             textBoxObjIds.Text = obj.sObjects;
-            numericObjectPos.Value = obj.pos;
             db.bindingFeaturesForObjectById(bindingSource, objId);
         }
 
@@ -86,7 +87,7 @@ namespace WFormsAppWordExport
                 f.updateToDB();
                 foreach (DBTemplatesHelper.DBAnswer ans in oldAnswers)
                 {
-                    ans.deleleteAnswer();
+                    ans.deleleteFromDB();
                 }
                 foreach (DBTemplatesHelper.DBAnswer ans in dialog.answers)
                 {
@@ -108,6 +109,100 @@ namespace WFormsAppWordExport
             }
             dialog.Close();
             updateViewData();
+        }
+
+        private void textBoxName_TextChanged(object sender, EventArgs e)
+        {
+            obj.name = textBoxName.Text;
+        }
+
+        private void textBoxObjScript_TextChanged(object sender, EventArgs e)
+        {
+            obj.script = textBoxObjScript.Text;
+        }
+
+        private void textBoxObjIds_TextChanged(object sender, EventArgs e)
+        {
+            obj.sObjects = textBoxObjIds.Text;
+         
+        }
+
+        private void btScript_Click(object sender, EventArgs e)
+        {
+            Forms.FormDevCode formDev = new FormDevCode(textBoxObjScript.Text, DataStructures.SoftwareSctipt.SCRIPT_TYPE.STRING);
+            if (formDev.ShowDialog() == DialogResult.OK)
+            {
+                textBoxObjScript.Text = formDev.richTextBoxCode.Text;
+                obj.script = formDev.richTextBoxCode.Text;
+                formDev.Close();
+            }
+        }
+
+        private void comboBoxFlags_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            obj.flags = comboBoxFlags.SelectedIndex;
+        }
+
+        private void tabControl2_Leave(object sender, EventArgs e)
+        {
+            saveToDB();
+        }
+
+        private void saveToDB()
+        {
+            if (obj != null)
+            {
+                obj.updateToDB();
+                if (parent!= null)
+                    parent.updateData();
+            }
+        }
+
+        private void btAbstObjects_Click(object sender, EventArgs e)
+        {
+            #region prepere params before call dialog
+            Forms.FormSelectItemsList fDialog = new FormSelectItemsList();
+            List<Forms.FormSelectItemsList.Para> selected = new List<FormSelectItemsList.Para>();
+            List<Forms.FormSelectItemsList.Para> unSelected = new List<FormSelectItemsList.Para>();
+            {
+                int[] ids = ConvertFormat.stringToArray(textBoxObjIds.Text);
+                if (ids != null && ids.Length > 0)
+                {
+                    foreach (int idObj in ids)
+                    {
+                        DBTemplatesHelper.DBObject dbObj = DBTemplatesHelper.DBObject.get(idObj);
+                        FormSelectItemsList.Para p = new FormSelectItemsList.Para();
+                        p.text = dbObj.name;
+                        p.id = dbObj.id;
+                        selected.Add(p);
+                    }
+                }
+            }
+            List<DBTemplatesHelper.DBObject> dbObjs = DBTemplatesHelper.get().getObjects();
+            foreach (DBTemplatesHelper.DBObject dbObj in dbObjs)
+            {
+                FormSelectItemsList.Para p = new FormSelectItemsList.Para();
+                p.text = dbObj.name;
+                p.id = dbObj.id;
+                if (!selected.Contains(p))
+                    unSelected.Add(p);
+            }
+            #endregion
+
+            fDialog.set(selected, unSelected);
+            if (fDialog.ShowDialog() == DialogResult.OK)
+            {
+                List<int> idsO=new List<int>();
+                foreach (FormSelectItemsList.Para p in fDialog.listBoxSelected.Items)
+                {
+                    idsO.Add(p.id);
+                }
+
+                obj.sObjects = ConvertFormat.arrayToString(idsO.ToArray());
+                textBoxObjIds.Text = obj.sObjects;
+            }
+
+
         }
     }
 }

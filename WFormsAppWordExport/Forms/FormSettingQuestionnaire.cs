@@ -39,7 +39,6 @@ namespace WFormsAppWordExport
             this.advancedTextEditor1.TextEditor.SelectionChanged += TextEditor_SelectionChanged;
         }
 
-
         #region events 
 
         private void TextEditor_SelectionChanged(object sender, EventArgs e)
@@ -61,33 +60,33 @@ namespace WFormsAppWordExport
 
         private void btAddObject_Click(object sender, EventArgs e)
         {
-
+            DBTemplatesHelper.DBObject b = new DBTemplatesHelper.DBObject();
+            int id=b.insertToDB();
+            TreeNode node = new TreeNode(b.name);
+            node.Tag = id;
+            treeViewObjects.Nodes.Add(node);
         }
 
         private void btDelObject_Click(object sender, EventArgs e)
         {
-
+            int id = (int)treeViewObjects.SelectedNode.Tag;
+            DBTemplatesHelper.DBObject.deleteFromDB(id);
+            treeViewObjects.Nodes.Remove(treeViewObjects.SelectedNode);
         }
 
         private void FormSettingQuestionnaire_Load(object sender, EventArgs e)
         {
-           myDb  = DBTemplatesHelper.get();
-           loadText();
+         
+          
         }
 
         private void FormSettingQuestionnaire_Shown(object sender, EventArgs e)
         {
             toolStripStatusLabel.Text = "Состояние: Открытие настроек";
+            updateData();
+            loadText();
+            ucTemplateObject1.parent = this;
             toolStripStatusLabel.Text = "Состояние";
-            treeViewObjects.Nodes.Clear();
-             List <DBTemplatesHelper.DBObject> obj = myDb.getObjects();
-            for (int i = 0; i < obj.Count; i++)
-            {
-                TreeNode node = new TreeNode(obj[i].name);
-                node.Tag = obj[i].id;
-                treeViewObjects.Nodes.Add(node);
-            }
-            treeViewObjects.SelectedNode = treeViewObjects.Nodes[0];
         }
 
         private void FormSettingQuestionnaire_Layout(object sender, LayoutEventArgs e)
@@ -102,7 +101,7 @@ namespace WFormsAppWordExport
         }
         #endregion
 
-        #region private methods
+        #region Text Export Editor - events
         private void advancedTextEditor1_MouseMove(object sender, MouseEventArgs e)
         {
 
@@ -163,6 +162,24 @@ namespace WFormsAppWordExport
         {
             safeText();
         }
+        #endregion
+       
+        public void updateData()
+        {
+            myDb = DBTemplatesHelper.get();
+
+            treeViewObjects.Nodes.Clear();
+            List<DBTemplatesHelper.DBObject> obj = myDb.getObjects();
+            for (int i = 0; i < obj.Count; i++)
+            {
+                TreeNode node = new TreeNode(obj[i].name);
+                node.Tag = obj[i].id;
+                treeViewObjects.Nodes.Add(node);
+            }
+            treeViewObjects.SelectedNode = treeViewObjects.Nodes[0];
+        }
+
+        #region private methods
 
         private void safeText()
         {

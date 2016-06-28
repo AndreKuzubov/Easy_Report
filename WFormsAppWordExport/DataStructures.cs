@@ -63,7 +63,7 @@ namespace WFormsAppWordExport
     {
         public static String arrayToString(int[] a)
         {
-            if (a != null & a.Length > 0) return null;
+            if (a != null && a.Length == 0) return null;
             String s = "";
 
             for (int i = 0, l = a.Length - 1; i < l; i++)

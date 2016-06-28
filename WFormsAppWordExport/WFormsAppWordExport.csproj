@@ -209,6 +209,12 @@
     <Compile Include="Forms\FormPictureMultiChoose.Designer.cs">
       <DependentUpon>FormPictureMultiChoose.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormSelectItemsList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormSelectItemsList.Designer.cs">
+      <DependentUpon>FormSelectItemsList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormSettingQuestionnaire.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -303,6 +309,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormPictureMultiChoose.resx">
       <DependentUpon>FormPictureMultiChoose.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormSelectItemsList.resx">
+      <DependentUpon>FormSelectItemsList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormSettingQuestionnaire.resx">
       <DependentUpon>FormSettingQuestionnaire.cs</DependentUpon>

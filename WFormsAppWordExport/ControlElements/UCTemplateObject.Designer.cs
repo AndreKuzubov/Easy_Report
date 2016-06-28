@@ -32,14 +32,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UCTemplateObject));
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btAbstObjects = new System.Windows.Forms.Button();
+            this.btScript = new System.Windows.Forms.Button();
+            this.comboBoxFlags = new System.Windows.Forms.ComboBox();
             this.textBoxObjIds = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.textBoxObjScript = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBoxObjFlags = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.numericObjectPos = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -59,7 +59,6 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabControl2.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericObjectPos)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
@@ -78,18 +77,19 @@
             this.tabControl2.SelectedIndex = 0;
             this.tabControl2.Size = new System.Drawing.Size(575, 455);
             this.tabControl2.TabIndex = 2;
+            this.tabControl2.Leave += new System.EventHandler(this.tabControl2_Leave);
             // 
             // tabPage1
             // 
             this.tabPage1.AutoScroll = true;
+            this.tabPage1.Controls.Add(this.btAbstObjects);
+            this.tabPage1.Controls.Add(this.btScript);
+            this.tabPage1.Controls.Add(this.comboBoxFlags);
             this.tabPage1.Controls.Add(this.textBoxObjIds);
             this.tabPage1.Controls.Add(this.label5);
             this.tabPage1.Controls.Add(this.textBoxObjScript);
             this.tabPage1.Controls.Add(this.label4);
-            this.tabPage1.Controls.Add(this.textBoxObjFlags);
             this.tabPage1.Controls.Add(this.label3);
-            this.tabPage1.Controls.Add(this.numericObjectPos);
-            this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.textBoxName);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
@@ -100,19 +100,57 @@
             this.tabPage1.Text = "Свойства";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // btAbstObjects
+            // 
+            this.btAbstObjects.Location = new System.Drawing.Point(313, 272);
+            this.btAbstObjects.Name = "btAbstObjects";
+            this.btAbstObjects.Size = new System.Drawing.Size(102, 23);
+            this.btAbstObjects.TabIndex = 22;
+            this.btAbstObjects.Text = "Редактировать";
+            this.btAbstObjects.UseVisualStyleBackColor = true;
+            this.btAbstObjects.Click += new System.EventHandler(this.btAbstObjects_Click);
+            // 
+            // btScript
+            // 
+            this.btScript.Location = new System.Drawing.Point(313, 217);
+            this.btScript.Name = "btScript";
+            this.btScript.Size = new System.Drawing.Size(102, 23);
+            this.btScript.TabIndex = 21;
+            this.btScript.Text = "Редактировать";
+            this.btScript.UseVisualStyleBackColor = true;
+            this.btScript.Click += new System.EventHandler(this.btScript_Click);
+            // 
+            // comboBoxFlags
+            // 
+            this.comboBoxFlags.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxFlags.FormattingEnabled = true;
+            this.comboBoxFlags.Items.AddRange(new object[] {
+            "Нет флагов",
+            "Есть в основе",
+            "Можно несколько раз добавлять",
+            "Есть в основе | Можно несколько раз добавлять",
+            "Нельзя использовать в явном ввиде"});
+            this.comboBoxFlags.Location = new System.Drawing.Point(144, 53);
+            this.comboBoxFlags.Name = "comboBoxFlags";
+            this.comboBoxFlags.Size = new System.Drawing.Size(271, 21);
+            this.comboBoxFlags.TabIndex = 20;
+            this.comboBoxFlags.SelectedIndexChanged += new System.EventHandler(this.comboBoxFlags_SelectedIndexChanged);
+            // 
             // textBoxObjIds
             // 
+            this.textBoxObjIds.Enabled = false;
             this.textBoxObjIds.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxObjIds.Location = new System.Drawing.Point(191, 328);
+            this.textBoxObjIds.Location = new System.Drawing.Point(191, 246);
             this.textBoxObjIds.Name = "textBoxObjIds";
             this.textBoxObjIds.Size = new System.Drawing.Size(224, 20);
             this.textBoxObjIds.TabIndex = 18;
+            this.textBoxObjIds.TextChanged += new System.EventHandler(this.textBoxObjIds_TextChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(27, 329);
+            this.label5.Location = new System.Drawing.Point(24, 247);
             this.label5.Margin = new System.Windows.Forms.Padding(20, 20, 3, 3);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(158, 16);
@@ -121,70 +159,36 @@
             // 
             // textBoxObjScript
             // 
+            this.textBoxObjScript.Enabled = false;
             this.textBoxObjScript.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxObjScript.Location = new System.Drawing.Point(144, 148);
+            this.textBoxObjScript.Location = new System.Drawing.Point(144, 80);
             this.textBoxObjScript.Multiline = true;
             this.textBoxObjScript.Name = "textBoxObjScript";
             this.textBoxObjScript.Size = new System.Drawing.Size(271, 160);
             this.textBoxObjScript.TabIndex = 16;
+            this.textBoxObjScript.TextChanged += new System.EventHandler(this.textBoxObjScript_TextChanged);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(27, 148);
+            this.label4.Location = new System.Drawing.Point(27, 81);
             this.label4.Margin = new System.Windows.Forms.Padding(20, 20, 3, 3);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(55, 16);
             this.label4.TabIndex = 15;
             this.label4.Text = "Скрипт";
             // 
-            // textBoxObjFlags
-            // 
-            this.textBoxObjFlags.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxObjFlags.Location = new System.Drawing.Point(144, 105);
-            this.textBoxObjFlags.Name = "textBoxObjFlags";
-            this.textBoxObjFlags.Size = new System.Drawing.Size(271, 20);
-            this.textBoxObjFlags.TabIndex = 14;
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(27, 109);
+            this.label3.Location = new System.Drawing.Point(27, 54);
             this.label3.Margin = new System.Windows.Forms.Padding(20, 20, 3, 3);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(49, 16);
             this.label3.TabIndex = 13;
             this.label3.Text = "Флаги";
-            // 
-            // numericObjectPos
-            // 
-            this.numericObjectPos.Location = new System.Drawing.Point(144, 66);
-            this.numericObjectPos.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            -2147483648});
-            this.numericObjectPos.Name = "numericObjectPos";
-            this.numericObjectPos.Size = new System.Drawing.Size(120, 20);
-            this.numericObjectPos.TabIndex = 12;
-            this.numericObjectPos.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            -2147483648});
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(27, 70);
-            this.label2.Margin = new System.Windows.Forms.Padding(20, 20, 3, 3);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(95, 16);
-            this.label2.TabIndex = 11;
-            this.label2.Text = "Очередность";
             // 
             // textBoxName
             // 
@@ -193,6 +197,7 @@
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(271, 29);
             this.textBoxName.TabIndex = 10;
+            this.textBoxName.TextChanged += new System.EventHandler(this.textBoxName_TextChanged);
             // 
             // label1
             // 
@@ -368,7 +373,6 @@
             this.tabControl2.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericObjectPos)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).EndInit();
@@ -395,8 +399,6 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBoxName;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown numericObjectPos;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBoxObjScript;
@@ -404,9 +406,11 @@
         private System.Windows.Forms.TextBox textBoxObjIds;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabControl tabControl2;
-        private System.Windows.Forms.TextBox textBoxObjFlags;
         private System.Windows.Forms.ToolStripButton bindingNavigatorEditItem;
         private System.Windows.Forms.ToolStripButton toolStripbtAdd;
         private System.Windows.Forms.ToolStripButton toolStripBtDel;
+        private System.Windows.Forms.ComboBox comboBoxFlags;
+        private System.Windows.Forms.Button btAbstObjects;
+        private System.Windows.Forms.Button btScript;
     }
 }

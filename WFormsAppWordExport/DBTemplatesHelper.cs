@@ -491,6 +491,29 @@ namespace WFormsAppWordExport
                     r.Close();
             }
         }
+
+        private int getLastID()
+        {
+            String s = "SELECT @@IDENTITY";
+            SqlDataReader r = null;
+            try
+            {
+                r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                r.Read();
+                return (int)Decimal.ToInt32((Decimal)r[0]);
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Ошибка sql чтение последнего id", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                if (r != null)
+                    r.Close();
+            }
+            return -1;
+
+        }
         #endregion
 
         #region myTypes
@@ -540,6 +563,65 @@ namespace WFormsAppWordExport
                 if (!r.IsDBNull(5))
                     obj.sObjects = r[5].ToString();
                 return obj;
+            }
+
+            public static void deleteFromDB(int id)
+            {
+                String s;
+                s = "Delete from [Образ обьекта]  WHERE [id] =" + id;
+                new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+            }
+
+            public int insertToDB()
+            {
+                #region insert to db
+                SqlCommand cmd = new SqlCommand();
+                String s = "INSERT INTO [Образ обьекта] ([Название]", p = " VALUES(N'" + name + "' ";
+                if (pos != -1)
+                {
+                    s += ", Очередность ";
+                    p += "," + pos + " ";
+                }
+                if (script != null)
+                {
+                    s += ",[Скрипт]";
+                    p += ",N'" + script + "' ";
+                }
+                s += ",flags ";
+                p += ","+flags+" ";
+                if (sObjects != null)
+                {
+                    s += ", [ids абстрактных обьектов] ";
+                    p += ",N'" + sObjects+"' ";
+                }
+                s += ")"; p += ")";
+                cmd.CommandText = s + p;
+                cmd.Connection = DBTemplatesHelper.get().myConn;
+                cmd.ExecuteNonQuery();
+                #endregion
+
+                return DBTemplatesHelper.initial.getLastID();
+
+            }
+
+            public void updateToDB()
+            {
+                String s = "UPDATE [Образ обьекта] SET [Название]=N'" + name + "' ";
+                if (pos != -1)
+                {
+                    s += " ,[Очередность] = " + pos;
+                }
+                if (script != null && script.Length > 0)
+                {
+                    s += " ,[Скрипт]= N'" + script + "' ";
+                }
+                s += " ,[flags]= " + flags + " ";
+                if (sObjects != null && sObjects.Length > 0)
+                {
+                    s += " ,[ids абстрактных обьектов]= N'" + sObjects + "' ";
+                }
+                s += " WHERE[id] =" + id;
+                new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
             }
         }
 
@@ -760,7 +842,7 @@ namespace WFormsAppWordExport
                 return answers;
             }
 
-            public void deleleteAnswer()
+            public void deleleteFromDB()
             {
                 String s;
                 s = "Delete from [Вариант ответа]  WHERE [id] =" + id;
