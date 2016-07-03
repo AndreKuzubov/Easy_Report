@@ -24,12 +24,12 @@ using WFormsAppWordExport.DataStructures;
 
 namespace WFormsAppWordExport
 {
-    public abstract  partial class Question : UserControl
+    public  partial class Question : UserControl
     {
         public Feature feature { get; protected set; }
         private Form1 parentControl;
 
-        protected abstract void reset();
+        protected virtual void reset() { }
 
         public Question()
         {

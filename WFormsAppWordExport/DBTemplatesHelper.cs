@@ -207,10 +207,10 @@ namespace WFormsAppWordExport
 
         }
 
-        public void fillProjectTree(out List<Essence> outNodes,out List<Essence> outContextNodes)
+        public void fillNewProjectTree(out List<Essence> outNodes)
         {
             outNodes = new List<Essence>();
-            outContextNodes = new List<Essence>();
+     //       outContextNodes = new List<Essence>();
             List<int> outNodesIds = new List<int>();
             List<int[]> contextNodesGroupsIds = new List<int[]>();
             //корневае узлы
@@ -260,10 +260,45 @@ namespace WFormsAppWordExport
                 getAbstractEssences(es, contextNodesGroupsIds[i]);
             }
             #endregion
+        }
+
+        public void getFeatures(Essence outEs, int idEss)
+        {
+            String s = "SELECT [Характеристика].* FROM [Образ Обьекта],[Характеристика], [Описание обьекта] WHERE [Образ Обьекта].id = " + idEss
+               + " and [Описание обьекта].[id Образа обьекта]=[Образ Обьекта].id and [Описание обьекта].[id характеристики]=Характеристика.id "
+               + "order by  isnull([Характеристика].Очередность,2147483647)";
+
+            SqlDataReader r = null;
+            List<int> idsFeatures = new List<int>();
+            try
+            {
+                r = new SqlCommand(s, myConn).ExecuteReader();
+                while (r.Read())
+                {
+                    Feature f = new Feature((int)r[0], r[2].ToString(), null, r.IsDBNull(1) ? 0 : (TYPE_ANSWER)(int)r[1], r.IsDBNull(4) ? null : r[4].ToString(),
+                        r.IsDBNull(5) ? null : r[5].ToString());
+                    idsFeatures.Add((int)r[0]);
+                    outEs.features.Add(f);
+
+                }
+
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Ошибка sql загрузка Характеристик", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            finally
+            {
+                if (r != null)
+                    r.Close();
+            }
+            for (int i = 0, l = outEs.features.Count; i < l; i++)
+            {
+                getChooseAnswersToFeature(outEs.features[i], idsFeatures[i]);
+            }
 
         }
 
-      
 
         #region table [Параграфы]
         public String getTextParagraph()
@@ -369,6 +404,8 @@ namespace WFormsAppWordExport
             String s = "DELETE FROM [Параграфы] WHERE id = "+id;
             new SqlCommand(s, myConn).ExecuteNonQuery();
         }
+
+     
         #endregion
 
         #endregion
@@ -428,42 +465,7 @@ namespace WFormsAppWordExport
             #endregion
         }
 
-        private void getFeatures(Essence outEs,int idEss)
-        {
-            String s = "SELECT [Характеристика].* FROM [Образ Обьекта],[Характеристика], [Описание обьекта] WHERE [Образ Обьекта].id = " + idEss
-               + " and [Описание обьекта].[id Образа обьекта]=[Образ Обьекта].id and [Описание обьекта].[id характеристики]=Характеристика.id "
-               + "order by  isnull([Характеристика].Очередность,2147483647)";
-
-            SqlDataReader r = null;
-            List<int> idsFeatures=new List<int>();
-            try
-            {
-                r = new SqlCommand(s, myConn).ExecuteReader();
-                while (r.Read())
-                {
-                    Feature f=new Feature((int)r[0],r[2].ToString(),null, r.IsDBNull(1)?0:(TYPE_ANSWER)(int)r[1], r.IsDBNull(4)?null:r[4].ToString(), 
-                        r.IsDBNull(5)?null:r[5].ToString());
-                    idsFeatures.Add((int)r[0]);
-                    outEs.features.Add(f);
-                 
-                }
-
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), "Ошибка sql загрузка Характеристик", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            finally
-            {
-                if (r != null)
-                    r.Close();
-            }
-            for (int i=0,l=outEs.features.Count;i< l; i++)
-            {
-                getChooseAnswersToFeature(outEs.features[i], idsFeatures[i]);
-            }
-
-        }
+      
 
         private void getChooseAnswersToFeature(Feature outFeature,int idFeature)
         {
@@ -548,7 +550,50 @@ namespace WFormsAppWordExport
 
                 return new DBObject();
             }
-            
+
+            public static List<DBObject> getAll()
+            {
+                List<DBObject> dbObjs = new List<DBObject>();
+                String s = "SELECT * FROM [Образ Обьекта] ";
+                SqlDataReader r = null;
+                try
+                {
+                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    while (r.Read())
+                    {
+                        dbObjs.Add(DBObject.read(r));
+                    }
+                   
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Ошибка sql", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                finally
+                {
+                    if (r != null)
+                        r.Close();
+                }
+
+
+                return dbObjs;
+            }
+
+            public static List<DBObject> getByFlag(int flag)
+            {
+                List<DBObject> dbObjs = getAll();
+                for (int i=0;i<dbObjs.Count();++i)
+                {
+                    DBObject obj = dbObjs[i];
+                    if ((obj.flags & flag) != flag)
+                    {
+                        dbObjs.Remove(obj);
+                        --i;
+                    }
+                }
+                return dbObjs;
+            }
+
             public static DBObject read(SqlDataReader r)
             {
                 DBObject obj = new DBObject();

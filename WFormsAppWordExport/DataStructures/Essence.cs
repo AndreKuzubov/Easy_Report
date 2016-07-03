@@ -43,6 +43,7 @@ namespace WFormsAppWordExport.DataStructures
             }
             set
             {
+                Text = value;
                 Name = value;
             }
         }
@@ -65,6 +66,23 @@ namespace WFormsAppWordExport.DataStructures
             this.script = new SoftwareSctipt(script,SoftwareSctipt.SCRIPT_TYPE.VOID);
             if (features!=null)
                 this.features = features;
+            createContextMenu();
+        }
+
+        public Essence(DBTemplatesHelper.DBObject dbObject):base(dbObject.name)
+        {
+            this.sName = dbObject.name;
+            this.script = new SoftwareSctipt(dbObject.script, SoftwareSctipt.SCRIPT_TYPE.STRING);
+            this.flags = (ESSENSE_FLAGS)dbObject.flags;
+            this.idDb = dbObject.id;
+            DBTemplatesHelper.get().getFeatures(this, this.idDb);
+
+            int[] abstr = ConvertFormat.stringToArray(dbObject.sObjects);
+            if (abstr != null)
+                foreach (int id in abstr)
+                {
+                    this.abstrEssences.Add(new Essence(DBTemplatesHelper.DBObject.get(id)));
+                }
             createContextMenu();
         }
 

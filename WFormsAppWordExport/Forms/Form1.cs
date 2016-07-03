@@ -166,13 +166,37 @@ namespace WFormsAppWordExport
         private void loadNewTree()
         {
             List<Essence> ess;
-            List<Essence> contextEssens;
-            DBTemplatesHelper.get().fillProjectTree(out ess, out contextEssens);
+            DBTemplatesHelper.get().fillNewProjectTree(out ess);
             projectData.rootData.AddRange(ess.ToArray());
         }
+
         #endregion
 
-    
+        private void btAddEssence_Click(object sender, EventArgs e)
+        {
+            Forms.FormNewEssence dial = new Forms.FormNewEssence();
+            dial.dbObjects = DBTemplatesHelper.DBObject.getByFlag((int)ESSENSE_FLAGS.MULTIPLE);
+            if (dial.ShowDialog() == DialogResult.OK)
+            {
+                Essence es = new Essence(dial.dbSelectedObject);
+                if (dial.sSelectedNameEssence != null && dial.sSelectedNameEssence.Length != 0)
+                {
+                    es.sName = dial.sSelectedNameEssence;
+                }
+                projectData.rootData.Add(es);
+            }
+        }
+
+        private void btDelEssence_Click(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode != null)
+
+                if (MessageBox.Show("Удалить " + treeView1.SelectedNode.Name, "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    treeView1.SelectedNode.Remove();
+
+                }
+        }
     }
 
 }

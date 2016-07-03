@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btDelEssence = new System.Windows.Forms.Button();
+            this.btAddEssence = new System.Windows.Forms.Button();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -47,6 +49,8 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.AutoScroll = true;
+            this.splitContainer1.Panel1.Controls.Add(this.btDelEssence);
+            this.splitContainer1.Panel1.Controls.Add(this.btAddEssence);
             this.splitContainer1.Panel1.Controls.Add(this.treeView1);
             this.splitContainer1.Panel1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.splitContainer1.Panel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -61,15 +65,39 @@
             this.splitContainer1.SplitterDistance = 250;
             this.splitContainer1.TabIndex = 1;
             // 
+            // btDelEssence
+            // 
+            this.btDelEssence.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btDelEssence.Location = new System.Drawing.Point(172, 452);
+            this.btDelEssence.Name = "btDelEssence";
+            this.btDelEssence.Size = new System.Drawing.Size(75, 23);
+            this.btDelEssence.TabIndex = 2;
+            this.btDelEssence.Text = "Удалить";
+            this.btDelEssence.UseVisualStyleBackColor = true;
+            this.btDelEssence.Click += new System.EventHandler(this.btDelEssence_Click);
+            // 
+            // btAddEssence
+            // 
+            this.btAddEssence.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btAddEssence.Location = new System.Drawing.Point(13, 452);
+            this.btAddEssence.Name = "btAddEssence";
+            this.btAddEssence.Size = new System.Drawing.Size(75, 23);
+            this.btAddEssence.TabIndex = 1;
+            this.btAddEssence.Text = "Добавить";
+            this.btAddEssence.UseVisualStyleBackColor = true;
+            this.btAddEssence.Click += new System.EventHandler(this.btAddEssence_Click);
+            // 
             // treeView1
             // 
             this.treeView1.AllowDrop = true;
+            this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.treeView1.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(250, 487);
+            this.treeView1.Size = new System.Drawing.Size(250, 446);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
@@ -112,6 +140,8 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Button btDelEssence;
+        private System.Windows.Forms.Button btAddEssence;
     }
 }
 

@@ -197,6 +197,12 @@
     <Compile Include="Forms\FormEditFeature.Designer.cs">
       <DependentUpon>FormEditFeature.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormNewEssence.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormNewEssence.Designer.cs">
+      <DependentUpon>FormNewEssence.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormNotepad.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -303,6 +309,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormEditFeature.resx">
       <DependentUpon>FormEditFeature.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormNewEssence.resx">
+      <DependentUpon>FormNewEssence.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormNotepad.resx">
       <DependentUpon>FormNotepad.cs</DependentUpon>

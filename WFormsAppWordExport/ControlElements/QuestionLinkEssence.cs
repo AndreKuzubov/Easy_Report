@@ -28,6 +28,11 @@ namespace WFormsAppWordExport.ControlElements
     {
         Essence selectedEssence=null;
         List<Essence> essences=new List<Essence>();
+        public QuestionLinkEssence() :base()
+        {
+            InitializeComponent();
+        }
+
         public QuestionLinkEssence(Feature feature,int iTableIndex,Form1 f):base(feature, iTableIndex,f)
         {
             InitializeComponent();
@@ -90,6 +95,39 @@ namespace WFormsAppWordExport.ControlElements
             }
             
            
+        }
+
+        private void btNew_Click(object sender, EventArgs e)
+        {
+            Forms.FormNewEssence dial = new Forms.FormNewEssence();
+            #region adding images of dbObjects for chose
+            List<DBTemplatesHelper.DBObject> dbObjects;
+            if (feature.sAnswers != null && feature.sAnswers.Count > 0)
+            {
+                dbObjects = new List<DBTemplatesHelper.DBObject>();
+                foreach (Choose_Answer ans in feature.sAnswers)
+                {
+                    dbObjects.Add(DBTemplatesHelper.DBObject.get(ans.idObject));
+                }
+            }
+            else
+            {
+                dbObjects = DBTemplatesHelper.DBObject.getAll();
+            }
+            dial.dbObjects = dbObjects;
+            #endregion
+
+            if (dial.ShowDialog() == DialogResult.OK)
+            {
+                Essence es = new Essence(dial.dbSelectedObject);
+                if (dial.sSelectedNameEssence != null && dial.sSelectedNameEssence.Length != 0)
+                {
+                    es.sName = dial.sSelectedNameEssence;
+                }
+                ProjectDataHelper.Initial.rootData.Add(es);
+                updateChoose();
+                
+            }
         }
     }
 }
