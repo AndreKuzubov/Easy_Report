@@ -56,8 +56,8 @@ namespace WFormsAppWordExport
 
         protected void setAnswer(Object oAnswer,String strAnswer)
         {
-            feature.setAnswer(new Answer(oAnswer,strAnswer), Program.sUser);
-            labelAuthor.Text = Program.sUser;
+            feature.setAnswer(new Answer(oAnswer,strAnswer), ProjectDataHelper.sUser);
+            labelAuthor.Text = ProjectDataHelper.sUser;
             if (parentControl != null)
             {
                 parentControl.updateShowingEssences();

@@ -45,11 +45,11 @@ namespace WFormsAppWordExport
         /// получить адрес файла шаблона тля текущего пользователя
         /// </summary>
         /// <returns></returns>
-        public static String getMyTemplate()
+   /*     public static String getMyTemplate()
         {
-            return Application.UserAppDataPath + "/" + Program.sUser + ".dot";
+            return Application.UserAppDataPath + "/" + ProjectDataHelper.sUser + ".dot";
         }
-
+        */
         public static void log(String log)
         {
             StreamWriter fileStream = new StreamWriter(Directory.GetCurrentDirectory() + "/log.txt", true);

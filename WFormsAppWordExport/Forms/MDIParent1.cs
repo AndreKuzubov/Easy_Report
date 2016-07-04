@@ -225,7 +225,7 @@ namespace WFormsAppWordExport
 
         private void setPasswordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormChangePassword chPasw = new FormChangePassword(Program.sUser);
+            FormChangePassword chPasw = new FormChangePassword(ProjectDataHelper.sUser);
             chPasw.ShowDialog();
         }
 
@@ -239,69 +239,13 @@ namespace WFormsAppWordExport
             if (dialogResult == DialogResult.Yes)
             {
                 closeForm();
-                File.Delete(MyFiles.getMyTemplate());
+               // File.Delete(MyFiles.getMyTemplate());
                 Program.authorizationForm.Show();
                 Program.context.MainForm = Program.authorizationForm;
-                Program.authorizationForm.removeUser(Program.sUser);
+                Program.authorizationForm.removeUser(ProjectDataHelper.sUser);
                 this.Close();
             }
         }
-
-/*        public void prepereWordTemplate(String filename)
-        {
-            toolStripStatusLabel.Text = "Состояние: обрабатывается шаблон для дальнейшего использования";
-            Word.Application app = new Word.Application();
-            app.Visible = false;
-            Word.Document doc = new Word.Document();
-            Object template = filename;
-            Object newTemplate = false;
-            Object documentType = WordEnums.WdNewDocumentType.wdNewBlankDocument;
-            Object visible = false;
-
-            doc = app.Documents.Add(
-                 template,  newTemplate,  documentType,  visible);
-            doc.Activate();
-
-            object unit;
-            object count;
-           
-            unit = WordEnums.WdUnits.wdLine;
-           
-            for (int i = 0; (int)app.Selection.Information(WordEnums.WdInformation.wdActiveEndPageNumber) < 2; i++)
-            {
-                count = 1;
-                app.Selection.MoveStart( unit,  count);
-                count = 1;
-                app.Selection.MoveEnd( unit,  count);
-            }
-
-
-            //идем вниз
-            while (!hasText(app.Selection.Text) && app.Selection.End != doc.Content.End)
-            {
-                count = 1;
-                app.Selection.MoveEnd( unit,  count);
-            }
-            count = -1;
-            app.Selection.MoveEnd( unit,  count);
-
-            //идем вверх
-            while (!hasText(app.Selection.Text) && app.Selection.Start != doc.Content.Start)
-            {
-                count = -1;
-                app.Selection.MoveStart( unit,  count);
-            }
-            count = 1;
-            app.Selection.MoveStart( unit,  count);
-
-
-            doc.SaveAs2(MyFiles.getMyTemplate(), WordEnums.WdSaveFormat.wdFormatDocumentDefault, false, Type.Missing, false,
-           Type.Missing, false, false, false, false, false, 0,
-           false, false, false);
-            app.Quit(WordEnums.WdSaveOptions.wdSaveChanges, WordEnums.WdSaveFormat.wdFormatDocument97, false);
-
-            stateNorm();
-        }*/
 
         private bool hasText(String st)
         {

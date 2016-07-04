@@ -176,7 +176,8 @@ namespace WFormsAppWordExport
                 node.Tag = obj[i].id;
                 treeViewObjects.Nodes.Add(node);
             }
-            treeViewObjects.SelectedNode = treeViewObjects.Nodes[0];
+            if (treeViewObjects.Nodes.Count>0)
+                treeViewObjects.SelectedNode = treeViewObjects.Nodes[0];
         }
 
         #region private methods

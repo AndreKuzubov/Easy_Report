@@ -32,10 +32,27 @@ namespace WFormsAppWordExport
    public class DBTemplatesHelper
     {
         static private DBTemplatesHelper initial;
-        static String name = "MyDB64";
-
+        static String sysName = "sys";
+        static String name { get
+            {
+                return ProjectDataHelper.sUser;
+            }
+        }
         String dir = Directory.GetCurrentDirectory();
-        SqlConnection myConn=null;
+        SqlConnection myConn = null;
+        String fileParamsName { get
+            {
+                return dir + "\\" + name + ".prms";
+            }
+        }
+
+        String fileParamsSysName
+        {
+            get
+            {
+                return dir + "\\" + sysName + ".prms";
+            }
+        }
 
         #region contructions DB- methodes
         public static DBTemplatesHelper get()
@@ -53,10 +70,9 @@ namespace WFormsAppWordExport
         private void create_openDB()
         {
             if (myConn == null)
-                if (!File.Exists(dir + "\\" + name + ".dmf"))
+                if (!File.Exists(fileParamsName))
                 {
                     createDB();
-
                 }
                 else
                     openDB();
@@ -82,56 +98,73 @@ namespace WFormsAppWordExport
 
         private void createDB()
         {
-
-            myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;");
-
-            String str = "CREATE DATABASE " + name + " ON PRIMARY " +
-                "(NAME = MyDatabase_Data, " +
-                "FILENAME = '" + dir + "\\" + name + ".dmf', " +
-                 " SIZE = 5MB," +
-                  " MAXSIZE = 30MB," +
-                 " FILEGROWTH = 10%)" +
-
-                "LOG ON (NAME = MyDatabase_Log, " +
-                "FILENAME = '" + dir + "\\" + name + ".ldf" + "', " +
-                "SIZE = 1MB, " +
-                "MAXSIZE = 5MB, " +
-                "FILEGROWTH = 10%)";
-            try
+            if (name.Equals("sys"))
             {
+                #region create sys db 
+                myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;");
+                
+               
+                String str = "CREATE DATABASE " + name + " ON PRIMARY " +
+                    "(NAME = MyDatabase_Data, " +
+                    "FILENAME = '" + fileParamsName  //+ dir + "\\" + name + ".dmf'
+                    + "', " +
+                     " SIZE = 5MB," +
+                      " MAXSIZE = 30MB," +
+                     " FILEGROWTH = 10%)";/* +
 
-                SqlCommand myCommand = new SqlCommand(str, myConn);
-                myConn.Open();
-                myCommand.ExecuteNonQuery();
-                myConn.Close();
-
-
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), "Ошибка открытия БД", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            finally
-            {
-                if (myConn.State == ConnectionState.Open)
+                    "LOG ON (NAME = MyDatabase_Log, " +
+                    "FILENAME = '" + dir + "\\" + name + ".ldf" + "', " +
+                    "SIZE = 1MB, " +
+                    "MAXSIZE = 5MB, " +
+                    "FILEGROWTH = 10%)";*/
+                
+                try
                 {
-                    myConn.Close();
-                }
-            }
 
-            openDB();
-            buildDB();
-            fILLDB();
+                    SqlCommand myCommand = new SqlCommand(str, myConn);
+                    myConn.Open();
+                    myCommand.ExecuteNonQuery();
+                    myConn.Close();
+
+
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Ошибка создания БД", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                finally
+                {
+                    if (myConn.State == ConnectionState.Open)
+                    {
+                        myConn.Close();
+                    }
+                }
+                #endregion*/
+                    
+              //  new DataContext(fileParamsName)
+                //    .CreateDatabase();
+
+                openDB();
+                buildSysDB();
+     //           fILLDB();
+            }
+            else
+            {
+                File.Copy(fileParamsSysName, fileParamsName);
+                openDB();
+            } 
+           
 
         }
 
         private void openDB()
         {
-            myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + dir + "\\" + name + ".dmf;Integrated Security=True;Connect Timeout=30");
+            //     myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + dir + "\\" + name + ".dmf;Integrated Security=True;Connect Timeout=30");
+            myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename='" +fileParamsName+"';Integrated Security=True;Connect Timeout=30");
             myConn.Open();
         }
 
-        private void buildDB()
+        private void buildSysDB()
         {
             String s1, s2, s3, s4, s5, s6;
             s1 = "CREATE TABLE \"Параграфы\"  (id INTEGER PRIMARY KEY IDENTITY, flag int NOT NULL,Script ntext)";
@@ -160,6 +193,11 @@ namespace WFormsAppWordExport
             new SqlCommand(s, myConn).ExecuteNonQuery();
             s = "INSERT INTO \"Описание Обьекта\" (\"id характеристики\",\"id образа обьекта\") VALUES (1,1),(1,2),(1,3),(2,1),(2,2),(2,3),(3,2),(4,3),(5,1)";
             new SqlCommand(s, myConn).ExecuteNonQuery();
+        }
+
+        private void copyDBFromSys()
+        {
+
         }
 
         ~DBTemplatesHelper()
@@ -1005,9 +1043,9 @@ namespace WFormsAppWordExport
                 try
                 {
                     r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
-                    r.Read();
-                    return DBParagraph.read(r);
-                    
+                    if (r.Read())
+                        return DBParagraph.read(r);
+                    else return null;
 
                 }
                 catch (System.Exception ex)

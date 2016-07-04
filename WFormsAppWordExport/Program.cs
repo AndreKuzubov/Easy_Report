@@ -23,7 +23,7 @@ namespace WFormsAppWordExport
 {
     static class Program
     {
-        public static String sUser = "Андрей";
+     
         public static ApplicationContext context;
         public static FormAuthorization authorizationForm;
         public static String OpenFile = null;
@@ -33,13 +33,16 @@ namespace WFormsAppWordExport
         /// Главная точка входа для приложения.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(String[] arg)
         {
-            
-            
+            if (arg != null && arg.Length > 0 && arg[0] != null)
+            {
+                OpenFile = arg[0];
+            }
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            switch (2)
+            switch (6)
             {
                 case 1:
                     Application.Run(new WFormsAppWordExport.Forms.FormDevCode());
@@ -55,6 +58,9 @@ namespace WFormsAppWordExport
                     break;
                 case 5:
                     Application.Run(new WFormsAppWordExport.Forms.FormDevCode());
+                    break;
+                case 6:
+                    Application.Run(context = new ApplicationContext(authorizationForm = new FormAuthorization()));
                     break;
             }
 

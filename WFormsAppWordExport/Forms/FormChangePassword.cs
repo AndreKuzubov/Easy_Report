@@ -28,7 +28,7 @@ namespace WFormsAppWordExport
         public FormChangePassword()
         {
             InitializeComponent();
-            this.loginTextBox.Text = Program.sUser;
+            this.loginTextBox.Text = ProjectDataHelper.sUser;
         }
         public FormChangePassword(String login)
         {

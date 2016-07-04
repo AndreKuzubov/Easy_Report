@@ -78,7 +78,7 @@ namespace WFormsAppWordExport
                 logins.TryGetValue(textBox1.Text, out password);
                 if (password.Equals(textBox2.Text))
                 {
-                    Program.sUser = textBox1.Text;
+                    ProjectDataHelper.sUser = textBox1.Text;
                     MDIParent1 p = new MDIParent1();
                     p.Show();
                     p.Activate();

@@ -34,8 +34,7 @@ namespace WFormsAppWordExport
 {
     public class ProjectDataHelper
     {
-      
-
+        public static String sUser = "Андрей";
         public TreeNodeCollection rootData;
         public String fileName ;
 
