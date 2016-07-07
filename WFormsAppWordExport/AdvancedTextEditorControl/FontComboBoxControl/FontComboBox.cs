@@ -1,4 +1,9 @@
-﻿using System;
+﻿/**
+ Copyright 2008  Aleksei Karimov
+
+ http://www.codeproject.com/Articles/22783/Advanced-Text-Editor-with-Ruler
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

@@ -113,7 +113,8 @@ namespace WFormsAppWordExport
             //advancedTextEditor1.TextEditor.insertMyScript()
             if ((int)btNew_SettingScript.Tag == -1)
             {
-                Forms.FormDevCode formDevCode = new Forms.FormDevCode();
+                Forms.FormDevCode formDevCode = new Forms.FormDevCode(null,DataStructures.SoftwareSctipt.SCRIPT_TYPE.STRING);
+                
                 if (formDevCode.ShowDialog() == DialogResult.OK)
                 {
                     String s = formDevCode.richTextBoxCode.Text;
@@ -123,11 +124,10 @@ namespace WFormsAppWordExport
             }
             else
             {
-                Forms.FormDevCode formDevCode = new Forms.FormDevCode();
                 int idCode = (int)btNew_SettingScript.Tag;
                 if (idCode == -1) return;
                 String code = DBTemplatesHelper.get().getCodeById(idCode);
-                formDevCode.richTextBoxCode.Text = code; 
+                Forms.FormDevCode formDevCode = new Forms.FormDevCode(code,DataStructures.SoftwareSctipt.SCRIPT_TYPE.STRING);
                 if (formDevCode.ShowDialog() == DialogResult.OK)
                 {
                     String s = formDevCode.richTextBoxCode.Text;

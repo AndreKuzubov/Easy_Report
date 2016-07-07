@@ -53,6 +53,10 @@ namespace WFormsAppWordExport.Forms
             if (advancedTextEditor1.TextEditor.Text.Length > 0)
             {
                 richTextBox1.Clear();
+
+                richTextBox1.Text = "" + advancedTextEditor1.TextEditor.SelectionStart;
+                
+                /*richTextBox1.Clear();
                 richTextBox1.Text = advancedTextEditor1.TextEditor.Text;
                 //richTextBox1.Select(advancedTextEditor1.TextEditor,1);
                 richTextBox1.Select(advancedTextEditor1.TextEditor.SelectionStart, 1);
@@ -62,7 +66,7 @@ namespace WFormsAppWordExport.Forms
                 int index = advancedTextEditor1.TextEditor.getRtfIndexByTextIndex(advancedTextEditor1.TextEditor.SelectionStart);
                richTextBox2.Text = advancedTextEditor1.TextEditor.Rtf + "       index = " + index+ " id Script = "+advancedTextEditor1.TextEditor.getIdSript(advancedTextEditor1.TextEditor.SelectionStart);
                 richTextBox2.Select(index, 1);
-                richTextBox2.SelectionBackColor = Color.Blue;
+                richTextBox2.SelectionBackColor = Color.Blue;*/
             }
         }
     }

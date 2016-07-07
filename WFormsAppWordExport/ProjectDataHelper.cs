@@ -34,7 +34,7 @@ namespace WFormsAppWordExport
 {
     public class ProjectDataHelper
     {
-        public static String sUser = "Андрей";
+        public static String sUser = "sys";
         public TreeNodeCollection rootData;
         public String fileName ;
 
@@ -102,5 +102,23 @@ namespace WFormsAppWordExport
             return essences;
         }
 
+
+
+        #region use in scrips
+
+        public List<Essence> getEssencesByIdDB(int id)
+        {
+            return null;
+        }
+        public List<Feature> getFeaturesByAddress(int [] address)
+        {
+            return null;
+        }
+        public List<Answer> getAnswersByAddress(int [] adresss)
+        {
+            return null;
+        }
+
+        #endregion
     }
 }

@@ -235,9 +235,11 @@
             // 
             // FormEditChooseAnswers
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(650, 311);
             this.Controls.Add(this.cbObj);
             this.Controls.Add(this.label6);
@@ -260,6 +262,8 @@
             this.MinimumSize = new System.Drawing.Size(600, 350);
             this.Name = "FormEditChooseAnswers";
             this.Text = "Варианты ответа";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormEditChooseAnswers_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FormEditChooseAnswers_DragEnter);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

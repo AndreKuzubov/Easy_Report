@@ -146,7 +146,7 @@ namespace WFormsAppWordExport
 
                 openDB();
                 buildSysDB();
-     //           fILLDB();
+                fILLDB();
             }
             else
             {
@@ -166,7 +166,7 @@ namespace WFormsAppWordExport
 
         private void buildSysDB()
         {
-            String s1, s2, s3, s4, s5, s6;
+            String s1, s2, s3, s4, s5, s6,s7;
             s1 = "CREATE TABLE \"Параграфы\"  (id INTEGER PRIMARY KEY IDENTITY, flag int NOT NULL,Script ntext)";
             s2 = "CREATE TABLE \"Образ Обьекта\"  (id INTEGER PRIMARY KEY IDENTITY, Название ntext NOT NULL, Очередность int,Скрипт ntext, flags int, \"ids абстрактных обьектов\" ntext )";
             s3 = "CREATE TABLE \"Характеристика\"  (id INTEGER PRIMARY KEY IDENTITY,Тип int, Вопрос ntext NOT NULL, Очередность int, \"Условие вопроса\" ntext, \"Скрипт после ответа\" ntext)";
@@ -175,6 +175,8 @@ namespace WFormsAppWordExport
                 + " \"id варианта\" INTEGER FOREIGN KEY REFERENCES \"Вариант ответа\" (id)  ON DELETE CASCADE )";
             s6 = "CREATE TABLE \"Описание обьекта\"  (id INTEGER PRIMARY KEY IDENTITY, \"id Образа обьекта\" INTEGER FOREIGN KEY REFERENCES \"Образ Обьекта\"  (id),"
                 + " \"id характеристики\" INTEGER FOREIGN KEY REFERENCES \"Характеристика\" (id)  ON DELETE CASCADE ON UPDATE CASCADE)";
+            s7 = "CREATE TABLE [Word]  (id INTEGER PRIMARY KEY IDENTITY, word ntext,"
+                + " flag int, class ntext,classesIn ntext,fields ntext, description ntext, rootWord int)";
 
             new SqlCommand(s1, myConn).ExecuteNonQuery();
             new SqlCommand(s2, myConn).ExecuteNonQuery();
@@ -182,6 +184,7 @@ namespace WFormsAppWordExport
             new SqlCommand(s4, myConn).ExecuteNonQuery();
             new SqlCommand(s5, myConn).ExecuteNonQuery();
             new SqlCommand(s6, myConn).ExecuteNonQuery();
+            new SqlCommand(s7, myConn).ExecuteNonQuery();
         }
 
         private void fILLDB()
@@ -1058,6 +1061,125 @@ namespace WFormsAppWordExport
                 }
 
                 return null;
+            }
+        }
+
+        public class DBWord
+        {
+            public int id=-1;
+            public String word;
+            public String sClass;
+            public List<String> sClassesIn = new List<String>();
+            public List<int> fields = new List<int>();
+            public String description;
+            public bool rootWord;
+
+            public static DBWord read(SqlDataReader r)
+            {
+                DBWord w = new DBWord();
+                w.id = (int)r[0];
+                w.word = r[1].ToString();
+                w.sClass = r[2].ToString();
+                w.sClassesIn.AddRange(r[3].ToString().Replace(" ","").Split(','));
+                w.fields.AddRange(ConvertFormat.stringToArray(r[4].ToString()));
+                w.description=r[5].ToString();
+                w.rootWord = (bool)r[6];
+                return w;
+            }
+
+            public static DBWord get(int id)
+            {
+                String s = "SELECT * FROM [Words] WHERE id = " + id + " ";
+                SqlDataReader r = null;
+                r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                if (r.Read())
+                    return DBWord.read(r);
+                return new DBWord();
+            }
+
+            public static List<DBWord> getRoot()
+            {
+                List<DBWord> dWords = new List<DBWord>();
+                String s = "SELECT * FROM [Words] WHERE rootWord = 1  ";
+                SqlDataReader r = null;
+                try
+                {
+                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    while (r.Read())
+                    {
+                        dWords.Add(DBWord.read(r));
+                    }
+                    return dWords;
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Ошибка sql read words", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                finally
+                {
+                    if (r != null)
+                        r.Close();
+                }
+
+                return dWords;
+            }
+           
+            public static int [] getAddress(String suggestion)
+            {
+                List<int> address = new List<int>();
+                String s = suggestion;
+                int parentId = -1;
+                while (s.Length != 0)
+                {
+                    String w = getNextWord(s);
+                    s = s.Remove(0, w.Length);
+                    DBWord parent = get(parentId);
+                    if (parent != null && parent.fields != null && parent.fields.Count > 0)
+                    {
+                        DBWord dbWord = getWord(w, get(parentId).fields.ToArray());
+                        if (dbWord == null || dbWord.id == -1) break;
+                        parentId = dbWord.id;
+                        address.Add(parentId);
+                    }
+                    else break;
+                  
+                }
+               
+                return address.ToArray();
+            } 
+
+            public static DBWord getFromSuggestion(String suggestion)
+            {
+                int [] address= getAddress(suggestion);
+                if (address == null || address.Length == 0) return null;
+                return get(address[address.Length - 1]);
+            }
+
+            private static DBWord getWord (String w, int[] ids)
+            {
+                String s = "SELECT * FROM [Words] WHERE [word]="+w +" ";
+                if (ids != null && ids.Length > 0)
+                {
+                    s += "and (";
+                    String d = "";
+                    for (int i= 0; i < ids.Length; i++)
+                    {
+                        s+=d+ " id = "+ids[i]+" ";
+                        d = " or ";
+                    }
+                    s += " )";
+
+                }
+                SqlDataReader r = null;
+                r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                if (r.Read())
+                    return DBWord.read(r);
+                return new DBWord();
+            }
+
+            private static String getNextWord(string s)
+            {
+                return s.Substring(0, s.IndexOf('.'));
             }
         }
 

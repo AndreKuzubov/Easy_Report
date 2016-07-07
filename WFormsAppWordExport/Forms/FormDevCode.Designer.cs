@@ -28,19 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ExtendedRichTextBox.CharStyle charStyle5 = new ExtendedRichTextBox.CharStyle();
-            ExtendedRichTextBox.ParaLineSpacing paraLineSpacing5 = new ExtendedRichTextBox.ParaLineSpacing();
-            ExtendedRichTextBox.ParaListStyle paraListStyle5 = new ExtendedRichTextBox.ParaListStyle();
+            ExtendedRichTextBox.CharStyle charStyle1 = new ExtendedRichTextBox.CharStyle();
+            ExtendedRichTextBox.ParaLineSpacing paraLineSpacing1 = new ExtendedRichTextBox.ParaLineSpacing();
+            ExtendedRichTextBox.ParaListStyle paraListStyle1 = new ExtendedRichTextBox.ParaListStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDevCode));
             this.btCancel = new System.Windows.Forms.Button();
             this.btOk = new System.Windows.Forms.Button();
             this.btErase = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.richTextBoxCode = new System.Windows.Forms.RichTextBox();
             this.extendedTextBoxResult = new ExtendedRichTextBox();
+            this.richTextBoxCode = new System.Windows.Forms.RichTextBox();
             this.btHelp = new System.Windows.Forms.Button();
             this.btFunctions = new System.Windows.Forms.Button();
             this.btCompile = new System.Windows.Forms.Button();
+            this.autocompleteMenuCode = new AutocompleteMenuNS.AutocompleteMenu();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,8 +93,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 4.587156F));
-            this.tableLayoutPanel1.Controls.Add(this.richTextBoxCode, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.extendedTextBoxResult, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.richTextBoxCode, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -101,46 +103,48 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(514, 408);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
-            // richTextBoxCode
-            // 
-            this.richTextBoxCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBoxCode.Location = new System.Drawing.Point(3, 3);
-            this.richTextBoxCode.Name = "richTextBoxCode";
-            this.richTextBoxCode.Size = new System.Drawing.Size(508, 281);
-            this.richTextBoxCode.TabIndex = 8;
-            this.richTextBoxCode.Text = "";
-            // 
             // extendedTextBoxResult
             // 
             this.extendedTextBoxResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.autocompleteMenuCode.SetAutocompleteMenu(this.extendedTextBoxResult, null);
             this.extendedTextBoxResult.Location = new System.Drawing.Point(3, 290);
             this.extendedTextBoxResult.Name = "extendedTextBoxResult";
             this.extendedTextBoxResult.ReadOnly = true;
-            charStyle5.Bold = false;
-            charStyle5.Italic = false;
-            charStyle5.Link = false;
-            charStyle5.Strikeout = false;
-            charStyle5.Underline = false;
-            this.extendedTextBoxResult.SelectionCharStyle = charStyle5;
-            this.extendedTextBoxResult.SelectionFont2 = new System.Drawing.Font("Microsoft Sans Serif", 1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Inch);
-            paraLineSpacing5.ExactSpacing = 0;
-            paraLineSpacing5.SpacingStyle = ExtendedRichTextBox.ParaLineSpacing.LineSpacingStyle.Unknown;
-            this.extendedTextBoxResult.SelectionLineSpacing = paraLineSpacing5;
-            paraListStyle5.BulletCharCode = ((short)(0));
-            paraListStyle5.NumberingStart = ((short)(0));
-            paraListStyle5.Style = ExtendedRichTextBox.ParaListStyle.ListStyle.NumberAndParenthesis;
-            paraListStyle5.Type = ExtendedRichTextBox.ParaListStyle.ListType.None;
-            this.extendedTextBoxResult.SelectionListType = paraListStyle5;
+            charStyle1.Bold = false;
+            charStyle1.Italic = false;
+            charStyle1.Link = false;
+            charStyle1.Strikeout = false;
+            charStyle1.Underline = false;
+            this.extendedTextBoxResult.SelectionCharStyle = charStyle1;
+            this.extendedTextBoxResult.SelectionFont2 = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Inch);
+            paraLineSpacing1.ExactSpacing = 0;
+            paraLineSpacing1.SpacingStyle = ExtendedRichTextBox.ParaLineSpacing.LineSpacingStyle.Unknown;
+            this.extendedTextBoxResult.SelectionLineSpacing = paraLineSpacing1;
+            paraListStyle1.BulletCharCode = ((short)(0));
+            paraListStyle1.NumberingStart = ((short)(0));
+            paraListStyle1.Style = ExtendedRichTextBox.ParaListStyle.ListStyle.NumberAndParenthesis;
+            paraListStyle1.Type = ExtendedRichTextBox.ParaListStyle.ListType.None;
+            this.extendedTextBoxResult.SelectionListType = paraListStyle1;
             this.extendedTextBoxResult.SelectionOffsetType = ExtendedRichTextBox.OffsetType.None;
             this.extendedTextBoxResult.SelectionSpaceAfter = 0;
             this.extendedTextBoxResult.SelectionSpaceBefore = 0;
             this.extendedTextBoxResult.Size = new System.Drawing.Size(508, 115);
             this.extendedTextBoxResult.TabIndex = 1;
             this.extendedTextBoxResult.Text = "";
+            // 
+            // richTextBoxCode
+            // 
+            this.richTextBoxCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.autocompleteMenuCode.SetAutocompleteMenu(this.richTextBoxCode, this.autocompleteMenuCode);
+            this.richTextBoxCode.Location = new System.Drawing.Point(3, 3);
+            this.richTextBoxCode.Name = "richTextBoxCode";
+            this.richTextBoxCode.Size = new System.Drawing.Size(508, 281);
+            this.richTextBoxCode.TabIndex = 8;
+            this.richTextBoxCode.Text = "";
             // 
             // btHelp
             // 
@@ -151,7 +155,6 @@
             this.btHelp.TabIndex = 5;
             this.btHelp.Text = "Че о чем";
             this.btHelp.UseVisualStyleBackColor = true;
-         
             // 
             // btFunctions
             // 
@@ -173,6 +176,15 @@
             this.btCompile.Text = "Компилировать ";
             this.btCompile.UseVisualStyleBackColor = true;
             this.btCompile.Click += new System.EventHandler(this.btCompile_Click);
+            // 
+            // autocompleteMenuCode
+            // 
+            this.autocompleteMenuCode.Colors = ((AutocompleteMenuNS.Colors)(resources.GetObject("autocompleteMenuCode.Colors")));
+            this.autocompleteMenuCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.autocompleteMenuCode.ImageList = null;
+            this.autocompleteMenuCode.Items = new string[0];
+            this.autocompleteMenuCode.TargetControlWrapper = null;
+            this.autocompleteMenuCode.Opening += new System.EventHandler<System.ComponentModel.CancelEventArgs>(this.autocompleteMenuCode_Opening);
             // 
             // FormDevCode
             // 
@@ -206,5 +218,6 @@
         private System.Windows.Forms.Button btFunctions;
         private System.Windows.Forms.Button btCompile;
         public System.Windows.Forms.RichTextBox richTextBoxCode;
+        private AutocompleteMenuNS.AutocompleteMenu autocompleteMenuCode;
     }
 }

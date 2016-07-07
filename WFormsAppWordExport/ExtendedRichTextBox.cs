@@ -1,4 +1,14 @@
-﻿
+﻿/**
+ 2008  Aleksei Karimov
+
+ http://www.codeproject.com/Articles/22783/Advanced-Text-Editor-with-Ruler
+
+ 2012  Vinayaka Amaresh
+
+ http://www.codeproject.com/Articles/357120/Custom-Richtextbox-for-text-tip-like-screen-tip-pr
+ */
+
+
 /* Below is description for all versions of RichEdit. Unfortunately, 
  * starting from version 4.1 there is no any documentation available. :-(
  * 

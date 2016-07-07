@@ -23,6 +23,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WFormsAppWordExport.DataStructures;
+using System.IO;
 
 namespace WFormsAppWordExport.Forms
 {
@@ -240,5 +241,65 @@ namespace WFormsAppWordExport.Forms
                     currentName = "answer";
                 }
         }
+
+        #region drop pictures 
+        private void FormEditChooseAnswers_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] filePaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
+                foreach (string fileLoc in filePaths)
+                {
+                    int indexFormat = fileLoc.LastIndexOf('.');
+                    String format = fileLoc.Substring(indexFormat, fileLoc.Length - indexFormat);
+                    int indexDir = fileLoc.LastIndexOf('\\');
+                    String fileShortName = fileLoc.Substring(indexDir+1, indexFormat- indexDir-1);
+                    if (File.Exists(fileLoc)&&format.Equals(".bmp"))
+                    {
+
+                        DBTemplatesHelper.DBAnswer ans = new DBTemplatesHelper.DBAnswer()
+                        {
+                            image = Image.FromFile(fileLoc),
+                            sName = fileShortName
+                        };
+                        chooseAnswers.Add(ans);
+                       
+                    }
+                }
+                updateData();
+            }
+        }
+
+        private void FormEditChooseAnswers_DragEnter(object sender, DragEventArgs e)
+        {
+            if (btImport.Enabled)
+            {
+                if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                {
+                    #region search any bmp file
+                    {
+                        Object a = e.Data.GetData(DataFormats.FileDrop);
+                        if (!(a is string[])) return;
+                    }
+                    String[] files = e.Data.GetData(DataFormats.FileDrop) as String[];
+                    bool allow = false;
+                    for (int i = 0; i < files.Length; i++)
+                    {
+                        int indexFormat = files[i].LastIndexOf('.');
+                        String format = files[i].Substring(indexFormat, files[i].Length-indexFormat);
+                        if (format.Equals(".bmp"))
+                        {
+                            allow = true;
+                            break;
+                        }
+                    }
+                    #endregion
+                    if (allow)
+                        e.Effect = DragDropEffects.Copy;
+                }
+            }
+           
+        }
+        #endregion 
     }
 }
