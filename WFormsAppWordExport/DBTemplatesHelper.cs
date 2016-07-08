@@ -33,12 +33,27 @@ namespace WFormsAppWordExport
     {
         static private DBTemplatesHelper initial;
         static String sysName = "sys";
-        static String name { get
+        static String name {
+            get
             {
                 return ProjectDataHelper.sUser;
             }
         }
-        String dir = Directory.GetCurrentDirectory();
+        static String fullName
+        {
+            get
+            {
+                return "\"" + dir + ProjectDataHelper.sUser + "\"";
+            }
+        }
+        static String dir {
+            get
+            {
+                 return Application.CommonAppDataPath;
+            }
+           
+        }
+
         SqlConnection myConn = null;
         String fileParamsName { get
             {
@@ -75,37 +90,50 @@ namespace WFormsAppWordExport
                     createDB();
                 }
                 else
+                {
+                    bindDB();
                     openDB();
+                }
+                   
         }
       
-        private void closeDB()
+        private void bindDB()
         {
-            if (myConn != null&myConn.State == ConnectionState.Open)
-            {
-                try
-                {
-                    myConn.Close();
-                }
-                catch { 
-}
-                finally
-                {
+            myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;");
+            String str = "CREATE DATABASE " + name + " ON  "
+                + "(NAME = MyDatabase_Data, " +
+                "FILENAME = '" + fileParamsName + "') FOR ATTACH; ";
+            myConn.Open();
+            new SqlCommand(str, myConn).ExecuteNonQuery();
+            myConn.Close();
 
-                }
-               
+        }
+
+
+        public void closeDB()
+        {
+            initial = null;
+            if (myConn != null & myConn.State == ConnectionState.Open)
+            {
+                myConn.Close();
+             
+                myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;User Instance=False");
+                myConn.Open();
+                new SqlCommand(@"ALTER DATABASE " + name + @" SET offline  WITH ROLLBACK IMMEDIATE;" +
+                            "DROP DATABASE [" + name + "]", myConn).ExecuteNonQuery();
+                myConn.Close();//SINGLE_USER WITH ROLLBACK IMMEDIATE; SINGLE_USER
             }
         }
 
         private void createDB()
         {
-            if (name.Equals("sys"))
+            if (name.Equals(sysName))
             {
                 #region create sys db 
                 myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;");
-                
-               
-                String str = "CREATE DATABASE " + name + " ON PRIMARY " +
-                    "(NAME = MyDatabase_Data, " +
+
+                String str = "CREATE DATABASE " + name + " ON PRIMARY " 
+                    +"(NAME = MyDatabase_Data, " +
                     "FILENAME = '" + fileParamsName  //+ dir + "\\" + name + ".dmf'
                     + "', " +
                      " SIZE = 5MB," +
@@ -117,11 +145,11 @@ namespace WFormsAppWordExport
                     "SIZE = 1MB, " +
                     "MAXSIZE = 5MB, " +
                     "FILEGROWTH = 10%)";*/
-                
-                try
+
+            try
                 {
 
-                    SqlCommand myCommand = new SqlCommand(str, myConn);
+                   SqlCommand myCommand = new SqlCommand(str, myConn);
                     myConn.Open();
                     myCommand.ExecuteNonQuery();
                     myConn.Close();
@@ -134,15 +162,13 @@ namespace WFormsAppWordExport
                 }
                 finally
                 {
-                    if (myConn.State == ConnectionState.Open)
+                    if (myConn!=null&&myConn.State == ConnectionState.Open)
                     {
                         myConn.Close();
                     }
                 }
-                #endregion*/
+                #endregion
                     
-              //  new DataContext(fileParamsName)
-                //    .CreateDatabase();
 
                 openDB();
                 buildSysDB();
@@ -151,6 +177,7 @@ namespace WFormsAppWordExport
             else
             {
                 File.Copy(fileParamsSysName, fileParamsName);
+                bindDB();
                 openDB();
             } 
            
@@ -159,9 +186,10 @@ namespace WFormsAppWordExport
 
         private void openDB()
         {
-            //     myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + dir + "\\" + name + ".dmf;Integrated Security=True;Connect Timeout=30");
-            myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename='" +fileParamsName+"';Integrated Security=True;Connect Timeout=30");
-            myConn.Open();
+         
+            myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename='" +fileParamsName+"';"
+               + "Integrated Security=True;Connect Timeout=30;");
+           myConn.Open();
         }
 
         private void buildSysDB()
@@ -202,7 +230,7 @@ namespace WFormsAppWordExport
 
         ~DBTemplatesHelper()
         {
-            closeDB();
+          //closeDB();
             initial = null;
         }
 
@@ -237,10 +265,6 @@ namespace WFormsAppWordExport
             sqlAdapter.Fill(table);
             outBindingSource.DataSource = table;
 
-            // Resize the DataGridView columns to fit the newly loaded content.
-        //    outDataGridView.AutoResizeColumns(
-          //      DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
-            // SqlDataReader r = null;
 
 
         }
@@ -248,7 +272,6 @@ namespace WFormsAppWordExport
         public void fillNewProjectTree(out List<Essence> outNodes)
         {
             outNodes = new List<Essence>();
-     //       outContextNodes = new List<Essence>();
             List<int> outNodesIds = new List<int>();
             List<int[]> contextNodesGroupsIds = new List<int[]>();
             //корневае узлы

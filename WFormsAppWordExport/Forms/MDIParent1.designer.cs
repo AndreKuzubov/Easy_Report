@@ -248,7 +248,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.aboutToolStripMenuItem.Text = "&О программе";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -364,6 +364,7 @@
             this.MinimumSize = new System.Drawing.Size(600, 500);
             this.Name = "MDIParent1";
             this.Text = "Word Marker";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MDIParent1_FormClosing);
             this.Shown += new System.EventHandler(this.mdi_show);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();

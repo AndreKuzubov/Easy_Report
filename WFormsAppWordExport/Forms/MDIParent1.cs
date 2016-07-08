@@ -38,7 +38,6 @@ namespace WFormsAppWordExport
         public MDIParent1()
         {
             InitializeComponent();
-        
         }
 
         private void ShowNewForm(object sender, EventArgs e)
@@ -170,11 +169,7 @@ namespace WFormsAppWordExport
         private void closeForm()
         {
             if (MdiChildren == null||MdiChildren.Length==0) return;
-
-            // MdiChildren = null;
             ((Form1)MdiChildren[0]).Close();
-           // MdiChildren = null;
-
         }
 
         private void errFormNoOpen()
@@ -219,7 +214,9 @@ namespace WFormsAppWordExport
 
         private void setTemlateToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            toolStripStatusLabel.Text = "Состояние: Загрузка конфигурации";
             FormSettingQuestionnaire setting = new FormSettingQuestionnaire();
+            stateNorm();
             setting.ShowDialog();
         }
 
@@ -276,6 +273,13 @@ namespace WFormsAppWordExport
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new Forms.FormAbout().ShowDialog();
+        }
+
+        private void MDIParent1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            toolStripStatusLabel.Text = "Состояние: Закрытие конфигурации";
+            DBTemplatesHelper.get().closeDB();
+            stateNorm();
         }
     }
 }

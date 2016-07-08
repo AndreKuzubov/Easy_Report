@@ -1,0 +1,7 @@
+D:\work\Visual Studio\projects\WFormsAppWordExport\AutocompleteMenu\AutocompleteMenu\bin\Release\AutocompleteMenu.dll
+D:\work\Visual Studio\projects\WFormsAppWordExport\AutocompleteMenu\AutocompleteMenu\bin\Release\AutocompleteMenu.pdb
+D:\work\Visual Studio\projects\WFormsAppWordExport\AutocompleteMenu\AutocompleteMenu\obj\Release\AutocompleteMenu.csprojResolveAssemblyReference.cache
+D:\work\Visual Studio\projects\WFormsAppWordExport\AutocompleteMenu\AutocompleteMenu\obj\Release\AutocompleteMenuNS.AutocompleteMenu.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport\AutocompleteMenu\AutocompleteMenu\obj\Release\AutocompleteMenu.csproj.GenerateResource.Cache
+D:\work\Visual Studio\projects\WFormsAppWordExport\AutocompleteMenu\AutocompleteMenu\obj\Release\AutocompleteMenu.dll
+D:\work\Visual Studio\projects\WFormsAppWordExport\AutocompleteMenu\AutocompleteMenu\obj\Release\AutocompleteMenu.pdb
