@@ -118,7 +118,7 @@
             charStyle1.Strikeout = false;
             charStyle1.Underline = false;
             this.extendedTextBoxResult.SelectionCharStyle = charStyle1;
-            this.extendedTextBoxResult.SelectionFont2 = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Inch);
+            this.extendedTextBoxResult.SelectionFont2 = new System.Drawing.Font("Microsoft Sans Serif", 2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Inch);
             paraLineSpacing1.ExactSpacing = 0;
             paraLineSpacing1.SpacingStyle = ExtendedRichTextBox.ParaLineSpacing.LineSpacingStyle.Unknown;
             this.extendedTextBoxResult.SelectionLineSpacing = paraLineSpacing1;
@@ -184,7 +184,7 @@
             this.autocompleteMenuCode.ImageList = null;
             this.autocompleteMenuCode.Items = new string[0];
             this.autocompleteMenuCode.TargetControlWrapper = null;
-            this.autocompleteMenuCode.Opening += new System.EventHandler<System.ComponentModel.CancelEventArgs>(this.autocompleteMenuCode_Opening);
+            this.autocompleteMenuCode.MenuShowing += new System.EventHandler<System.EventArgs>(this.autocompleteMenuCode_MenuShowing);
             // 
             // FormDevCode
             // 

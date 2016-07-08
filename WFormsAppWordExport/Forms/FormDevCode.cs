@@ -28,6 +28,7 @@ using Microsoft.CSharp;
 using System.CodeDom.Compiler;
 using WFormsAppWordExport.DataStructures;
 using System.Collections;
+using System.Reflection;
 
 
 namespace WFormsAppWordExport.Forms
@@ -53,7 +54,7 @@ namespace WFormsAppWordExport.Forms
         {
             InitializeComponent();
             loadDataWordsToProject();
-            autocompleteMenuCode.MaximumSize = new System.Drawing.Size(300, 200);
+            autocompleteMenuCode.MaximumSize = new System.Drawing.Size(600, 200);
         }
 
         /*    private void button4_Click(object sender, EventArgs e)
@@ -121,37 +122,36 @@ namespace WFormsAppWordExport.Forms
 
         #region autocompletemenu 
         private MyMultiDictionary myMultiDictionary = new MyMultiDictionary();
-        private void autocompleteMenuCode_Opening(object sender, CancelEventArgs e)
+
+        private void autocompleteMenuCode_MenuShowing(object sender, EventArgs e)
         {
             autocompleteMenuCode.Items = null;
             String suggestion = getSuggestion();
-            if (suggestion == null || suggestion.Length == 0) return;
 
             int flag = getFlag(suggestion);
             if (flag == 0)
             {
-                DBTemplatesHelper.DBWord word = getWord(suggestion);
-                if (word == null) return;
-                //get fields 
-                foreach (int idW in word.fields)
-                {
-                    DBTemplatesHelper.DBWord w = DBTemplatesHelper.DBWord.get(idW);
-                    autocompleteMenuCode.AddItem(new AutocompleteMenuNS.MulticolumnAutocompleteItem(new string[] { w.word, w.description }, w.word));
-                }
+                #region  get fields 
+                FieldInfo[] fields;
+                MethodInfo[] methods;
+                getFieldsMethods(suggestion, out fields, out methods);
+                addToMenu(fields, methods);
 
+                #endregion
             }
             else if (flag == -1)
             {
-                List<CompleteItem> lis = myMultiDictionary.getValues();
-                int i = 0;
-                foreach (CompleteItem c in lis)
-                {
-                    autocompleteMenuCode.AddItem(new AutocompleteMenuNS.MulticolumnAutocompleteItem(new string[] { c.toExport, c.description }, c.toExport));
-                }
+                #region get all available  data 
+                FieldInfo[] fields;
+                MethodInfo[] methods;
+                getFieldsMethods(null, out fields, out methods);
+
+                addToMenu(fields, methods);
+                #endregion
             }
             else
             {
-                // get expected data
+                #region get expected data
                 int[] address = getAddress(suggestion);
                 if (address == null || address.Length == 0)
                 {
@@ -170,11 +170,34 @@ namespace WFormsAppWordExport.Forms
                         autocompleteMenuCode.AddItem(new AutocompleteMenuNS.MulticolumnAutocompleteItem(new String[] { c.toExport, c.description }, c.toExport));
                     }
                 }
+                #endregion
 
             }
         }
 
-      
+        private void addToMenu(FieldInfo [] fields,MethodInfo[] methods)
+        {
+            foreach (FieldInfo field in fields)
+            {
+                autocompleteMenuCode.AddItem(new AutocompleteMenuNS.MulticolumnAutocompleteItem(new string[] { field.Name, field.FieldType.Name }, field.Name));
+            }
+            foreach (MethodInfo method in methods)
+            {
+                String description =/* "(" + method.DeclaringType.Name + ")" +*/ method.ReturnType.Name + "(",sParams="";
+                ParameterInfo[] parametrs = method.GetParameters();
+                String d = "";
+
+                foreach (ParameterInfo p in parametrs)
+                {
+                    description += d + p.ParameterType + " " + p.Name;
+                    sParams += d + p.Name;
+                    d = ",";
+                }
+                description += ")";
+                autocompleteMenuCode.AddItem(new AutocompleteMenuNS.MulticolumnAutocompleteItem(
+                    new string[] { method.Name, description }, method.Name + "("+sParams+")"));
+            }
+        }
 
         private int[] getAddress(String suggention)
         {
@@ -197,6 +220,7 @@ namespace WFormsAppWordExport.Forms
         private int getFlag(String sug)
         {
             int k = 0;
+            if (sug == null || sug.Length < 2) return -1;
             for (int i = sug.Length - 1; i > 0; i--)
             {
                 if (sug[i] == '.') return 0;
@@ -209,6 +233,47 @@ namespace WFormsAppWordExport.Forms
         private DBTemplatesHelper.DBWord getWord(String suggestion)
         {
             return DBTemplatesHelper.DBWord.getFromSuggestion(suggestion);
+        }
+      
+        private void getFieldsMethods(String sep,out FieldInfo[]  Fields,out MethodInfo[] Methods)
+        {
+            Type currentType = typeof(ScriptSandBox);
+            if (sep == null)
+            {
+
+                Fields = currentType.GetFields();
+                Methods = currentType.GetMethods();
+                return;
+            }
+            else
+            {
+                Fields = null;
+                Methods = null;
+                String[] w = sep.Split('.');
+                int i = 0, l = w.Length;
+                if (w[l - 1].Length == 0) --l;
+                for (; i < l; i++)
+                {
+                    if (w[i].IndexOf('(') != -1)
+                    {
+                        int iSt = w[i].IndexOf('('), iEnd = w[i].IndexOf(')');
+                        if (iEnd < iSt) return;
+                        MethodInfo method = currentType.GetMethod(w[i].Substring(0, iSt - 1));
+                        if (method == null) return;
+                        currentType = method.ReturnType;
+
+                    }
+                    else
+                    {
+                        currentType = currentType.GetField(w[i]).FieldType;
+                        if (currentType == null) return;
+                    }
+                }
+
+                Fields = currentType.GetFields();
+                Methods = currentType.GetMethods();
+                return ;
+            }
         }
 
 
@@ -331,13 +396,18 @@ namespace WFormsAppWordExport.Forms
             }*/
         }
 
+        class ScriptSandBox
+        {
+            public ProjectDataHelper DataProject;
+        }
+
+
 
         #endregion
 
-
         #endregion
 
-
+       
     }
 
 

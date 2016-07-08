@@ -406,6 +406,11 @@ namespace AutocompleteMenuNS
         /// </summary>
         public event EventHandler<CancelEventArgs> Opening;
 
+        /// <summary>
+        /// Occurs when popup menu is showing, before bing variants
+        /// </summary>
+        public event EventHandler<EventArgs> MenuShowing;
+
         private Form myForm;
 
         void SubscribeForm(ITextBoxWrapper wrapper)
@@ -539,6 +544,11 @@ namespace AutocompleteMenuNS
 
         internal void ShowAutocomplete(bool forced)
         {
+            if (MenuShowing != null)
+            {
+                MenuShowing(null, new EventArgs());
+            }
+
             if (forced)
                 forcedOpened = true;
 

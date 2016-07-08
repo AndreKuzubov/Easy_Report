@@ -1068,6 +1068,7 @@ namespace WFormsAppWordExport
         {
             public int id=-1;
             public String word;
+            public int flag;
             public String sClass;
             public List<String> sClassesIn = new List<String>();
             public List<int> fields = new List<int>();
@@ -1079,17 +1080,19 @@ namespace WFormsAppWordExport
                 DBWord w = new DBWord();
                 w.id = (int)r[0];
                 w.word = r[1].ToString();
-                w.sClass = r[2].ToString();
-                w.sClassesIn.AddRange(r[3].ToString().Replace(" ","").Split(','));
-                w.fields.AddRange(ConvertFormat.stringToArray(r[4].ToString()));
-                w.description=r[5].ToString();
-                w.rootWord = (bool)r[6];
+                w.flag = (int)r[2];
+                w.sClass = r[3].ToString();
+                w.sClassesIn.AddRange(r[4].ToString().Replace(" ","").Split(','));
+                w.fields.AddRange(ConvertFormat.stringToArray(r[5].ToString()));
+                w.description=r[6].ToString();
+                w.rootWord = (bool)r[7];
                 return w;
             }
 
             public static DBWord get(int id)
             {
                 String s = "SELECT * FROM [Words] WHERE id = " + id + " ";
+                if (id == -1) return null;
                 SqlDataReader r = null;
                 r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
                 if (r.Read())
@@ -1136,7 +1139,7 @@ namespace WFormsAppWordExport
                     DBWord parent = get(parentId);
                     if (parent != null && parent.fields != null && parent.fields.Count > 0)
                     {
-                        DBWord dbWord = getWord(w, get(parentId).fields.ToArray());
+                        DBWord dbWord = findWordInVariants(w, get(parentId).fields.ToArray());
                         if (dbWord == null || dbWord.id == -1) break;
                         parentId = dbWord.id;
                         address.Add(parentId);
@@ -1155,9 +1158,9 @@ namespace WFormsAppWordExport
                 return get(address[address.Length - 1]);
             }
 
-            private static DBWord getWord (String w, int[] ids)
+            private static DBWord findWordInVariants (String w, int[] ids)
             {
-                String s = "SELECT * FROM [Words] WHERE [word]="+w +" ";
+                String s = "SELECT * FROM [Words] WHERE [word]="+w+" ";
                 if (ids != null && ids.Length > 0)
                 {
                     s += "and (";
