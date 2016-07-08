@@ -201,7 +201,28 @@ namespace WFormsAppWordExport.DataStructures
             info.AddValue("sAnswer", sAnswer);
        //     info.AddValue("chosenDB", lChosen_Answers);
         }
-    } 
+
+        public bool chech([MettodVariants(typeof(Answer), "variantsChooseAnswers") ]int idChooseAnswer)
+        {
+            return idChooseAnswer == intAnswer;
+        }
+        #region use in scrips
+
+        public static AutocompleteMenuNS.AutocompleteItem[] variantsChooseAnswers()
+        {
+            List<AutocompleteMenuNS.MulticolumnAutocompleteItem> items = new List<AutocompleteMenuNS.MulticolumnAutocompleteItem>();
+            List<DBTemplatesHelper.DBAnswer> dbAs = DBTemplatesHelper.DBAnswer.getAnswers();
+
+            foreach (DBTemplatesHelper.DBAnswer dbA in dbAs)
+            {
+                items.Add(new AutocompleteMenuNS.MulticolumnAutocompleteItem(new string[] { "" + dbA.id, dbA.sName }, "" + dbA.id));
+            }
+            return items.ToArray();
+        }
+
+        #endregion
+
+    }
 
     [Serializable]
     public class Choose_Answer
@@ -252,6 +273,7 @@ namespace WFormsAppWordExport.DataStructures
             info.AddValue("image", image);
             info.AddValue("idObj", idObject);
         }
+
 
     }
 

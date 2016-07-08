@@ -253,6 +253,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBoxQuestion);
             this.Controls.Add(this.label1);
+            this.MinimumSize = new System.Drawing.Size(650, 550);
             this.Name = "FormEditFeature";
             this.Text = "Редактирование характеристики";
             this.ResumeLayout(false);

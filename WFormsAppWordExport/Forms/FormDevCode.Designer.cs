@@ -118,7 +118,7 @@
             charStyle1.Strikeout = false;
             charStyle1.Underline = false;
             this.extendedTextBoxResult.SelectionCharStyle = charStyle1;
-            this.extendedTextBoxResult.SelectionFont2 = new System.Drawing.Font("Microsoft Sans Serif", 2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Inch);
+            this.extendedTextBoxResult.SelectionFont2 = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Inch);
             paraLineSpacing1.ExactSpacing = 0;
             paraLineSpacing1.SpacingStyle = ExtendedRichTextBox.ParaLineSpacing.LineSpacingStyle.Unknown;
             this.extendedTextBoxResult.SelectionLineSpacing = paraLineSpacing1;
@@ -149,6 +149,7 @@
             // btHelp
             // 
             this.btHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btHelp.Enabled = false;
             this.btHelp.Location = new System.Drawing.Point(532, 15);
             this.btHelp.Name = "btHelp";
             this.btHelp.Size = new System.Drawing.Size(75, 23);
@@ -159,6 +160,7 @@
             // btFunctions
             // 
             this.btFunctions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btFunctions.Enabled = false;
             this.btFunctions.Location = new System.Drawing.Point(529, 44);
             this.btFunctions.Name = "btFunctions";
             this.btFunctions.Size = new System.Drawing.Size(75, 23);
@@ -199,8 +201,9 @@
             this.Controls.Add(this.btErase);
             this.Controls.Add(this.btOk);
             this.Controls.Add(this.btCancel);
+            this.MinimumSize = new System.Drawing.Size(600, 500);
             this.Name = "FormDevCode";
-            this.Text = "FormDevCode";
+            this.Text = "Редактирование Скрипта";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

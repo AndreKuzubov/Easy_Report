@@ -51,12 +51,23 @@ namespace WFormsAppWordExport
 
         private void updateViewData()
         {
-            obj= DBTemplatesHelper.DBObject.get(objId);
-            textBoxName.Text = obj.name;
-            comboBoxFlags.SelectedIndex = obj.flags;
-            textBoxObjScript.Text = obj.script;
-            textBoxObjIds.Text = obj.sObjects;
-            db.bindingFeaturesForObjectById(bindingSource, objId);
+            if (this.objId == -1)
+            {
+                obj = null;
+                textBoxName.Text = "";
+                comboBoxFlags.SelectedIndex = -1;
+                textBoxObjScript.Text ="";
+                textBoxObjIds.Text ="";
+                bindingSource.DataSource=null;
+            }
+            else {
+                obj = DBTemplatesHelper.DBObject.get(objId);
+                textBoxName.Text = obj.name;
+                comboBoxFlags.SelectedIndex = obj.flags;
+                textBoxObjScript.Text = obj.script;
+                textBoxObjIds.Text = obj.sObjects;
+                db.bindingFeaturesForObjectById(bindingSource, objId);
+            }
         }
 
         private void bindingNavigatorAddNewItem_Click(object sender, EventArgs e)
@@ -113,17 +124,20 @@ namespace WFormsAppWordExport
 
         private void textBoxName_TextChanged(object sender, EventArgs e)
         {
-            obj.name = textBoxName.Text;
+            if (obj!=null)
+                obj.name = textBoxName.Text;
         }
 
         private void textBoxObjScript_TextChanged(object sender, EventArgs e)
         {
-            obj.script = textBoxObjScript.Text;
+            if (obj != null)
+                obj.script = textBoxObjScript.Text;
         }
 
         private void textBoxObjIds_TextChanged(object sender, EventArgs e)
         {
-            obj.sObjects = textBoxObjIds.Text;
+            if (obj != null)
+                obj.sObjects = textBoxObjIds.Text;
          
         }
 
@@ -133,14 +147,16 @@ namespace WFormsAppWordExport
             if (formDev.ShowDialog() == DialogResult.OK)
             {
                 textBoxObjScript.Text = formDev.richTextBoxCode.Text;
-                obj.script = formDev.richTextBoxCode.Text;
+                if (obj != null)
+                    obj.script = formDev.richTextBoxCode.Text;
                 formDev.Close();
             }
         }
 
         private void comboBoxFlags_SelectedIndexChanged(object sender, EventArgs e)
         {
-            obj.flags = comboBoxFlags.SelectedIndex;
+            if (obj != null)
+                obj.flags = comboBoxFlags.SelectedIndex;
         }
 
         private void tabControl2_Leave(object sender, EventArgs e)
@@ -150,7 +166,7 @@ namespace WFormsAppWordExport
 
         private void saveToDB()
         {
-            if (obj != null)
+            if ( obj != null)
             {
                 obj.updateToDB();
                 if (parent!= null)

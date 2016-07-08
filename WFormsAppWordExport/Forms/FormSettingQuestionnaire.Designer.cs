@@ -35,12 +35,12 @@
             this.treeViewObjects = new System.Windows.Forms.TreeView();
             this.btDelObject = new System.Windows.Forms.Button();
             this.btAddObject = new System.Windows.Forms.Button();
+            this.ucTemplateObject1 = new WFormsAppWordExport.UCTemplateObject();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabWordExport = new System.Windows.Forms.TabPage();
             this.btNew_SettingScript = new System.Windows.Forms.Button();
             this.btDel = new System.Windows.Forms.Button();
             this.advancedTextEditor1 = new TextRuler.AdvancedTextEditorControl.AdvancedTextEditor();
-            this.ucTemplateObject1 = new WFormsAppWordExport.UCTemplateObject();
             this.statusStrip.SuspendLayout();
             this.tabObjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerFeatures)).BeginInit();
@@ -132,6 +132,17 @@
             this.btAddObject.UseVisualStyleBackColor = true;
             this.btAddObject.Click += new System.EventHandler(this.btAddObject_Click);
             // 
+            // ucTemplateObject1
+            // 
+            this.ucTemplateObject1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ucTemplateObject1.AutoSize = true;
+            this.ucTemplateObject1.Location = new System.Drawing.Point(4, 4);
+            this.ucTemplateObject1.Name = "ucTemplateObject1";
+            this.ucTemplateObject1.Size = new System.Drawing.Size(523, 398);
+            this.ucTemplateObject1.TabIndex = 0;
+            // 
             // tabControl1
             // 
             this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -192,17 +203,6 @@
             this.advancedTextEditor1.Leave += new System.EventHandler(this.advancedTextEditor1_Leave);
             this.advancedTextEditor1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.advancedTextEditor1_MouseMove);
             // 
-            // ucTemplateObject1
-            // 
-            this.ucTemplateObject1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ucTemplateObject1.AutoSize = true;
-            this.ucTemplateObject1.Location = new System.Drawing.Point(4, 4);
-            this.ucTemplateObject1.Name = "ucTemplateObject1";
-            this.ucTemplateObject1.Size = new System.Drawing.Size(523, 398);
-            this.ucTemplateObject1.TabIndex = 0;
-            // 
             // FormSettingQuestionnaire
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -211,8 +211,9 @@
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.tabControl1);
             this.HelpButton = true;
+            this.MinimumSize = new System.Drawing.Size(800, 500);
             this.Name = "FormSettingQuestionnaire";
-            this.Text = "Form1";
+            this.Text = "Конфигурации";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormSettingQuestionnaire_FormClosing);
             this.Load += new System.EventHandler(this.FormSettingQuestionnaire_Load);
             this.Shown += new System.EventHandler(this.FormSettingQuestionnaire_Shown);

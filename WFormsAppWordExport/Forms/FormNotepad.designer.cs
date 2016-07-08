@@ -62,7 +62,7 @@
             this.textBox.TabIndex = 2;
             this.textBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.keyDown);
             // 
-            // NotepadForm
+            // FormNotepad
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -70,8 +70,9 @@
             this.Controls.Add(this.textBox);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.saveButton);
-            this.Name = "NotepadForm";
-            this.Text = "NotepadForm";
+            this.MinimumSize = new System.Drawing.Size(450, 450);
+            this.Name = "FormNotepad";
+            this.Text = "Текст";
             this.Load += new System.EventHandler(this.NotepadForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

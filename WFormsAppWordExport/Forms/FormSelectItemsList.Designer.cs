@@ -104,8 +104,9 @@
             this.Controls.Add(this.listBoxSelected);
             this.Controls.Add(this.listBoxUnSelected);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MinimumSize = new System.Drawing.Size(450, 400);
             this.Name = "FormSelectItemsList";
-            this.Text = "FormSelectItemsList";
+            this.Text = "Выберете из списка";
             this.ResumeLayout(false);
 
         }

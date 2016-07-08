@@ -109,7 +109,7 @@
             this.Controls.Add(this.btOk);
             this.MinimumSize = new System.Drawing.Size(350, 180);
             this.Name = "FormNewEssence";
-            this.Text = "FormNewEssence";
+            this.Text = "Новый Элемент";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -173,6 +173,33 @@ namespace WFormsAppWordExport.DataStructures
             info.AddValue("features", features);
             info.AddValue("id", idDb);
         }
+
+        public List<Feature> getFeatureByImage([MettodVariants (typeof(Essence), "variantsFeatures")] int idFeature)
+        {
+            List<Feature> fs = new List<Feature>();
+            foreach(Feature f in features)
+            {
+                if (f.idDB == idFeature)
+                    fs.Add(f);
+            }
+            return fs;
+        }
+       
+        #region use in scrips
+
+        public static AutocompleteMenuNS.AutocompleteItem[] variantsFeatures()
+        {
+            List<AutocompleteMenuNS.MulticolumnAutocompleteItem> items = new List<AutocompleteMenuNS.MulticolumnAutocompleteItem>();
+            List<DBTemplatesHelper.DBFeature> dbFs = DBTemplatesHelper.DBFeature.getFeatures();
+
+            foreach (DBTemplatesHelper.DBFeature dbF in dbFs)
+            {
+                items.Add(new AutocompleteMenuNS.MulticolumnAutocompleteItem(new string[] { "" + dbF.id, dbF.sQuestion }, "" + dbF.id));
+            }
+            return items.ToArray();
+        }
+
+        #endregion
     }
 }
 

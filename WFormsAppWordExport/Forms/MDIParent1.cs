@@ -272,5 +272,10 @@ namespace WFormsAppWordExport
                 childForm.Show();
             }
         }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new Forms.FormAbout().ShowDialog();
+        }
     }
 }

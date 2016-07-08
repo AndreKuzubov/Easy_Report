@@ -86,7 +86,7 @@
             this.Controls.Add(this.btCancel);
             this.Controls.Add(this.btOk);
             this.Name = "FormPictureMultiChoose";
-            this.Text = "Выберите несколко";
+            this.Text = "Выберите несколько";
             this.Load += new System.EventHandler(this.PictureMultiChoose_Load);
             this.ResumeLayout(false);
 

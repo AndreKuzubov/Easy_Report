@@ -42,7 +42,7 @@ namespace WFormsAppWordExport
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            switch (2)
+            switch (6)
             {
                 case 1:
                     Application.Run(new WFormsAppWordExport.Forms.FormDevCode());

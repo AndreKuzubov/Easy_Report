@@ -50,10 +50,12 @@
             // 
             // loginTextBox
             // 
+            this.loginTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.loginTextBox.Enabled = false;
             this.loginTextBox.Location = new System.Drawing.Point(15, 77);
             this.loginTextBox.Name = "loginTextBox";
-            this.loginTextBox.Size = new System.Drawing.Size(100, 20);
+            this.loginTextBox.Size = new System.Drawing.Size(128, 20);
             this.loginTextBox.TabIndex = 1;
             // 
             // Пароль
@@ -76,24 +78,29 @@
             // 
             // passwordTextBox
             // 
+            this.passwordTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.passwordTextBox.Location = new System.Drawing.Point(15, 116);
             this.passwordTextBox.Name = "passwordTextBox";
-            this.passwordTextBox.Size = new System.Drawing.Size(100, 20);
+            this.passwordTextBox.Size = new System.Drawing.Size(128, 20);
             this.passwordTextBox.TabIndex = 4;
             this.passwordTextBox.UseSystemPasswordChar = true;
             this.passwordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.keyDown);
             // 
             // passwordTextBox2
             // 
+            this.passwordTextBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.passwordTextBox2.Location = new System.Drawing.Point(15, 155);
             this.passwordTextBox2.Name = "passwordTextBox2";
-            this.passwordTextBox2.Size = new System.Drawing.Size(100, 20);
+            this.passwordTextBox2.Size = new System.Drawing.Size(128, 20);
             this.passwordTextBox2.TabIndex = 5;
             this.passwordTextBox2.UseSystemPasswordChar = true;
             this.passwordTextBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.keyDown2);
             // 
             // button1
             // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button1.Location = new System.Drawing.Point(12, 226);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
@@ -114,7 +121,8 @@
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(245, 226);
+            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cancelButton.Location = new System.Drawing.Point(237, 226);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 9;
@@ -122,11 +130,11 @@
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
-            // ChangePasswordForm
+            // FormChangePassword
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(332, 261);
+            this.ClientSize = new System.Drawing.Size(324, 261);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.errLabel);
             this.Controls.Add(this.button1);
@@ -137,7 +145,8 @@
             this.Controls.Add(this.loginTextBox);
             this.Controls.Add(this.label1);
             this.MaximizeBox = false;
-            this.Name = "ChangePasswordForm";
+            this.MinimumSize = new System.Drawing.Size(340, 300);
+            this.Name = "FormChangePassword";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Смена пароля";
             this.Load += new System.EventHandler(this.ChangePasswordForm_Load);

@@ -37,6 +37,7 @@ namespace WFormsAppWordExport
         {
             InitializeComponent();
             this.advancedTextEditor1.TextEditor.SelectionChanged += TextEditor_SelectionChanged;
+            
         }
 
         #region events 
@@ -72,6 +73,7 @@ namespace WFormsAppWordExport
             int id = (int)treeViewObjects.SelectedNode.Tag;
             DBTemplatesHelper.DBObject.deleteFromDB(id);
             treeViewObjects.Nodes.Remove(treeViewObjects.SelectedNode);
+            ucTemplateObject1.setFollowObj(-1);
         }
 
         private void FormSettingQuestionnaire_Load(object sender, EventArgs e)
@@ -99,6 +101,7 @@ namespace WFormsAppWordExport
         {
             ucTemplateObject1.setFollowObj((int)treeViewObjects.SelectedNode.Tag);
         }
+
         #endregion
 
         #region Text Export Editor - events
@@ -196,6 +199,8 @@ namespace WFormsAppWordExport
             advancedTextEditor1.TextEditor.Rtf = p.text;
         }
 
+
         #endregion
+
     }
 }

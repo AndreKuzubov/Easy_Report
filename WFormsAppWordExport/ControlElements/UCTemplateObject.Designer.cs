@@ -112,6 +112,7 @@
             // 
             // btScript
             // 
+            this.btScript.Enabled = false;
             this.btScript.Location = new System.Drawing.Point(313, 217);
             this.btScript.Name = "btScript";
             this.btScript.Size = new System.Drawing.Size(102, 23);

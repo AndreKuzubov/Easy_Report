@@ -89,7 +89,7 @@ namespace WFormsAppWordExport
 
         }
 
-        public List<Essence> getEssencesByImage(int idofImageObject)
+        public List<Essence> getEssencesByImage([MettodVariants(typeof(ProjectDataHelper), "getEssences")]int idofImageObject)
         {
             List<Essence> essences=new List<Essence>();
             foreach (Essence es in rootData)
@@ -103,20 +103,18 @@ namespace WFormsAppWordExport
         }
 
 
-
         #region use in scrips
-
-        public List<Essence> getEssencesByIdDB(int id)
+      
+        public  static AutocompleteMenuNS.AutocompleteItem[] getEssences()
         {
-            return null;
-        }
-        public List<Feature> getFeaturesByAddress(int [] address)
-        {
-            return null;
-        }
-        public List<Answer> getAnswersByAddress(int [] adresss)
-        {
-            return null;
+            List<AutocompleteMenuNS.MulticolumnAutocompleteItem> items = new List<AutocompleteMenuNS.MulticolumnAutocompleteItem>();
+           List<DBTemplatesHelper.DBObject> dbObjs= DBTemplatesHelper.DBObject.getAll();
+            
+            foreach(DBTemplatesHelper.DBObject dbO in dbObjs)
+            {
+                items.Add(new AutocompleteMenuNS.MulticolumnAutocompleteItem(new string[] {""+ dbO.id, dbO.name },""+ dbO.id));
+            }
+            return items.ToArray();
         }
 
         #endregion

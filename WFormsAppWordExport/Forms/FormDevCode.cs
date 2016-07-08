@@ -132,51 +132,49 @@ namespace WFormsAppWordExport.Forms
             if (flag == 0)
             {
                 #region  get fields 
-                FieldInfo[] fields;
-                MethodInfo[] methods;
-                getFieldsMethods(suggestion, out fields, out methods);
-                addToMenu(fields, methods);
+                Type t = getType(suggestion);
+                addToMenu(t);
 
                 #endregion
             }
             else if (flag == -1)
             {
                 #region get all available  data 
-                FieldInfo[] fields;
-                MethodInfo[] methods;
-                getFieldsMethods(null, out fields, out methods);
-
-                addToMenu(fields, methods);
+                Type t = getType(null);
+                addToMenu(t);
                 #endregion
             }
             else
             {
                 #region get expected data
-                int[] address = getAddress(suggestion);
-                if (address == null || address.Length == 0)
+                ParameterInfo p= getParametr(suggestion, flag - 1);
+                if (p == null) return;
+                System.Attribute[] attrs  = p.GetCustomAttributes().ToArray();
+
+                foreach (System.Attribute attr in attrs)
                 {
-                    //show all
-                    List<CompleteItem> lis = myMultiDictionary.getValues();
-                    foreach (CompleteItem c in lis)
+                    if (attr is MettodVariantsAttribute)
                     {
-                        autocompleteMenuCode.AddItem(new AutocompleteMenuNS.MulticolumnAutocompleteItem(new String[] { c.toExport, c.description }, c.toExport));
+                       AutocompleteMenuNS.AutocompleteItem[]items= (attr as MettodVariantsAttribute).getAutomCompleteItems();
+                        foreach (AutocompleteMenuNS.AutocompleteItem item in items)
+                        {
+                            autocompleteMenuCode.AddItem(item);
+                        }
                     }
                 }
-                else
-                {
-                    List<CompleteItem> lis = myMultiDictionary.getValues(address);
-                    foreach (CompleteItem c in lis)
-                    {
-                        autocompleteMenuCode.AddItem(new AutocompleteMenuNS.MulticolumnAutocompleteItem(new String[] { c.toExport, c.description }, c.toExport));
-                    }
-                }
+
+
+
                 #endregion
 
             }
         }
 
-        private void addToMenu(FieldInfo [] fields,MethodInfo[] methods)
+        private void addToMenu(Type t)
         {
+            if (t == null) return;
+            FieldInfo[] fields = t.GetFields();
+            MethodInfo[] methods = t.GetMethods();
             foreach (FieldInfo field in fields)
             {
                 autocompleteMenuCode.AddItem(new AutocompleteMenuNS.MulticolumnAutocompleteItem(new string[] { field.Name, field.FieldType.Name }, field.Name));
@@ -199,11 +197,7 @@ namespace WFormsAppWordExport.Forms
             }
         }
 
-        private int[] getAddress(String suggention)
-        {
-            return DBTemplatesHelper.DBWord.getAddress(suggention);
-        }
-
+     
         private String getSuggestion()
         {
             if (richTextBoxCode.TextLength <= 1) return null;
@@ -230,25 +224,15 @@ namespace WFormsAppWordExport.Forms
             return -1;
         }
 
-        private DBTemplatesHelper.DBWord getWord(String suggestion)
-        {
-            return DBTemplatesHelper.DBWord.getFromSuggestion(suggestion);
-        }
-      
-        private void getFieldsMethods(String sep,out FieldInfo[]  Fields,out MethodInfo[] Methods)
+        private Type getType(String sep)
         {
             Type currentType = typeof(ScriptSandBox);
             if (sep == null)
             {
-
-                Fields = currentType.GetFields();
-                Methods = currentType.GetMethods();
-                return;
+                return currentType;
             }
             else
             {
-                Fields = null;
-                Methods = null;
                 String[] w = sep.Split('.');
                 int i = 0, l = w.Length;
                 if (w[l - 1].Length == 0) --l;
@@ -257,23 +241,36 @@ namespace WFormsAppWordExport.Forms
                     if (w[i].IndexOf('(') != -1)
                     {
                         int iSt = w[i].IndexOf('('), iEnd = w[i].IndexOf(')');
-                        if (iEnd < iSt) return;
+                        if (iEnd < iSt) return null;
                         MethodInfo method = currentType.GetMethod(w[i].Substring(0, iSt - 1));
-                        if (method == null) return;
+                        if (method == null) return null;
                         currentType = method.ReturnType;
 
                     }
                     else
                     {
-                        currentType = currentType.GetField(w[i]).FieldType;
-                        if (currentType == null) return;
+                        FieldInfo field=currentType.GetField(w[i]);
+                        if (field == null) return null;
+                        currentType = field.FieldType;
+                        if (currentType == null) return null;
                     }
                 }
 
-                Fields = currentType.GetFields();
-                Methods = currentType.GetMethods();
-                return ;
+                return currentType;
             }
+        }
+
+        private ParameterInfo getParametr(String sug,int indexParametr)
+        {
+            int indexT = sug.LastIndexOf('.'), l = sug.Length ;
+            Type p = getType(sug.Remove(indexT, l - indexT));
+            if (p == null) return null;
+            String sMethod = sug.Substring(indexT + 1, l - indexT - 2);
+            MethodInfo method=p.GetMethod(sMethod);
+            if (method == null) return null;
+            ParameterInfo [] pars= method.GetParameters();
+            if (pars == null || pars.Length <= indexParametr) return null;
+            return pars[indexParametr];
         }
 
 
