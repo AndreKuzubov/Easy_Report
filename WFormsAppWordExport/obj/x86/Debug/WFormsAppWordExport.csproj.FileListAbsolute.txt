@@ -43,3 +43,4 @@ D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\D
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.exe
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.pdb
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.Forms.FormAbout.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.Forms.FormEditEssence.resources

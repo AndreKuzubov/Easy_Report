@@ -43,11 +43,7 @@ namespace WFormsAppWordExport
         private void ShowNewForm(object sender, EventArgs e)
         {
             toolStripStatusLabel.Text = "Состояние: создание нового проекта";
-            closeForm();
-            Form childForm = new Form1();
-            childForm.MdiParent = this;
-            childForm.Text = "Окно " + childFormNumber++;
-            childForm.Show();
+            OpenProject(null);
             stateNorm();
         }
 
@@ -61,13 +57,11 @@ namespace WFormsAppWordExport
             openFileDialog.Filter = "файлы дтп (*.dtp)|*.dtp|Все файлы (*.*)|*.*";
             if (openFileDialog.ShowDialog(this) == DialogResult.OK)
             {
-                closeForm();
+                closeProject();
                 string FileName = openFileDialog.FileName;
-                
-                Form childForm = new Form1(FileName);
-                childForm.MdiParent = this;
-                childForm.Text = "Окно " + childFormNumber++;
-                childForm.Show();
+
+                OpenProject(openFileDialog.FileName);
+              
             }
             stateNorm();
         }
@@ -166,10 +160,27 @@ namespace WFormsAppWordExport
             stateNorm();
         }
 
-        private void closeForm()
+        private void closeProject()
         {
             if (MdiChildren == null||MdiChildren.Length==0) return;
             ((Form1)MdiChildren[0]).Close();
+        }
+        private void OpenProject(String file)
+        {
+            closeProject();
+            try
+            {
+                Form childForm = (file == null) ? new Form1() : new Form1(file);
+                childForm.MdiParent = this;
+                childForm.Focus();
+                
+                childForm.Text = "Окно " + childFormNumber++;
+                childForm.Show();
+            }catch (System.Runtime.Serialization.SerializationException ex)
+            {
+                MessageBox.Show("Попробуйте еще раз. Либо откройте другой файл", "Ошибка файла", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+          
         }
 
         private void errFormNoOpen()
@@ -206,7 +217,7 @@ namespace WFormsAppWordExport
 
         private void exitLoginToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            closeForm();
+            closeProject();
             Program.authorizationForm.Show();
             Program.context.MainForm = Program.authorizationForm;
             this.Close();
@@ -235,7 +246,7 @@ namespace WFormsAppWordExport
             }
             if (dialogResult == DialogResult.Yes)
             {
-                closeForm();
+                closeProject();
                // File.Delete(MyFiles.getMyTemplate());
                 Program.authorizationForm.Show();
                 Program.context.MainForm = Program.authorizationForm;
@@ -262,13 +273,12 @@ namespace WFormsAppWordExport
         {
             if (Program.OpenFile != null)
             {
-                Form childForm = new Form1(Program.OpenFile);
+                OpenProject(Program.OpenFile);
                 Program.OpenFile = null;
-                childForm.MdiParent = this;
-                childForm.Text = "Окно " + childFormNumber++;
-                childForm.Show();
             }
         }
+
+
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -281,5 +291,55 @@ namespace WFormsAppWordExport
             DBTemplatesHelper.get().closeDB();
             stateNorm();
         }
+     
+
+        #region drop file
+        private void MDIParent1_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] filePaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
+                foreach (string fileLoc in filePaths)
+                {
+                    int indexFormat = fileLoc.LastIndexOf('.');
+                    String format = fileLoc.Substring(indexFormat, fileLoc.Length - indexFormat);
+                    int indexDir = fileLoc.LastIndexOf('\\');
+                    String fileShortName = fileLoc.Substring(indexDir + 1, indexFormat - indexDir - 1);
+                    if (File.Exists(fileLoc) && format.Equals(".dtp"))
+                    {
+                        OpenProject(fileLoc);
+                    }
+                }
+            }
+        }
+
+        private void MDIParent1_DragEnter(object sender, DragEventArgs e)
+        {
+                if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                {
+                    #region search any dtp file
+                    {
+                        Object a = e.Data.GetData(DataFormats.FileDrop);
+                        if (!(a is string[])) return;
+                    }
+                    String[] files = e.Data.GetData(DataFormats.FileDrop) as String[];
+                    bool allow = false;
+                    for (int i = 0; i < files.Length; i++)
+                    {
+                        int indexFormat = files[i].LastIndexOf('.');
+                        String format = files[i].Substring(indexFormat, files[i].Length - indexFormat);
+                        if (format.Equals(".dtp"))
+                        {
+                            allow = true;
+                            break;
+                        }
+                    }
+                    #endregion
+                    if (allow)
+                        e.Effect = DragDropEffects.Copy;
+            }
+
+        }
+        #endregion 
     }
 }

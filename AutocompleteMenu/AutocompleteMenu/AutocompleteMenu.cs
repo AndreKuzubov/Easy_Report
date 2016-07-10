@@ -600,7 +600,7 @@ namespace AutocompleteMenuNS
                     //calc screen point for popup menu
                     Point point = TargetControlWrapper.TargetControl.Location;
                     point.Offset(2, TargetControlWrapper.TargetControl.Height + 2);
-                    point = TargetControlWrapper.GetPositionFromCharIndex(Fragment.Start);
+                    point = TargetControlWrapper.GetPositionFromCharIndex((Fragment!= null)?Fragment.Start:0);
                     point.Offset(2, TargetControlWrapper.TargetControl.Font.Height + 2);
                     //
                     Host.Show(TargetControlWrapper.TargetControl, point);

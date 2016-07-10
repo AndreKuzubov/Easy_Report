@@ -45,6 +45,7 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(3, 32);
@@ -54,13 +55,14 @@
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             this.comboBox1.TextUpdate += new System.EventHandler(this.comboBox1_TextUpdate);
             // 
-            // StringQuestion
+            // QuestionString
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.expose);
-            this.Name = "StringQuestion";
+            this.Name = "QuestionString";
             this.Size = new System.Drawing.Size(348, 69);
+            this.Controls.SetChildIndex(this.labelQuestion, 0);
             this.Controls.SetChildIndex(this.labelAuthor, 0);
             this.Controls.SetChildIndex(this.expose, 0);
             this.Controls.SetChildIndex(this.comboBox1, 0);

@@ -109,7 +109,6 @@ namespace WFormsAppWordExport
 
         }
 
-
         public void closeDB()
         {
             initial = null;
@@ -196,7 +195,7 @@ namespace WFormsAppWordExport
         {
             String s1, s2, s3, s4, s5, s6,s7;
             s1 = "CREATE TABLE \"Параграфы\"  (id INTEGER PRIMARY KEY IDENTITY, flag int NOT NULL,Script ntext)";
-            s2 = "CREATE TABLE \"Образ Обьекта\"  (id INTEGER PRIMARY KEY IDENTITY, Название ntext NOT NULL, Очередность int,Скрипт ntext, flags int, \"ids абстрактных обьектов\" ntext )";
+            s2 = "CREATE TABLE \"Образ Обьекта\"  (id INTEGER PRIMARY KEY IDENTITY, Название ntext NOT NULL, Очередность int default 0,Скрипт ntext, flags int, \"ids абстрактных обьектов\" ntext )";
             s3 = "CREATE TABLE \"Характеристика\"  (id INTEGER PRIMARY KEY IDENTITY,Тип int, Вопрос ntext NOT NULL, Очередность int, \"Условие вопроса\" ntext, \"Скрипт после ответа\" ntext)";
             s4 = "CREATE TABLE \"Вариант ответа\"  (id INTEGER PRIMARY KEY IDENTITY, Очередность int, \"Звучание по вопросу\" ntext NOT NULL, \"Звучание по ответу\" ntext, Картинка image, Обьект int)";
             s5 = "CREATE TABLE \"Выборка\"  (id INTEGER PRIMARY KEY IDENTITY, \"id характеристики\" INTEGER FOREIGN KEY REFERENCES Характеристика (id)  ON DELETE CASCADE,"
@@ -215,7 +214,7 @@ namespace WFormsAppWordExport
         private void fILLDB()
         {
             String s;
-            s = "INSERT INTO \"Образ Обьекта\" (Название,flags) VALUES (N'Пешеход',1),(N'Водитель',1),(N'Пострадавший',1)";
+            s = "INSERT INTO \"Образ Обьекта\" (Название,flags,Очередность) VALUES (N'Пешеход',1,0),(N'Водитель',1,1),(N'Пострадавший',1,2)";
             new SqlCommand(s, myConn).ExecuteNonQuery();
             s = "INSERT INTO \"Характеристика\" (Вопрос) VALUES (N'Имя'),(N'Возраст'),(N'стаж'),(N'степень повреждений'),(N'место в машине')";
             new SqlCommand(s, myConn).ExecuteNonQuery();
@@ -241,15 +240,7 @@ namespace WFormsAppWordExport
 
         public List<DBObject> getObjects()
         {
-            String s = "SELECT * FROM \"Образ Обьекта\"";
-            SqlDataReader r=new SqlCommand(s, myConn).ExecuteReader();
-            List<DBObject> strs = new List<DBObject>();
-            while (r.Read())
-            {
-                strs.Add(DBObject.read(r));
-            }
-            r.Close();
-            return strs;
+            return DBObject.getAll();
         }
        
         public void bindingFeaturesForObjectById(BindingSource outBindingSource, int idObj)
@@ -589,6 +580,7 @@ namespace WFormsAppWordExport
             public int flags=0;
             public String sObjects="";
 
+        
             public static DBObject get(int id)
             {
                 String s = "SELECT * FROM \"Образ Обьекта\" WHERE id = " + id + " ";
@@ -615,7 +607,8 @@ namespace WFormsAppWordExport
             public static List<DBObject> getAll()
             {
                 List<DBObject> dbObjs = new List<DBObject>();
-                String s = "SELECT * FROM [Образ Обьекта] ";
+                String s = "SELECT * FROM [Образ Обьекта] "
+                      + "order by  isnull(Очередность,2147483647)";
                 SqlDataReader r = null;
                 try
                 {
@@ -671,11 +664,104 @@ namespace WFormsAppWordExport
                 return obj;
             }
 
+            public static void updateUp(int id)
+            {
+                String s = new StringBuilder().AppendFormat("SELECT [id],[Очередность] FROM [Образ Обьекта] WHERE [Очередность] <= ANY "
+                    + "(SELECT [Очередность] FROM [Образ Обьекта] WHERE [id]= {0})"
+                      + "order by Очередность DESC", "" + id).ToString();
+
+                SqlDataReader r = null;
+                int pos=-1;//pos of selected node
+                int id1=-1, pos1=-1;//the node above
+                 #region read r to prms 
+                try
+                {
+                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    if (r.Read())
+                    {
+                        pos = (int)r[1];
+                    }
+
+                    if (r.Read())
+                    {
+                        id1 = (int)r[0];
+                        pos1 = (int)r[1];
+                    }     
+                                   
+
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Ошибка sql загрузка update UP DBObject", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                finally
+                {
+                    if (r!=null)
+                        r.Close();
+                }
+                #endregion 
+
+                if (id1 == -1) return;
+                updateSwapPositions(id, pos, id1, pos1);
+
+            }
+
+            public static void updateDown(int id)
+            {
+                String s = new StringBuilder().AppendFormat("SELECT [id],[Очередность] FROM [Образ Обьекта] WHERE [Очередность] >= ANY "
+                   + "(SELECT [Очередность] FROM [Образ Обьекта] WHERE [id]= {0})"
+                     +" order by  isnull(Очередность, 2147483647)", "" + id).ToString();
+
+                SqlDataReader r = null;
+                int pos = -1;//pos of selected node
+                int id1 = -1, pos1 = -1;//the node above
+                #region read r to prms 
+                try
+                {
+                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    if (r.Read())
+                    {
+                        pos = (int)r[1];
+                    }
+
+                    if (r.Read())
+                    {
+                        id1 = (int)r[0];
+                        pos1 = (int)r[1];
+                    }
+
+
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Ошибка sql загрузка update UP DBObject", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                finally
+                {
+                    if (r != null)
+                        r.Close();
+                }
+                #endregion 
+
+                if (id1 == -1) return;
+
+                updateSwapPositions(id, pos, id1, pos1);
+            }
+
             public static void deleteFromDB(int id)
             {
                 String s;
                 s = "Delete from [Образ обьекта]  WHERE [id] =" + id;
                 new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+            }
+
+            private static void updateSwapPositions(int id,int pos,int id1,int pos1)
+            {
+                String s = new StringBuilder().AppendFormat("UPDATE [Образ Обьекта] SET [Очередность]= {0} WHERE [id]={1}", "" + pos1, "" + id).ToString();
+                new SqlCommand(s, DBTemplatesHelper.initial.myConn).ExecuteNonQuery();
+                s = new StringBuilder().AppendFormat("UPDATE [Образ Обьекта] SET [Очередность]= {0} WHERE [id]={1}", "" + pos, "" + id1).ToString();
+                new SqlCommand(s, DBTemplatesHelper.initial.myConn).ExecuteNonQuery();
+
             }
 
             public int insertToDB()
@@ -739,6 +825,24 @@ namespace WFormsAppWordExport
             public int pos = -1;
             public String scriptCondition = null;
             public String scriptAfter = null;
+
+            public DBFeature(int dbObjParent)
+            {
+                #region set position after last added
+                List<DBFeature> fs = getFeatures(dbObjParent);
+                if (fs == null || fs.Count == 0)
+                {
+                    pos = 0;
+                }else
+                {
+                    pos = fs[fs.Count - 1].pos + 1;
+                }
+                #endregion
+            }
+            private DBFeature()
+            {
+
+            }
 
             public static DBFeature get(int id)
             {
@@ -839,8 +943,18 @@ namespace WFormsAppWordExport
 
             private void insertToDB()
             {
-                //TODO доделать выравнивание очередности
-                String s = "INSERT INTO [Характеристика] ( Тип,Вопрос ", p = " Values ("+(int)type+",N'"+sQuestion+"'";
+                String s;
+                #region paste to queue
+                if (pos != -1)
+                {
+                    s = "UPDATE [Характеристика] SET [Очередность]=[Очередность]+1 WHERE [Очередность]>=" + pos;
+                    new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+                }
+                #endregion
+
+
+                s = "INSERT INTO [Характеристика] ( Тип,Вопрос ";
+                String p = " Values ("+(int)type+",N'"+sQuestion+"'";
                 if (pos != -1)
                 {
                     s += ", Очередность ";

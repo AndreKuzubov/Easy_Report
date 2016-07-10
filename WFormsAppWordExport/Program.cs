@@ -26,7 +26,7 @@ namespace WFormsAppWordExport
      
         public static ApplicationContext context;
         public static FormAuthorization authorizationForm;
-        public static String OpenFile = null;
+        public static String OpenFile=null;// = "‪C:\\Users\\Andre\\Desktop\\a.dtp";
 
       
         /// <summary>

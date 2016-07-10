@@ -68,9 +68,11 @@ namespace WFormsAppWordExport
         private void buttonReset_Click(object sender, EventArgs e)
         {
             reset();
-            feature.resetAns();
+            if (feature!=null)
+                feature.resetAns();
             labelAuthor.Text = "";
-            parentControl.updateShowingEssences();
+            if (parentControl!=null)
+                parentControl.updateShowingEssences();
         }
 
         private void load(object sender, EventArgs e)

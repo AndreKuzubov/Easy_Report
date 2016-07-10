@@ -41,6 +41,8 @@
             this.btNew_SettingScript = new System.Windows.Forms.Button();
             this.btDel = new System.Windows.Forms.Button();
             this.advancedTextEditor1 = new TextRuler.AdvancedTextEditorControl.AdvancedTextEditor();
+            this.btDBObjectUp = new System.Windows.Forms.Button();
+            this.btDBObjectDown = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.tabObjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerFeatures)).BeginInit();
@@ -87,6 +89,8 @@
             // 
             // splitContainerFeatures.Panel1
             // 
+            this.splitContainerFeatures.Panel1.Controls.Add(this.btDBObjectDown);
+            this.splitContainerFeatures.Panel1.Controls.Add(this.btDBObjectUp);
             this.splitContainerFeatures.Panel1.Controls.Add(this.treeViewObjects);
             this.splitContainerFeatures.Panel1.Controls.Add(this.btDelObject);
             this.splitContainerFeatures.Panel1.Controls.Add(this.btAddObject);
@@ -104,9 +108,9 @@
             this.treeViewObjects.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.treeViewObjects.Location = new System.Drawing.Point(3, 4);
+            this.treeViewObjects.Location = new System.Drawing.Point(39, 4);
             this.treeViewObjects.Name = "treeViewObjects";
-            this.treeViewObjects.Size = new System.Drawing.Size(261, 369);
+            this.treeViewObjects.Size = new System.Drawing.Size(216, 369);
             this.treeViewObjects.TabIndex = 5;
             this.treeViewObjects.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewObjects_afterSelected);
             // 
@@ -203,6 +207,26 @@
             this.advancedTextEditor1.Leave += new System.EventHandler(this.advancedTextEditor1_Leave);
             this.advancedTextEditor1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.advancedTextEditor1_MouseMove);
             // 
+            // btDBObjectUp
+            // 
+            this.btDBObjectUp.Location = new System.Drawing.Point(3, 4);
+            this.btDBObjectUp.Name = "btDBObjectUp";
+            this.btDBObjectUp.Size = new System.Drawing.Size(30, 50);
+            this.btDBObjectUp.TabIndex = 6;
+            this.btDBObjectUp.Text = "up";
+            this.btDBObjectUp.UseVisualStyleBackColor = true;
+            this.btDBObjectUp.Click += new System.EventHandler(this.btDBObjectUp_Click);
+            // 
+            // btDBObjectDown
+            // 
+            this.btDBObjectDown.Location = new System.Drawing.Point(3, 60);
+            this.btDBObjectDown.Name = "btDBObjectDown";
+            this.btDBObjectDown.Size = new System.Drawing.Size(30, 50);
+            this.btDBObjectDown.TabIndex = 7;
+            this.btDBObjectDown.Text = "down";
+            this.btDBObjectDown.UseVisualStyleBackColor = true;
+            this.btDBObjectDown.Click += new System.EventHandler(this.btDBObjectDown_Click);
+            // 
             // FormSettingQuestionnaire
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -247,6 +271,8 @@
         private System.Windows.Forms.Button btNew_SettingScript;
         private System.Windows.Forms.Button btAddObject;
         private UCTemplateObject ucTemplateObject1;
+        private System.Windows.Forms.Button btDBObjectDown;
+        private System.Windows.Forms.Button btDBObjectUp;
     }
 }
 

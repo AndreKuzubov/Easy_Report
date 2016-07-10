@@ -128,8 +128,7 @@ namespace WFormsAppWordExport.DataStructures
         public void resetAns()
         {
             _isAnswered = false;
-            answer.sAnswer = null;
-            answer.oAnswer = null;
+            answer = null;
             sAuthor = "";
         }
 

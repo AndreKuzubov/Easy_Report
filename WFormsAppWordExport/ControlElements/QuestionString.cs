@@ -34,10 +34,18 @@ namespace WFormsAppWordExport
                 comboBox1.Text = (String)base.feature.answer.sAnswer;
             }
             if (base.feature.sAnswers != null && feature.sAnswers.Count > 0)
+            {
                 foreach (Choose_Answer ans in feature.sAnswers)
                 {
                     comboBox1.Items.Add(ans.sName);
                 }
+                comboBox1.DropDownStyle = ComboBoxStyle.DropDown;
+            }
+            else
+            {
+                comboBox1.DropDownStyle = ComboBoxStyle.Simple;
+            }
+
         }
 
         protected override void reset()

@@ -42,8 +42,6 @@ namespace WFormsAppWordExport.Forms
             set { if (richTextBoxCode != null) richTextBoxCode.Text = value; }
         }
 
-
-
         public FormDevCode(String script, SoftwareSctipt.SCRIPT_TYPE typeMethod) : this()
         {
             this.richTextBoxCode.Text = script;
@@ -126,7 +124,9 @@ namespace WFormsAppWordExport.Forms
         private void autocompleteMenuCode_MenuShowing(object sender, EventArgs e)
         {
             autocompleteMenuCode.Items = null;
+         //   if (richTextBoxCode.Text.Length == 0) return;
             String suggestion = getSuggestion();
+            
 
             int flag = getFlag(suggestion);
             if (flag == 0)
@@ -173,8 +173,8 @@ namespace WFormsAppWordExport.Forms
         private void addToMenu(Type t)
         {
             if (t == null) return;
-            FieldInfo[] fields = t.GetFields();
-            MethodInfo[] methods = t.GetMethods();
+            FieldInfo[] fields = t.GetFields(BindingFlags.Public | BindingFlags.Instance);
+            MethodInfo[] methods = t.GetMethods(BindingFlags.Public | BindingFlags.Instance);
             foreach (FieldInfo field in fields)
             {
                 autocompleteMenuCode.AddItem(new AutocompleteMenuNS.MulticolumnAutocompleteItem(new string[] { field.Name, field.FieldType.Name }, field.Name));
@@ -196,7 +196,6 @@ namespace WFormsAppWordExport.Forms
                     new string[] { method.Name, description }, method.Name + "("+sParams+")"));
             }
         }
-
      
         private String getSuggestion()
         {
@@ -238,11 +237,19 @@ namespace WFormsAppWordExport.Forms
                 if (w[l - 1].Length == 0) --l;
                 for (; i < l; i++)
                 {
+                    bool itemInList = false;
+                    if (w[i].IndexOf('[') != -1)
+                    {
+                        itemInList = true;
+                        int index = w[i].IndexOf('[');
+                        w[i]=w[i].Remove(index);
+                    }
+
                     if (w[i].IndexOf('(') != -1)
                     {
                         int iSt = w[i].IndexOf('('), iEnd = w[i].IndexOf(')');
                         if (iEnd < iSt) return null;
-                        MethodInfo method = currentType.GetMethod(w[i].Substring(0, iSt - 1));
+                        MethodInfo method = currentType.GetMethod(w[i].Substring(0, iSt ));
                         if (method == null) return null;
                         currentType = method.ReturnType;
 
@@ -252,6 +259,11 @@ namespace WFormsAppWordExport.Forms
                         FieldInfo field=currentType.GetField(w[i]);
                         if (field == null) return null;
                         currentType = field.FieldType;
+                        if (currentType == null) return null;
+                    }
+                    if (itemInList)
+                    {
+                        currentType=currentType.GetProperty("Item").PropertyType;
                         if (currentType == null) return null;
                     }
                 }

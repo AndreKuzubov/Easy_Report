@@ -29,7 +29,9 @@ namespace WFormsAppWordExport.Forms
     public partial class FormEditFeature : Form
     {
         private int _idAssociatedObject=0;
-        private DBTemplatesHelper.DBFeature _feature=new DBTemplatesHelper.DBFeature();
+        private DBTemplatesHelper.DBFeature _feature=new DBTemplatesHelper.DBFeature(-1);
+        private List<DBTemplatesHelper.DBFeature> dbFeatures;
+
         public DBTemplatesHelper.DBFeature feature
         {
             get { return _feature; }
@@ -56,6 +58,7 @@ namespace WFormsAppWordExport.Forms
         private void updateView()
         {
             textBoxQuestion.Text = feature.sQuestion;
+            #region set work mode of type feature condition  
             comboBoxType.SelectedIndex = (int)feature.type;
             if (feature.type == TYPE_ANSWER.CHOOSE || feature.type == TYPE_ANSWER.MULTI_CHOSE
                 || feature.type == TYPE_ANSWER.STRING || feature.type == TYPE_ANSWER.LIST_IDS_OF_ESSENCE)
@@ -63,27 +66,30 @@ namespace WFormsAppWordExport.Forms
                 btAnswers.Enabled = true;
             }
             else btAnswers.Enabled = false;
+            #endregion
+
+            #region set combobox position of feature 
             comboBoxAfterQuestion.Items.Clear();
-            List<DBTemplatesHelper.DBFeature> dbFeatures=DBTemplatesHelper.DBFeature.getFeatures(idAssociatedObject);
-            for (int i=0,l=dbFeatures.Count;i< l; i++)
+            dbFeatures = DBTemplatesHelper.DBFeature.getFeatures(idAssociatedObject);
+            if (dbFeatures != null && dbFeatures.Count > 0)
             {
-                comboBoxAfterQuestion.Items.Add(dbFeatures[i].sQuestion);
+                int selectIndex = 0;
+                for (int i = 0, l = dbFeatures.Count; i < l; i++)
+                {
+                    comboBoxAfterQuestion.Items.Add(dbFeatures[i].sQuestion);
+                    if (dbFeatures[i].pos < feature.pos) selectIndex = i;
+                }
+                comboBoxAfterQuestion.SelectedIndex = selectIndex;
             }
-            comboBoxAfterQuestion.SelectedIndex = dbFeatures.Count - 1;
+            #endregion
+
             textBoxScriptCondition.Text = feature.scriptCondition;
             textBoxScriptAfterAnswer.Text = feature.scriptAfter;
             
-           
-
         }
 
         private void btOk_Click(object sender, EventArgs e)
         {
-            feature.sQuestion = textBoxQuestion.Text;
-            feature.type=(TYPE_ANSWER)comboBoxType.SelectedIndex;
-            feature.pos=comboBoxAfterQuestion.SelectedIndex;
-            feature.scriptCondition=textBoxScriptCondition.Text;
-            feature.scriptAfter=textBoxScriptAfterAnswer.Text;
 
             DialogResult = DialogResult.OK;
         }
@@ -164,7 +170,10 @@ namespace WFormsAppWordExport.Forms
 
         private void comboBoxAfterQuestion_SelectedIndexChanged(object sender, EventArgs e)
         {
-            feature.pos = comboBoxAfterQuestion.SelectedIndex;
+            int iSelect = comboBoxAfterQuestion.SelectedIndex;
+            if (iSelect!=-1&&dbFeatures!=null)
+                feature.pos = ((dbFeatures.Count > iSelect)?dbFeatures[iSelect].pos: dbFeatures[dbFeatures.Count-1].pos)+1;
+            
         }
 
         private void textBoxQuestion_TextChanged(object sender, EventArgs e)

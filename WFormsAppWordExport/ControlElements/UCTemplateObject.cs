@@ -72,7 +72,7 @@ namespace WFormsAppWordExport
 
         private void bindingNavigatorAddNewItem_Click(object sender, EventArgs e)
         {
-            DBTemplatesHelper.DBFeature f=new DBTemplatesHelper.DBFeature();
+            DBTemplatesHelper.DBFeature f=new DBTemplatesHelper.DBFeature(objId);
             FormEditFeature dialog = new FormEditFeature(f, objId);
           
             if (dialog.ShowDialog() == DialogResult.OK)
@@ -89,6 +89,11 @@ namespace WFormsAppWordExport
 
         private void bindingNavigatorEditItem_Click(object sender, EventArgs e)
         {
+            if (dataGridView1.CurrentCell == null)
+            {
+                MessageBox.Show("Создайте Элемент.","База данных пуста", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
             int index = dataGridView1.CurrentCell.RowIndex;
             DBTemplatesHelper.DBFeature f=DBTemplatesHelper.DBFeature.get((int)dataGridView1.Rows[index].Cells[0].Value);
             FormEditFeature dialog =new FormEditFeature(f, objId);
@@ -111,14 +116,17 @@ namespace WFormsAppWordExport
 
         private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e)
         {
+            if (dataGridView1.CurrentCell == null)
+            {
+                MessageBox.Show("Создайте Элемент.", "База данных пуста", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
             int index = dataGridView1.CurrentCell.RowIndex;
             DBTemplatesHelper.DBFeature f = DBTemplatesHelper.DBFeature.get((int)dataGridView1.Rows[index].Cells[0].Value);
-            FormEditFeature dialog = new FormEditFeature(f,objId);
             if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question)==DialogResult.Yes)
             {
                 f.deleteFromDB();
             }
-            dialog.Close();
             updateViewData();
         }
 

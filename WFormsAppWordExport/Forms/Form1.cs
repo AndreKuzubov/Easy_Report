@@ -48,12 +48,25 @@ namespace WFormsAppWordExport
             projectData.rootData = treeView1.Nodes;
             if (File.Exists(fileName))
             {
-                projectData.fileName = fileName;
-                FileStream fileStream = new FileStream(fileName, FileMode.Open);
-                BinaryFormatter serializer = new BinaryFormatter();
-                Essence[] a = (Essence[])serializer.Deserialize(fileStream);
-                treeView1.Nodes.AddRange(a);
-                fileStream.Close();
+                FileStream fileStream = null; ;
+                try
+                {
+                    projectData.fileName = fileName;
+                    fileStream = new FileStream(fileName, FileMode.Open);
+                    BinaryFormatter serializer = new BinaryFormatter();
+                    Essence[] a = (Essence[])serializer.Deserialize(fileStream);
+                    treeView1.Nodes.AddRange(a);
+                   
+                }catch (System.Runtime.Serialization.SerializationException ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    if (fileStream!=null)
+                        fileStream.Close();
+                }
+               
             } else
             {
                 loadNewTree();
@@ -197,6 +210,61 @@ namespace WFormsAppWordExport
 
                 }
         }
+        private void btEditEssence_Click(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode == null)
+            {
+                return;
+            }
+            Essence es = (Essence)treeView1.SelectedNode;
+            Forms.FormEditEssence dial = new Forms.FormEditEssence();
+            dial.comboBoxImagesObjects.Text = DBTemplatesHelper.DBObject.get(es.idDb).name;
+            dial.textBoxNameEssence.Text = es.Text;
+            if (dial.ShowDialog()==DialogResult.OK)
+            {
+                es.Text = dial.textBoxNameEssence.Text;
+            }
+        }
+
+
+        private void btEssenceUp_Click(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode != null)
+            {
+                int index = treeView1.SelectedNode.Index;
+                if (index > 0)
+                {
+                    TreeNode n1 = treeView1.Nodes[index-1];
+                    TreeNode sel = treeView1.SelectedNode;
+                    treeView1.Nodes.Remove(n1);
+                    treeView1.Nodes.Remove(sel);
+                    treeView1.Nodes.Insert( index - 1,sel);
+                    treeView1.Nodes.Insert( index,n1);
+                    treeView1.SelectedNode = sel;
+                }
+            }
+        }
+
+        private void btEssenceDown_Click(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode != null)
+            {
+                int index = treeView1.SelectedNode.Index,l=treeView1.Nodes.Count;
+                if (index <l-1 )
+                {
+                    TreeNode n1 = treeView1.Nodes[index + 1],
+                        sel=treeView1.SelectedNode;
+                    treeView1.Nodes.Remove(n1);
+                    treeView1.Nodes.Remove(sel);
+                    treeView1.Nodes.Insert(index, n1);
+                    treeView1.Nodes.Insert(index+1, sel);
+                    treeView1.SelectedNode = sel;
+                }
+                
+            }
+        }
+
+       
     }
 
 }

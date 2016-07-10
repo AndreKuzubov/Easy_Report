@@ -70,10 +70,46 @@ namespace WFormsAppWordExport
 
         private void btDelObject_Click(object sender, EventArgs e)
         {
+            if (treeViewObjects.SelectedNode == null)
+            {
+                MessageBox.Show("Нет обьекта","Выберите обьект",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                return;
+            }
             int id = (int)treeViewObjects.SelectedNode.Tag;
             DBTemplatesHelper.DBObject.deleteFromDB(id);
             treeViewObjects.Nodes.Remove(treeViewObjects.SelectedNode);
             ucTemplateObject1.setFollowObj(-1);
+        }
+
+        private void btDBObjectUp_Click(object sender, EventArgs e)
+        {
+          
+            if (treeViewObjects.SelectedNode == null)
+            {
+                MessageBox.Show("Нет обьекта", "Выберите обьект", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            int selected = treeViewObjects.SelectedNode.Index;
+            if (selected == 0) return;
+            int id = (int)treeViewObjects.SelectedNode.Tag;
+            DBTemplatesHelper.DBObject.updateUp(id);
+            updateData();
+            treeViewObjects.SelectedNode = treeViewObjects.Nodes[selected-1];
+        }
+
+        private void btDBObjectDown_Click(object sender, EventArgs e)
+        {
+            if (treeViewObjects.SelectedNode == null)
+            {
+                MessageBox.Show("Нет обьекта", "Выберите обьект", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            int selected = treeViewObjects.SelectedNode.Index;
+            if (selected == treeViewObjects.Nodes.Count-1) return;
+            int id = (int)treeViewObjects.SelectedNode.Tag;
+            DBTemplatesHelper.DBObject.updateDown(id);
+            updateData();
+            treeViewObjects.SelectedNode = treeViewObjects.Nodes[selected+1];
         }
 
         private void FormSettingQuestionnaire_Load(object sender, EventArgs e)
@@ -202,5 +238,6 @@ namespace WFormsAppWordExport
 
         #endregion
 
+       
     }
 }

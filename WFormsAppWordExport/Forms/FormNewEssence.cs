@@ -26,6 +26,7 @@ namespace WFormsAppWordExport.Forms
                 if (comboBoxImagesObjects.SelectedIndex == -1) return null;
                 return _dbObjects[comboBoxImagesObjects.SelectedIndex];
             }
+
         }
 
         public String sSelectedNameEssence
