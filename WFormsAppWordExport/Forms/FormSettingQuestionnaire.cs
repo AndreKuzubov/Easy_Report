@@ -78,7 +78,8 @@ namespace WFormsAppWordExport
             int id = (int)treeViewObjects.SelectedNode.Tag;
             DBTemplatesHelper.DBObject.deleteFromDB(id);
             treeViewObjects.Nodes.Remove(treeViewObjects.SelectedNode);
-            ucTemplateObject1.setFollowObj(-1);
+            if (treeViewObjects.Nodes.Count>1)
+                ucTemplateObject1.setFollowObj(-1);
         }
 
         private void btDBObjectUp_Click(object sender, EventArgs e)

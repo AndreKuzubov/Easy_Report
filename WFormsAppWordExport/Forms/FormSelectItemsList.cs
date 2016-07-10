@@ -68,6 +68,15 @@ namespace WFormsAppWordExport.Forms
                 
                 return text;
             }
+            public override bool Equals(object obj)
+            {
+                if (obj is Para)
+                {
+                    if ((obj as Para).id == this.id && (obj as Para).text.Equals(this.text))
+                        return true;
+                }
+                return false;
+            }
         }
     }
 }
