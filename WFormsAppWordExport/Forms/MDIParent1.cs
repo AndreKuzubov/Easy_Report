@@ -206,9 +206,23 @@ namespace WFormsAppWordExport
             saveFileDialog.Filter = "Файлы word (*.doc)|*.doc|Все файлы (*.*)|*.*";
             if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
             {
-
-                string fileName = saveFileDialog.FileName;
-                ProjectDataHelper.Initial.exportDoc(fileName);
+                try
+                {
+                    string fileName = saveFileDialog.FileName;
+                    ProjectDataHelper.Initial.exportDoc(fileName);
+                }
+                catch (System.Runtime.InteropServices.COMException ex)
+                {
+                    MessageBox.Show("Установите программный комплекс Word", "Ошибка экспорта в документ",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                    return;
+                }catch(System.SystemException ex)
+                {
+                    MessageBox.Show("Проверте введенные данные. Попробуйте ответить на все вопросы (вставляя пустые значения). Проверьте конфигурации программы",
+                        "Ошибка экспорта в документ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                
+              
 
             }
 

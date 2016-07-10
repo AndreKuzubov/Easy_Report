@@ -60,6 +60,12 @@ namespace WFormsAppWordExport
                 return dir + "\\" + name + ".prms";
             }
         }
+        String fileLogsName
+        {
+            get{
+                return dir + "\\" + name + "_log.ldf";
+            }
+        }
 
         String fileParamsSysName
         {
@@ -76,7 +82,7 @@ namespace WFormsAppWordExport
             return initial;
         }
 
-        public DBTemplatesHelper ()
+        private DBTemplatesHelper ()
         {
             initial = this;
             create_openDB();
@@ -104,24 +110,37 @@ namespace WFormsAppWordExport
                 + "(NAME = MyDatabase_Data, " +
                 "FILENAME = '" + fileParamsName + "') FOR ATTACH; ";
             myConn.Open();
-            new SqlCommand(str, myConn).ExecuteNonQuery();
-            myConn.Close();
+            try
+            {
+                new SqlCommand(str, myConn).ExecuteNonQuery();
+            }catch(System.SystemException)
+            {
+
+            }
+            finally
+
+            {
+                if (myConn!=null)
+                    myConn.Close();
+            }
+         
 
         }
 
         public void closeDB()
         {
             initial = null;
-            if (myConn != null & myConn.State == ConnectionState.Open)
+            if (myConn != null && myConn.State == ConnectionState.Open)
             {
                 myConn.Close();
-             
-                myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;User Instance=False");
-                myConn.Open();
-                new SqlCommand(@"ALTER DATABASE " + name + @" SET offline  WITH ROLLBACK IMMEDIATE;" +
-                            "DROP DATABASE [" + name + "]", myConn).ExecuteNonQuery();
-                myConn.Close();//SINGLE_USER WITH ROLLBACK IMMEDIATE; SINGLE_USER
             }
+
+            myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;User Instance=False");
+            myConn.Open();
+            new SqlCommand(@"ALTER DATABASE " + name + @" SET offline  WITH ROLLBACK IMMEDIATE;" +
+                        "DROP DATABASE [" + name + "]", myConn).ExecuteNonQuery();
+            myConn.Close();//SINGLE_USER WITH ROLLBACK IMMEDIATE; SINGLE_USER
+
         }
 
         private void createDB()
@@ -185,10 +204,63 @@ namespace WFormsAppWordExport
 
         private void openDB()
         {
-         
-            myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename='" +fileParamsName+"';"
-               + "Integrated Security=True;Connect Timeout=30;");
-           myConn.Open();
+            try
+            {
+                myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename='" + fileParamsName + "';"
+             + "Integrated Security=True;Connect Timeout=30;");
+                myConn.Open();
+            }
+            catch (SystemException)
+            {
+                recoveryBugOpen();
+            }
+               
+
+        }
+
+        private void recoveryBugOpen()
+        {
+            DialogResult res = MessageBox.Show("Удалить файлы конфигураций " + fileParamsName +"\n"+ fileLogsName + "? ", "Файлы конфигураций повреждены.", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+            if (res == DialogResult.Yes)
+            {
+                try
+                {
+                    myConn = null;
+                    closeDB();
+                  
+                }
+                catch
+                {
+                    MessageBox.Show("Приложение сейчас закроется.\nУдалите файлы конфигураций " + fileParamsName + "\n" + fileLogsName + ". Попробуйте перезапустить программу",
+                        "Не удалось корректно закончить работу", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Application.Exit();
+                }
+
+                try {
+                    if (File.Exists(fileParamsName))
+                        File.Delete(fileParamsName);
+                    if (File.Exists(fileLogsName))
+                        File.Delete(fileLogsName);
+                }
+                catch
+                {
+                    MessageBox.Show("Приложение сейчас закроется.\nУдалите файлы конфигураций " + fileParamsName + "\n" + fileLogsName, "Не удалось удалить файлы конфигураций", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                try {
+                    myConn = null;
+                    create_openDB();
+                } catch
+                {
+                    MessageBox.Show("Приложение сейчас закроется.\nУдалите файлы конфигураций " + fileParamsName + "\n" + fileLogsName + ". Попробуйте перезапустить программу",
+                        "Не удалось корректно закончить работу", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Application.Exit();
+                }
+
+            }
+            else
+            {
+                Application.Exit();
+            }
         }
 
         private void buildSysDB()
@@ -203,12 +275,20 @@ namespace WFormsAppWordExport
             s6 = "CREATE TABLE \"Описание обьекта\"  (id INTEGER PRIMARY KEY IDENTITY, \"id Образа обьекта\" INTEGER FOREIGN KEY REFERENCES \"Образ Обьекта\"  (id)  ON DELETE CASCADE,"
                 + " \"id характеристики\" INTEGER FOREIGN KEY REFERENCES \"Характеристика\" (id)  ON DELETE CASCADE)";
 
-            new SqlCommand(s1, myConn).ExecuteNonQuery();
-            new SqlCommand(s2, myConn).ExecuteNonQuery();
-            new SqlCommand(s3, myConn).ExecuteNonQuery();
-            new SqlCommand(s4, myConn).ExecuteNonQuery();
-            new SqlCommand(s5, myConn).ExecuteNonQuery();
-            new SqlCommand(s6, myConn).ExecuteNonQuery();
+            try
+            {
+                new SqlCommand(s1, myConn).ExecuteNonQuery();
+                new SqlCommand(s2, myConn).ExecuteNonQuery();
+                new SqlCommand(s3, myConn).ExecuteNonQuery();
+                new SqlCommand(s4, myConn).ExecuteNonQuery();
+                new SqlCommand(s5, myConn).ExecuteNonQuery();
+                new SqlCommand(s6, myConn).ExecuteNonQuery();
+            }
+            catch
+            {
+
+            }
+         
         }
 
         private void fILLDB()
@@ -220,11 +300,6 @@ namespace WFormsAppWordExport
             new SqlCommand(s, myConn).ExecuteNonQuery();
             s = "INSERT INTO \"Описание Обьекта\" (\"id характеристики\",\"id образа обьекта\") VALUES (1,1),(1,2),(1,3),(2,1),(2,2),(2,3),(3,2),(4,3),(5,1)";
             new SqlCommand(s, myConn).ExecuteNonQuery();
-        }
-
-        private void copyDBFromSys()
-        {
-
         }
 
         ~DBTemplatesHelper()
@@ -255,9 +330,6 @@ namespace WFormsAppWordExport
             table.Locale = System.Globalization.CultureInfo.InvariantCulture;
             sqlAdapter.Fill(table);
             outBindingSource.DataSource = table;
-
-
-
         }
 
         public void fillNewProjectTree(out List<Essence> outNodes)
@@ -266,11 +338,7 @@ namespace WFormsAppWordExport
             List<int> outNodesIds = new List<int>();
             List<int[]> contextNodesGroupsIds = new List<int[]>();
             //корневае узлы
-            String s1 = "Select * from [Образ Обьекта] where[Образ Обьекта].flags & 1 = 1 order by  isnull([Образ Обьекта].Очередность,2147483647)",
-
-                    //добавляемые узлы 
-                    s2 = "Select * from [Образ Обьекта] where not ([Образ Обьекта].flags & 1 = 1 and[Образ Обьекта].flags & 2 <> 2) or[Образ Обьекта].flags is NULL"
-                    + "order by  isnull([Образ Обьекта].Очередность,2147483647)";
+            String s1 = "Select * from [Образ Обьекта] where[Образ Обьекта].flags & 1 = 1 order by  isnull([Образ Обьекта].Очередность,2147483647)";
 
             SqlDataReader r = null;
             Essence es = null;
@@ -916,6 +984,7 @@ namespace WFormsAppWordExport
                     MessageBox.Show(ex.ToString(), "Ошибка sql загрузка Характеристик", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }finally
                 {
+                    if (r!=null)
                     r.Close();
                 }
                 return features;
@@ -1055,6 +1124,7 @@ namespace WFormsAppWordExport
                 }
                 finally
                 {
+                    if (r!=null)
                     r.Close();
                 }
 
@@ -1084,6 +1154,7 @@ namespace WFormsAppWordExport
                 }
                 finally
                 {
+                    if (r!=null)
                     r.Close();
                 }
 
@@ -1193,6 +1264,7 @@ namespace WFormsAppWordExport
                 }
                 finally
                 {
+                    if (r!=null)
                     r.Close();
                 }
 
@@ -1219,6 +1291,7 @@ namespace WFormsAppWordExport
                 }
                 finally
                 {
+                    if (r!=null)
                     r.Close();
                 }
 

@@ -188,6 +188,7 @@ namespace WFormsAppWordExport
         private void advancedTextEditor1_Leave(object sender, EventArgs e)
         {
             safeText();
+            ucTemplateObject1.saveToDB();
         }
 
         private void advancedTextEditor1_Load(object sender, EventArgs e)
@@ -200,11 +201,17 @@ namespace WFormsAppWordExport
         private void FormSettingQuestionnaire_FormClosing(object sender, FormClosingEventArgs e)
         {
             safeText();
+            ucTemplateObject1.saveToDB();
         }
         #endregion
        
         public void updateData()
         {
+            int selIndex = -1;
+            if (treeViewObjects.SelectedNode != null)
+            {
+                selIndex = treeViewObjects.SelectedNode.Index;
+            }
             myDb = DBTemplatesHelper.get();
 
             treeViewObjects.Nodes.Clear();
@@ -216,6 +223,10 @@ namespace WFormsAppWordExport
                 treeViewObjects.Nodes.Add(node);
             }
             if (treeViewObjects.Nodes.Count>0)
+                if (selIndex != -1)
+                {
+                    treeViewObjects.SelectedNode = treeViewObjects.Nodes[selIndex];
+                }else
                 treeViewObjects.SelectedNode = treeViewObjects.Nodes[0];
         }
 

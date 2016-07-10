@@ -172,7 +172,7 @@ namespace WFormsAppWordExport
             saveToDB();
         }
 
-        private void saveToDB()
+        public void saveToDB()
         {
             if ( obj != null)
             {
