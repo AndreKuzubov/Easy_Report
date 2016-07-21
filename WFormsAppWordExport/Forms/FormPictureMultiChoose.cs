@@ -33,8 +33,8 @@ namespace WFormsAppWordExport
         public int [] check{
              set
             {
+                 _ch = value;
                 updateView();
-                _ch = value;
             }
             get
             {
@@ -49,8 +49,7 @@ namespace WFormsAppWordExport
             this.answers = answers;
             if (answers == null) return;
             int len = answers.Count;
-            _ch = new int[len];
-                    
+            check = new int[len];        
         }
 
         public string getStringAnswer()

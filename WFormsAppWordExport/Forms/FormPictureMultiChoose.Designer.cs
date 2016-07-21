@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPictureMultiChoose));
             this.btOk = new System.Windows.Forms.Button();
             this.btCancel = new System.Windows.Forms.Button();
             this.btReset = new System.Windows.Forms.Button();
@@ -85,6 +86,7 @@
             this.Controls.Add(this.btReset);
             this.Controls.Add(this.btCancel);
             this.Controls.Add(this.btOk);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormPictureMultiChoose";
             this.Text = "Выберите несколько";
             this.Load += new System.EventHandler(this.PictureMultiChoose_Load);

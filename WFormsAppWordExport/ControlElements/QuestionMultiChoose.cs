@@ -75,6 +75,10 @@ namespace WFormsAppWordExport
         private void btExpose_Click(object sender, EventArgs e)
         {
             FormPictureMultiChoose form = new FormPictureMultiChoose(feature.sAnswers);
+            if (feature.answer!=null)
+            {
+                form.check = (int[])feature.answer.oAnswer;
+            }
             if (form.ShowDialog() == DialogResult.OK)
             {
                 setAnswer(form.check, form.getStringAnswer());

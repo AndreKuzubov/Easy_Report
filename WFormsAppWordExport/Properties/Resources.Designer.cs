@@ -63,6 +63,16 @@ namespace WFormsAppWordExport.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _1469130967_word {
+            get {
+                object obj = ResourceManager.GetObject("_1469130967_word", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap l_indent_pos_lower {
             get {
                 object obj = ResourceManager.GetObject("l_indent_pos_lower", resourceCulture);

@@ -43,3 +43,4 @@ D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\R
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.csproj.GenerateResource.Cache
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.exe
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.pdb
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.Forms.FormEditEssence.resources

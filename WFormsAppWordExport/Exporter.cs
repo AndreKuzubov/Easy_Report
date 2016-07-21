@@ -42,7 +42,7 @@ namespace WFormsAppWordExport
                     rtfHelper.replaceScriptToText(p.id, scrip.runString("no script"));
                 }
             }
-
+           
 
             Word.Application app = new Word.Application();
             app.Visible = false;
@@ -53,8 +53,7 @@ namespace WFormsAppWordExport
             Object visible = false;
             
             
-            doc = app.Documents.Add(
-            template, newTemplate, documentType, visible);
+            doc = app.Documents.Add(template, newTemplate, documentType, visible);
             doc.Activate();
             Clipboard.SetText(rtfHelper.Rtf, TextDataFormat.Rtf);
             app.Selection.Paste();

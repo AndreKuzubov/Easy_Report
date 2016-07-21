@@ -118,7 +118,7 @@
             charStyle1.Strikeout = false;
             charStyle1.Underline = false;
             this.extendedTextBoxResult.SelectionCharStyle = charStyle1;
-            this.extendedTextBoxResult.SelectionFont2 = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Inch);
+            this.extendedTextBoxResult.SelectionFont2 = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Inch);
             paraLineSpacing1.ExactSpacing = 0;
             paraLineSpacing1.SpacingStyle = ExtendedRichTextBox.ParaLineSpacing.LineSpacingStyle.Unknown;
             this.extendedTextBoxResult.SelectionLineSpacing = paraLineSpacing1;
@@ -201,6 +201,7 @@
             this.Controls.Add(this.btErase);
             this.Controls.Add(this.btOk);
             this.Controls.Add(this.btCancel);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(600, 500);
             this.Name = "FormDevCode";
             this.Text = "Редактирование Скрипта";

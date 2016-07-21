@@ -30,6 +30,7 @@ namespace WFormsAppWordExport.Forms
         public FormTestEditText()
         {
             InitializeComponent();
+         
         }
 
         private void advancedTextEditor1_MouseMove(object sender, MouseEventArgs e)
@@ -44,7 +45,7 @@ namespace WFormsAppWordExport.Forms
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            advancedTextEditor1.TextEditor.Rtf = DBTemplatesHelper.get().getTextParagraph();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -52,6 +53,10 @@ namespace WFormsAppWordExport.Forms
 
             if (advancedTextEditor1.TextEditor.Text.Length > 0)
             {
+                RichTextBox re = new RichTextBox();
+                re.Rtf = advancedTextEditor1.TextEditor.Rtf;
+                re.Select(advancedTextEditor1.TextEditor.SelectionStart,1);
+                
                 richTextBox1.Clear();
 
                // richTextBox1.Text = "" + advancedTextEditor1.TextEditor.SelectionStart;
@@ -65,10 +70,19 @@ namespace WFormsAppWordExport.Forms
                 richTextBox2.Clear();
                 
                 int index = advancedTextEditor1.TextEditor.getRtfIndexByTextIndex(advancedTextEditor1.TextEditor.SelectionStart);
-               richTextBox2.Text = advancedTextEditor1.TextEditor.Rtf + "       index = " + index+ " id Script = "+advancedTextEditor1.TextEditor.getIdSript(advancedTextEditor1.TextEditor.SelectionStart);
+                richTextBox2.Text = advancedTextEditor1.TextEditor.Rtf + "  index = " + advancedTextEditor1.TextEditor.SelectionStart
+                    +" char ="+((advancedTextEditor1.TextEditor.SelectionStart>0&& advancedTextEditor1.TextEditor.SelectionStart< advancedTextEditor1.TextEditor.TextLength)?advancedTextEditor1.TextEditor.Text[advancedTextEditor1.TextEditor.SelectionStart]:' ')
+                    + " rtf index = "+ index
+                    + " rtf char = "+(index>0?advancedTextEditor1.TextEditor.Rtf[index]:' ')
+                    +"  id Script = " +advancedTextEditor1.TextEditor.getIdSript(advancedTextEditor1.TextEditor.SelectionStart);
                 richTextBox2.Select(index, 1);
                 richTextBox2.SelectionBackColor = Color.Blue;
             }
+        }
+
+        private void advancedTextEditor1_Load(object sender, EventArgs e)
+        {
+           
         }
     }
 }

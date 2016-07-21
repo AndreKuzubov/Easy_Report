@@ -45,7 +45,9 @@ namespace WFormsAppWordExport
             int indexRtf = getRtfIndexByTextIndex(iCharIndex);
             if (isProtectedTextRtf(indexRtf))
             {
-                int iStart = Rtf.LastIndexOf(@"\protect", indexRtf);
+                //  int iStart = Rtf.LastIndexOf(@"\protect", indexRtf);
+                int iStart = Rtf.LastIndexOf(@"(", indexRtf+2);
+                if (iStart == -1) return -1;
                 iStart = Rtf.IndexOf(SCRIPT, iStart) + SCRIPT.Length;
                 String s = Rtf.Substring(iStart, Rtf.IndexOf(@")", iStart) - iStart);
                 return Int32.Parse(s);
@@ -66,40 +68,91 @@ namespace WFormsAppWordExport
         {
             int offcet = 0;
             String _rtf = this.Rtf;
-            {
-                int d = _rtf.IndexOf("\\uc");
-                while (d != -1)
-                {
-                    _rtf = _rtf.Remove(d, 6);
-                    offcet += 6;
-                    d = _rtf.IndexOf("\\uc");
-                }
-            }
-
+             {
+                 int d = _rtf.IndexOf("\\uc");
+                 while (d != -1)
+                 {
+                     _rtf = _rtf.Remove(d, 6);
+                     offcet += 6;
+                     d = _rtf.IndexOf("\\uc");
+                    
+                 }
+             }
+             
+         
 
             if (_rtf == null || _rtf.Length == 0) return 0;
             int i = 0, k = 0;
             int block = 0; bool sysWord = false, inVisible = false;
-            i = _rtf.IndexOf("{\\*\\");
-            i = _rtf.IndexOf('}', i) + 1;
-
+            //i = _rtf.LastIndexOf("\\uc");
+            //i = _rtf.IndexOf("{\\*\\",(i==-1)?0:i);
+            //i = _rtf.IndexOf('}', i) + 1;
+            //  i = _rtf.IndexOf("\\viewkind4");
+            i = _rtf.IndexOf("\\pard");
 
 
             while (k <= iCharIndex && i < _rtf.Length)
             {
+                if(_rtf[i]=='\r'&& _rtf[i+1] == '\n'
+                    && _rtf[i+2] == '\r'&& _rtf[i+3] == '\n')
+                {
+                    i += 4;
+                    ++k;
+                    sysWord = false;
+                    continue;
+                }
 
-                if (_rtf[i] == '\\') sysWord = true;
-                if (_rtf[i] == '{') block++;
-                if (_rtf[i] == 'v' && _rtf[i - 1] == '\\' && _rtf[i + 1] == ' ') inVisible = true;
-                if ((!sysWord) && (block == 0) && (!inVisible)) k++;
-                if (_rtf[i] == '0' && _rtf[i - 1] == 'v' && _rtf[i - 2] == '\\') inVisible = false;
-                if (_rtf[i] == ' ' || _rtf[i] == '{' || _rtf[i] == '}') sysWord = false;
+               /* if ()
+                {
+                    ++i;
+                    sysWord = false;
+                    continue;
+                }*/
+
+             /*   if ((i < _rtf.Length - 4) && _rtf[i] == '\\' && _rtf[i + 1] == 'p'
+                     && _rtf[i + 2] == 'a' && _rtf[i + 3] == 'r'&& _rtf[i + 4]=='\r')
+                {
+                    i += 5;
+                   // sysWord = true;
+                    continue;
+                }*/
+                
+                if ((i<_rtf.Length-4)&&_rtf[i]=='\\'&& _rtf[i + 1] == '\'')
+                {
+                    ++k;
+                    i += 4;
+                    sysWord = false;
+                    continue;
+                }
+
+                if (_rtf[i] == '\\')
+                    sysWord = true;
+                if (_rtf[i] == '{')
+                    block++;
+                if (_rtf[i] == 'v' && _rtf[i - 1] == '\\' && _rtf[i + 1] == ' ')
+                    inVisible = true;
+                if ((!sysWord) && (block == 0) && (!inVisible))
+                    k++;
+                if (_rtf[i] == '0' && _rtf[i - 1] == 'v' && _rtf[i - 2] == '\\')
+                    inVisible = false;
+                if (_rtf[i] == ' ' || _rtf[i] == '{' || _rtf[i] == '}')
+                    sysWord = false;
+                if (_rtf[i] == '\n' || _rtf[i] == '\r' || _rtf[i] == '\t')
+                {
+                    sysWord = false;
+                 
+                }
+                /*if (_rtf[i] == '\n')
+                {
+                    k++;
+                }*/
                 if (_rtf[i] == '}') block--;
 
                 i++;
             }
-            if (i >= _rtf.Length) i = _rtf.Length - 1;
-            return i + 3;
+            --i;
+            if (i+offcet >= _rtf.Length) i = _rtf.Length-1;
+            return i+ offcet;
 
         }
 

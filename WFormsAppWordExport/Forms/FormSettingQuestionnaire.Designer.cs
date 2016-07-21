@@ -28,10 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSettingQuestionnaire));
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabObjects = new System.Windows.Forms.TabPage();
             this.splitContainerFeatures = new System.Windows.Forms.SplitContainer();
+            this.btDBObjectDown = new System.Windows.Forms.Button();
+            this.btDBObjectUp = new System.Windows.Forms.Button();
             this.treeViewObjects = new System.Windows.Forms.TreeView();
             this.btDelObject = new System.Windows.Forms.Button();
             this.btAddObject = new System.Windows.Forms.Button();
@@ -41,8 +44,6 @@
             this.btNew_SettingScript = new System.Windows.Forms.Button();
             this.btDel = new System.Windows.Forms.Button();
             this.advancedTextEditor1 = new TextRuler.AdvancedTextEditorControl.AdvancedTextEditor();
-            this.btDBObjectUp = new System.Windows.Forms.Button();
-            this.btDBObjectDown = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.tabObjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerFeatures)).BeginInit();
@@ -102,6 +103,26 @@
             this.splitContainerFeatures.Size = new System.Drawing.Size(801, 405);
             this.splitContainerFeatures.SplitterDistance = 267;
             this.splitContainerFeatures.TabIndex = 0;
+            // 
+            // btDBObjectDown
+            // 
+            this.btDBObjectDown.Location = new System.Drawing.Point(3, 60);
+            this.btDBObjectDown.Name = "btDBObjectDown";
+            this.btDBObjectDown.Size = new System.Drawing.Size(30, 50);
+            this.btDBObjectDown.TabIndex = 7;
+            this.btDBObjectDown.Text = "down";
+            this.btDBObjectDown.UseVisualStyleBackColor = true;
+            this.btDBObjectDown.Click += new System.EventHandler(this.btDBObjectDown_Click);
+            // 
+            // btDBObjectUp
+            // 
+            this.btDBObjectUp.Location = new System.Drawing.Point(3, 4);
+            this.btDBObjectUp.Name = "btDBObjectUp";
+            this.btDBObjectUp.Size = new System.Drawing.Size(30, 50);
+            this.btDBObjectUp.TabIndex = 6;
+            this.btDBObjectUp.Text = "up";
+            this.btDBObjectUp.UseVisualStyleBackColor = true;
+            this.btDBObjectUp.Click += new System.EventHandler(this.btDBObjectUp_Click);
             // 
             // treeViewObjects
             // 
@@ -207,26 +228,6 @@
             this.advancedTextEditor1.Leave += new System.EventHandler(this.advancedTextEditor1_Leave);
             this.advancedTextEditor1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.advancedTextEditor1_MouseMove);
             // 
-            // btDBObjectUp
-            // 
-            this.btDBObjectUp.Location = new System.Drawing.Point(3, 4);
-            this.btDBObjectUp.Name = "btDBObjectUp";
-            this.btDBObjectUp.Size = new System.Drawing.Size(30, 50);
-            this.btDBObjectUp.TabIndex = 6;
-            this.btDBObjectUp.Text = "up";
-            this.btDBObjectUp.UseVisualStyleBackColor = true;
-            this.btDBObjectUp.Click += new System.EventHandler(this.btDBObjectUp_Click);
-            // 
-            // btDBObjectDown
-            // 
-            this.btDBObjectDown.Location = new System.Drawing.Point(3, 60);
-            this.btDBObjectDown.Name = "btDBObjectDown";
-            this.btDBObjectDown.Size = new System.Drawing.Size(30, 50);
-            this.btDBObjectDown.TabIndex = 7;
-            this.btDBObjectDown.Text = "down";
-            this.btDBObjectDown.UseVisualStyleBackColor = true;
-            this.btDBObjectDown.Click += new System.EventHandler(this.btDBObjectDown_Click);
-            // 
             // FormSettingQuestionnaire
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -235,6 +236,7 @@
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.tabControl1);
             this.HelpButton = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(800, 500);
             this.Name = "FormSettingQuestionnaire";
             this.Text = "Конфигурации";

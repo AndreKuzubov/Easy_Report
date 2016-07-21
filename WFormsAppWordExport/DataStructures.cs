@@ -52,7 +52,7 @@ namespace WFormsAppWordExport
         */
         public static void log(String log)
         {
-            StreamWriter fileStream = new StreamWriter(Directory.GetCurrentDirectory() + "/log.txt", true);
+            StreamWriter fileStream = new StreamWriter(Application.CommonAppDataPath + "/log.txt", true);
             fileStream.WriteLine("l:" + log);
             fileStream.Close();
         }

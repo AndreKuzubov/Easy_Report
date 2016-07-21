@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormNewEssence));
             this.btOk = new System.Windows.Forms.Button();
             this.btCancel = new System.Windows.Forms.Button();
             this.Название = new System.Windows.Forms.Label();
@@ -107,6 +108,7 @@
             this.Controls.Add(this.Название);
             this.Controls.Add(this.btCancel);
             this.Controls.Add(this.btOk);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(350, 180);
             this.Name = "FormNewEssence";
             this.Text = "Новый Элемент";

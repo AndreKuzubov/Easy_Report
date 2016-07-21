@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormNotepad));
             this.saveButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.textBox = new System.Windows.Forms.TextBox();
@@ -70,6 +71,7 @@
             this.Controls.Add(this.textBox);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.saveButton);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(450, 450);
             this.Name = "FormNotepad";
             this.Text = "Текст";

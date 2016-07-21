@@ -35,6 +35,13 @@ namespace WFormsAppWordExport
         [STAThread]
         static void Main(String[] arg)
         {
+            MyFiles.log("StartProgramm");
+            if (arg != null){
+                foreach (String s in arg)
+                {
+                    MyFiles.log(s);
+                }
+            }
             if (arg != null && arg.Length > 0 && arg[0] != null)
             {
                 OpenFile = arg[0];
