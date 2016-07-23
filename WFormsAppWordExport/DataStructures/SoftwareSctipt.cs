@@ -29,18 +29,31 @@ namespace WFormsAppWordExport.DataStructures
 {
     public class SoftwareSctipt
     {
+        private Essence currEssence;
+        private Feature currFeature;
+        
+
         public enum SCRIPT_TYPE { FUNC_BOOL,VOID,STRING }
         public String script { get; private set; }
 
-        private Func<ProjectDataHelper, bool> boolFunc= delegate (ProjectDataHelper es){return true;};
-        private Action<ProjectDataHelper> voidFunc = delegate (ProjectDataHelper es) { };
-        private Func<ProjectDataHelper, String> stringFunc = delegate (ProjectDataHelper es) { return ""; };
+        private Func<ProjectDataHelper,Essence,Feature,bool, bool> boolFunc= delegate (ProjectDataHelper es,Essence currEssence, Feature currFeature,bool def) {return def; };
+        private Action<ProjectDataHelper, Essence, Feature> voidFunc = delegate (ProjectDataHelper es, Essence currEssence, Feature currFeature) { };
+        private Func<ProjectDataHelper, Essence, Feature, String> stringFunc = delegate (ProjectDataHelper es, Essence currEssence, Feature currFeature) { return ""; };
 
         public SoftwareSctipt (String script,SCRIPT_TYPE type)
-        {
-          
+        { 
             this.script = script;
             bild(type);
+        }
+
+        public SoftwareSctipt(String script, SCRIPT_TYPE type,Essence currEssence):this(script,type)
+        {
+            this.currEssence = currEssence;
+        }
+
+        public SoftwareSctipt(String script, SCRIPT_TYPE type, Essence currEssence,Feature currFeature): this(script, type,currEssence)
+        {
+            this.currFeature = currFeature;
         }
 
         public static CompilerResults compile(String script,SCRIPT_TYPE type)
@@ -51,10 +64,12 @@ namespace WFormsAppWordExport.DataStructures
             }
 
             String methodType=null;
+            string specParams = "";
             switch (type)
             {
                 case SCRIPT_TYPE.FUNC_BOOL:
                     methodType = @"bool";
+                    specParams = @", bool def";
                     break;
                 case SCRIPT_TYPE.VOID:
                     methodType = @"void";
@@ -63,6 +78,7 @@ namespace WFormsAppWordExport.DataStructures
                     methodType = @"string";
                     break;
             }
+          
             string code = @"
         using System;
         using System.Collections.Generic;
@@ -79,7 +95,7 @@ namespace WFormsAppWordExport.DataStructures
         {                
             public static class BinaryFunction
             {                
-                public static " + methodType + @" Function(ProjectDataHelper DataProject)
+                public static " + methodType + @" Function(ProjectDataHelper DataProject, Essence currEssence, Feature currFeature"+ specParams + @" )
                 {
                     func_xy
                 }
@@ -114,39 +130,37 @@ namespace WFormsAppWordExport.DataStructures
             switch (type)
             {
                 case SCRIPT_TYPE.FUNC_BOOL:
-                    boolFunc = (Func<ProjectDataHelper, bool>)Delegate.CreateDelegate(typeof(Func<ProjectDataHelper, bool>), method);
+                    boolFunc = (Func<ProjectDataHelper,Essence,Feature,bool, bool>)Delegate.CreateDelegate(typeof(Func<ProjectDataHelper,Essence,Feature,bool, bool>), method);
                     break;
                 case SCRIPT_TYPE.VOID:
-                    voidFunc = (Action<ProjectDataHelper>)Delegate.CreateDelegate(typeof(Action<ProjectDataHelper>), method);
+                    voidFunc = (Action<ProjectDataHelper, Essence, Feature>)Delegate.CreateDelegate(typeof(Action<ProjectDataHelper, Essence, Feature>), method);
                     break;
                 case SCRIPT_TYPE.STRING:
                     //methodType = @"string";
-                    stringFunc = (Func<ProjectDataHelper, String>)Delegate.CreateDelegate(typeof(Func<ProjectDataHelper, String>), method);
+                    stringFunc = (Func<ProjectDataHelper, Essence, Feature, String>)Delegate.CreateDelegate(typeof(Func<ProjectDataHelper, Essence, Feature, String>), method);
                     break;
             }
 
                 
         }
-
-
-
+        
         public void run()
         {
             if (ProjectDataHelper.Initial!=null)
-                 voidFunc(ProjectDataHelper.Initial);
+                 voidFunc(ProjectDataHelper.Initial,currEssence,currFeature);
         }
 
         public bool runBool(bool def)
         {
             if (ProjectDataHelper.Initial != null)
-                return boolFunc(ProjectDataHelper.Initial);
+                return boolFunc(ProjectDataHelper.Initial,currEssence,currFeature,def);
             return def;
         }
 
         public String runString(String def)
         {
             if (ProjectDataHelper.Initial != null)
-                return stringFunc(ProjectDataHelper.Initial);
+                return stringFunc(ProjectDataHelper.Initial, currEssence, currFeature);
             return def;
         }
     }

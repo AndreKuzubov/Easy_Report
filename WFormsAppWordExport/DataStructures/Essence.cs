@@ -26,6 +26,7 @@ namespace WFormsAppWordExport.DataStructures
     [Serializable()]
     public class Essence : TreeNode, ISerializable
     {
+        private Essence parentEssence=null;
         [NonSerialized]
         public DelegVoid afterWishUpdateQuestions;
         /// <summary>
@@ -48,7 +49,7 @@ namespace WFormsAppWordExport.DataStructures
             }
         }
 
-        public SoftwareSctipt script { get; private set; }
+        public SoftwareSctipt isShowScript { get; private set; }
 
         public ESSENSE_FLAGS flags { get; private set; }
 
@@ -63,7 +64,7 @@ namespace WFormsAppWordExport.DataStructures
             this.sName = sName;
             if (abstrEssences!=null)
                 this.abstrEssences = abstrEssences;
-            this.script = new SoftwareSctipt(script,SoftwareSctipt.SCRIPT_TYPE.VOID);
+            this.isShowScript = new SoftwareSctipt(script,SoftwareSctipt.SCRIPT_TYPE.FUNC_BOOL,this);
             if (features!=null)
                 this.features = features;
             createContextMenu();
@@ -72,7 +73,7 @@ namespace WFormsAppWordExport.DataStructures
         public Essence(DBTemplatesHelper.DBObject dbObject):base(dbObject.name)
         {
             this.sName = dbObject.name;
-            this.script = new SoftwareSctipt(dbObject.script, SoftwareSctipt.SCRIPT_TYPE.STRING);
+            this.isShowScript = new SoftwareSctipt(dbObject.script, SoftwareSctipt.SCRIPT_TYPE.FUNC_BOOL,this);
             this.flags = (ESSENSE_FLAGS)dbObject.flags;
             this.idDb = dbObject.id;
             DBTemplatesHelper.get().getFeatures(this, this.idDb);
@@ -81,7 +82,9 @@ namespace WFormsAppWordExport.DataStructures
             if (abstr != null)
                 foreach (int id in abstr)
                 {
-                    this.abstrEssences.Add(new Essence(DBTemplatesHelper.DBObject.get(id)));
+                    Essence abstEs = new Essence(DBTemplatesHelper.DBObject.get(id));
+                        abstEs.parentEssence = (this.parentEssence!= null)?this.parentEssence:this;
+                    this.abstrEssences.Add(abstEs);
                 }
             createContextMenu();
         }
@@ -89,6 +92,7 @@ namespace WFormsAppWordExport.DataStructures
         protected Essence(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             idDb = info.GetInt32("id");
+            parentEssence = (Essence)info.GetValue("parentEssence", typeof(Essence));
             sName = (String)info.GetValue("sName", typeof(String));
             flags = (ESSENSE_FLAGS)info.GetValue("esFlags",typeof(ESSENSE_FLAGS));
             abstrEssences = (List<Essence>)info.GetValue("abst", typeof(List<Essence>));
@@ -167,6 +171,7 @@ namespace WFormsAppWordExport.DataStructures
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.Serialize(info, context);
+            info.AddValue("parentEssence", parentEssence);
             info.AddValue("sName", sName);
             info.AddValue("esFlags", flags);
             info.AddValue("abst", abstrEssences);
@@ -182,6 +187,15 @@ namespace WFormsAppWordExport.DataStructures
                 if (f.idDB == idFeature)
                     fs.Add(f);
             }
+            foreach (Essence es in abstrEssences)
+            {
+                foreach (Feature f in es.features)
+                {
+                    if (f.idDB == idFeature)
+                        fs.Add(f);
+                }
+            }         
+
             return fs;
         }
        

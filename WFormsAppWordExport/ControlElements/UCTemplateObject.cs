@@ -151,7 +151,8 @@ namespace WFormsAppWordExport
 
         private void btScript_Click(object sender, EventArgs e)
         {
-            Forms.FormDevCode formDev = new FormDevCode(textBoxObjScript.Text, DataStructures.SoftwareSctipt.SCRIPT_TYPE.STRING);
+            Forms.FormDevCode formDev = new FormDevCode(textBoxObjScript.Text, DataStructures.SoftwareSctipt.SCRIPT_TYPE.FUNC_BOOL);
+            formDev.richTextBoxCode.Text = textBoxObjScript.Text;
             if (formDev.ShowDialog() == DialogResult.OK)
             {
                 textBoxObjScript.Text = formDev.richTextBoxCode.Text;

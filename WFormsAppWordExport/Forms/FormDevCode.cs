@@ -408,6 +408,8 @@ namespace WFormsAppWordExport.Forms
         class ScriptSandBox
         {
             public ProjectDataHelper DataProject;
+            public Essence currEssence;
+            public Feature currFeature;
         }
 
 

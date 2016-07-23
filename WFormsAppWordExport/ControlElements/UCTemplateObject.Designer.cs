@@ -102,7 +102,7 @@
             // 
             // btAbstObjects
             // 
-            this.btAbstObjects.Location = new System.Drawing.Point(313, 272);
+            this.btAbstObjects.Location = new System.Drawing.Point(339, 274);
             this.btAbstObjects.Name = "btAbstObjects";
             this.btAbstObjects.Size = new System.Drawing.Size(102, 23);
             this.btAbstObjects.TabIndex = 22;
@@ -112,8 +112,7 @@
             // 
             // btScript
             // 
-            this.btScript.Enabled = false;
-            this.btScript.Location = new System.Drawing.Point(313, 217);
+            this.btScript.Location = new System.Drawing.Point(339, 219);
             this.btScript.Name = "btScript";
             this.btScript.Size = new System.Drawing.Size(102, 23);
             this.btScript.TabIndex = 21;
@@ -131,7 +130,7 @@
             "Можно несколько раз добавлять",
             "Есть в основе | Можно несколько раз добавлять",
             "Нельзя использовать в явном ввиде"});
-            this.comboBoxFlags.Location = new System.Drawing.Point(144, 53);
+            this.comboBoxFlags.Location = new System.Drawing.Point(170, 55);
             this.comboBoxFlags.Name = "comboBoxFlags";
             this.comboBoxFlags.Size = new System.Drawing.Size(271, 21);
             this.comboBoxFlags.TabIndex = 20;
@@ -141,7 +140,7 @@
             // 
             this.textBoxObjIds.Enabled = false;
             this.textBoxObjIds.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxObjIds.Location = new System.Drawing.Point(191, 246);
+            this.textBoxObjIds.Location = new System.Drawing.Point(217, 248);
             this.textBoxObjIds.Name = "textBoxObjIds";
             this.textBoxObjIds.Size = new System.Drawing.Size(224, 20);
             this.textBoxObjIds.TabIndex = 18;
@@ -162,7 +161,7 @@
             // 
             this.textBoxObjScript.Enabled = false;
             this.textBoxObjScript.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxObjScript.Location = new System.Drawing.Point(144, 80);
+            this.textBoxObjScript.Location = new System.Drawing.Point(170, 82);
             this.textBoxObjScript.Multiline = true;
             this.textBoxObjScript.Name = "textBoxObjScript";
             this.textBoxObjScript.Size = new System.Drawing.Size(271, 160);
@@ -176,9 +175,9 @@
             this.label4.Location = new System.Drawing.Point(27, 81);
             this.label4.Margin = new System.Windows.Forms.Padding(20, 20, 3, 3);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(55, 16);
+            this.label4.Size = new System.Drawing.Size(129, 16);
             this.label4.TabIndex = 15;
-            this.label4.Text = "Скрипт";
+            this.label4.Text = "Условие описания";
             // 
             // label3
             // 
@@ -194,7 +193,7 @@
             // textBoxName
             // 
             this.textBoxName.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxName.Location = new System.Drawing.Point(144, 18);
+            this.textBoxName.Location = new System.Drawing.Point(170, 20);
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(271, 29);
             this.textBoxName.TabIndex = 10;

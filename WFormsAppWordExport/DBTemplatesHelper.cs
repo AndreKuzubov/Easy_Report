@@ -395,7 +395,7 @@ namespace WFormsAppWordExport
                 r = new SqlCommand(s, myConn).ExecuteReader();
                 while (r.Read())
                 {
-                    Feature f = new Feature((int)r[0], r[2].ToString(), null, r.IsDBNull(1) ? 0 : (TYPE_ANSWER)(int)r[1], r.IsDBNull(4) ? null : r[4].ToString(),
+                    Feature f = new Feature(outEs,(int)r[0], r[2].ToString(), null, r.IsDBNull(1) ? 0 : (TYPE_ANSWER)(int)r[1], r.IsDBNull(4) ? null : r[4].ToString(),
                         r.IsDBNull(5) ? null : r[5].ToString());
                     idsFeatures.Add((int)r[0]);
                     outEs.features.Add(f);

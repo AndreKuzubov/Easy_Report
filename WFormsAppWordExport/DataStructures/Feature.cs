@@ -42,6 +42,7 @@ namespace WFormsAppWordExport.DataStructures
     [Serializable()]
     public class Feature : ISerializable
     {
+        private Essence parentEssence=null;
         public int idDB { get; private set; }
         //вопрос: как он звучит 
         public String sQuestion { get; private set; }
@@ -76,25 +77,27 @@ namespace WFormsAppWordExport.DataStructures
 
         public bool isAnswered { get { return _isAnswered && isUsable(); } }
 
-        public Feature(int id,String sQuestion, List<Choose_Answer> sAnswers, TYPE_ANSWER answerType, String isUse, String after)
+        public Feature(Essence es, int id,String sQuestion, List<Choose_Answer> sAnswers, TYPE_ANSWER answerType, String isUse, String after)
         {
-            set(id, sQuestion, sAnswers,  answerType,  isUse,  after);
+            set(es,id, sQuestion, sAnswers,  answerType,  isUse,  after);
         }
 
-        public void set(int id,String sQuestion, List<Choose_Answer> sAnswers, TYPE_ANSWER answerType, String isUse, String after)
+        public void set(Essence es,int id,String sQuestion, List<Choose_Answer> sAnswers, TYPE_ANSWER answerType, String isUse, String after)
         {
+            this.parentEssence = es;
             this.idDB = id;
             this.sQuestion = sQuestion;
             this.sAnswers = sAnswers;
             this.typeAnswer = answerType;
             if (isUse!=null&&isUse.Length>0)
-                this.sIsUsable = new SoftwareSctipt(isUse, SoftwareSctipt.SCRIPT_TYPE.FUNC_BOOL);
+                this.sIsUsable = new SoftwareSctipt(isUse, SoftwareSctipt.SCRIPT_TYPE.FUNC_BOOL, parentEssence, this);
             if (after != null && after.Length > 0)
-                this.sAfter = new SoftwareSctipt(after, SoftwareSctipt.SCRIPT_TYPE.VOID);
+                this.sAfter = new SoftwareSctipt(after, SoftwareSctipt.SCRIPT_TYPE.VOID, parentEssence, this);
         }
 
         protected Feature(SerializationInfo info, StreamingContext context)
         {
+            parentEssence = (Essence)info.GetValue("parentEssence", typeof(Essence));
             idDB = info.GetInt32("id");
             sQuestion = info.GetString("sQuestion");
             typeAnswer = (TYPE_ANSWER)(int)info.GetInt32("typeAnswer");
@@ -102,8 +105,8 @@ namespace WFormsAppWordExport.DataStructures
             sAnswers = (List<Choose_Answer>)info.GetValue("sAnswers", typeof(List<Choose_Answer>));
             sAuthor = info.GetString("AnswerAuthor");
             answer = (Answer)info.GetValue("Answer", typeof(Answer));
-            sIsUsable = new SoftwareSctipt(info.GetString("isUsable"),SoftwareSctipt.SCRIPT_TYPE.FUNC_BOOL);
-            sAfter = new SoftwareSctipt(info.GetString("after"),SoftwareSctipt.SCRIPT_TYPE.VOID);
+            sIsUsable = new SoftwareSctipt(info.GetString("isUsable"),SoftwareSctipt.SCRIPT_TYPE.FUNC_BOOL, parentEssence, this);
+            sAfter = new SoftwareSctipt(info.GetString("after"),SoftwareSctipt.SCRIPT_TYPE.VOID, parentEssence, this);
         }
 
         public void setAnswer (Answer answer,String sAuthor)
@@ -134,6 +137,7 @@ namespace WFormsAppWordExport.DataStructures
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            info.AddValue("parentEssence", parentEssence);
             info.AddValue("sQuestion", sQuestion);
             info.AddValue("typeAnswer", (int)typeAnswer);
             info.AddValue("AnswerAuthor", sAuthor);

@@ -78,12 +78,11 @@ namespace WFormsAppWordExport
 
         public void updateShowingEssences()
         {
-            Essence es = (Essence)treeView1.SelectedNode;
-            updateShowingFeatures(es.features);
-            foreach (Essence abstrEssence in es.abstrEssences)
+            for (int i = 0, l = flowLayoutPanel1.Controls.Count; i < l; i++)
             {
-                updateShowingFeatures(abstrEssence.features);
+                flowLayoutPanel1.Controls[i].Visible = (((Question)flowLayoutPanel1.Controls[i]).feature.isUsable());
             }
+           
         }
 
         #region events
@@ -97,15 +96,7 @@ namespace WFormsAppWordExport
         }
         #endregion
 
-        #region private methods
-        private void updateShowingFeatures(List<Feature> features)
-        {
-            for (int i = 0, l = flowLayoutPanel1.Controls.Count; i < l; i++)
-            {
-                flowLayoutPanel1.Controls[i].Visible = (((Question)flowLayoutPanel1.Controls[i]).feature.isUsable());
-            }
-        }
-    
+        #region private methods   
         private void setSelectedEssence(Essence eEssence)
         {
             if (eEssence == null) return;
@@ -122,11 +113,14 @@ namespace WFormsAppWordExport
         {
             List<Feature> allFeatures = new List<Feature>();
             Essence es = (Essence)treeView1.SelectedNode;
-            allFeatures.AddRange(es.features);
+            if (es.isShowScript.runBool(true))
+                allFeatures.AddRange(es.features);
             foreach (Essence abstrEssence in es.abstrEssences)
             {
+                if (!abstrEssence.isShowScript.runBool(true)) continue;
+
                 #region paste abstract to spec place
-                int index = -1;
+                    int index = -1;
                 foreach (Feature f in allFeatures)
                     if (abstrEssence.idFeatureAfterShow == f.idDB) index = es.features.IndexOf(f);
                 #endregion
