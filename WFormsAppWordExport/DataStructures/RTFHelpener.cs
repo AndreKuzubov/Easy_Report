@@ -27,6 +27,7 @@ namespace WFormsAppWordExport
 
         public bool isProtectedTextRtf(int iCharIndexRtf)
         {
+
             string _rtf = Rtf;
             int iEnd = _rtf.IndexOf(@"\protect0", iCharIndexRtf);
             int iSt2 = _rtf.IndexOf(@"\protect", iCharIndexRtf);

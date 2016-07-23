@@ -778,7 +778,7 @@ namespace WFormsAppWordExport
             {
                 String s = new StringBuilder().AppendFormat("SELECT [id],[Очередность] FROM [Образ Обьекта] WHERE [Очередность] >= ANY "
                    + "(SELECT [Очередность] FROM [Образ Обьекта] WHERE [id]= {0})"
-                     +" order by  isnull(Очередность, 2147483647)", "" + id).ToString();
+                     +" order by isnull(Очередность, 2147483647)", "" + id).ToString();
 
                 SqlDataReader r = null;
                 int pos = -1;//pos of selected node
@@ -832,16 +832,45 @@ namespace WFormsAppWordExport
 
             }
 
+            public static int getLastPos()
+            {
+                String s = "SELECT TOP 1 [Очередность] FROM [Образ Обьекта]  "
+                     + "order by Очередность DESC";
+                SqlDataReader r = null;
+                try
+                {
+                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    if (r.Read())
+                    {
+                        return (int)r[0];
+                    }
+
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Ошибка sql получение последнего обьекта", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                finally
+                {
+                    if (r != null)
+                        r.Close();
+                }
+                return -1;
+            }
+
             public int insertToDB()
             {
                 #region insert to db
                 SqlCommand cmd = new SqlCommand();
                 String s = "INSERT INTO [Образ обьекта] ([Название]", p = " VALUES(N'" + name + "' ";
-                if (pos != -1)
+                if (pos == -1)
                 {
-                    s += ", Очередность ";
-                    p += "," + pos + " ";
+                    pos = getLastPos()+1;
                 }
+                
+                s += ", Очередность ";
+                p += "," + pos + " ";
+                
                 if (script != null)
                 {
                     s += ",[Скрипт]";
