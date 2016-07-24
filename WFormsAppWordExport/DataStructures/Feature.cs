@@ -114,6 +114,7 @@ namespace WFormsAppWordExport.DataStructures
             this.answer = answer;
             this.sAuthor = sAuthor;
             _isAnswered = true;
+            runAfter();
         }
 
         public bool isUsable()
@@ -133,6 +134,7 @@ namespace WFormsAppWordExport.DataStructures
             _isAnswered = false;
             answer = null;
             sAuthor = "";
+            runAfter();
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)

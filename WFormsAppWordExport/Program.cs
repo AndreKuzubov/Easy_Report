@@ -24,7 +24,7 @@ namespace WFormsAppWordExport
     static class Program
     {
      
-        public static ApplicationContext context;
+        public static ApplicationContext context=new ApplicationContext();
         public static FormAuthorization authorizationForm;
         public static String OpenFile=null;// = "‪C:\\Users\\Andre\\Desktop\\a.dtp";
 
@@ -67,7 +67,9 @@ namespace WFormsAppWordExport
                     Application.Run(new WFormsAppWordExport.Forms.FormDevCode());
                     break;
                 case 6:
-                    Application.Run(context = new ApplicationContext(authorizationForm = new FormAuthorization()));
+                    context = new ApplicationContext((authorizationForm = new FormAuthorization()));
+                    Application.Run(context);
+                   
                     break;
             }
 

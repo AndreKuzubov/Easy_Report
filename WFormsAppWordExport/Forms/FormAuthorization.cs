@@ -69,6 +69,11 @@ namespace WFormsAppWordExport
             return p.Equals(password);
         }
 
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            Program.context.ExitThread();
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {

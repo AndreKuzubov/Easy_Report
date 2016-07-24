@@ -167,6 +167,7 @@ namespace WFormsAppWordExport
         }
         private void OpenProject(String file)
         {
+            toolStripStatusLabel.Text = "Состояние: Открытие проекта";
             closeProject();
             try
             {
@@ -180,7 +181,7 @@ namespace WFormsAppWordExport
             {
                 MessageBox.Show("Попробуйте еще раз. Либо откройте другой файл", "Ошибка файла", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-          
+            stateNorm();
         }
 
         private void errFormNoOpen()
@@ -291,21 +292,34 @@ namespace WFormsAppWordExport
                 Program.OpenFile = null;
             }
         }
-
-
-
+        
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new Forms.FormAbout().ShowDialog();
         }
 
-        private void MDIParent1_FormClosing(object sender, FormClosingEventArgs e)
+        protected override void WndProc(ref Message m)
         {
-            toolStripStatusLabel.Text = "Состояние: Закрытие конфигурации";
-            DBTemplatesHelper.get().closeDB();
-            stateNorm();
+            if (m.Msg == 0x0010) // WM_CLOSE
+            {
+                toolStripStatusLabel.Text = "Состояние: Закрытие конфигурации";
+                DBTemplatesHelper.get().closeDB();
+            }
+            base.WndProc(ref m);
         }
-     
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+           
+            base.OnClosing(e);
+
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            Program.context.ExitThread();
+        }
 
         #region drop file
         private void MDIParent1_DragDrop(object sender, DragEventArgs e)

@@ -70,6 +70,11 @@ namespace WFormsAppWordExport.DataStructures
             createContextMenu();
         }
 
+        public Essence([MettodVariants(typeof(ProjectDataHelper), "getEssences")] int idImageObject,string name):this (DBTemplatesHelper.DBObject.get(idImageObject))
+        {
+            this.sName = name;
+        }
+
         public Essence(DBTemplatesHelper.DBObject dbObject):base(dbObject.name)
         {
             this.sName = dbObject.name;
@@ -212,6 +217,8 @@ namespace WFormsAppWordExport.DataStructures
             }
             return items.ToArray();
         }
+
+       
 
         #endregion
     }
