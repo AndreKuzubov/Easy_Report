@@ -92,6 +92,10 @@ namespace WFormsAppWordExport
         }
         private void Form1_Closing(object sender, FormClosingEventArgs e)
         {
+         
+        }
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
             ProjectDataHelper.closeProject();
         }
         #endregion
@@ -113,19 +117,20 @@ namespace WFormsAppWordExport
         {
             List<Feature> allFeatures = new List<Feature>();
             Essence es = (Essence)treeView1.SelectedNode;
-            if (es.isShowScript.runBool(true))
+            if (es.isShowScript == null || es.isShowScript.runBool(true))
                 allFeatures.AddRange(es.features);
             foreach (Essence abstrEssence in es.abstrEssences)
             {
-                if (!abstrEssence.isShowScript.runBool(true)) continue;
+
+                if (abstrEssence.isShowScript != null && !abstrEssence.isShowScript.runBool(true)) continue;
 
                 #region paste abstract to spec place
-                    int index = -1;
+                int index = -1;
                 foreach (Feature f in allFeatures)
                     if (abstrEssence.idFeatureAfterShow == f.idDB) index = es.features.IndexOf(f);
                 #endregion
-                if (index!=-1)
-                    allFeatures.InsertRange(index, abstrEssence.features);          
+                if (index != -1)
+                    allFeatures.InsertRange(index, abstrEssence.features);
                 else
                     allFeatures.AddRange(abstrEssence.features);
             }
@@ -176,7 +181,6 @@ namespace WFormsAppWordExport
             DBTemplatesHelper.get().fillNewProjectTree(out ess);
             projectData.rootData.AddRange(ess.ToArray());
         }
-
         #endregion
 
         private void btAddEssence_Click(object sender, EventArgs e)
@@ -258,7 +262,7 @@ namespace WFormsAppWordExport
             }
         }
 
-       
+      
     }
 
 }

@@ -102,6 +102,7 @@ namespace WFormsAppWordExport.DataStructures
             flags = (ESSENSE_FLAGS)info.GetValue("esFlags",typeof(ESSENSE_FLAGS));
             abstrEssences = (List<Essence>)info.GetValue("abst", typeof(List<Essence>));
             features = (List<Feature>)info.GetValue("features", typeof(List<Feature>));
+            isShowScript = new SoftwareSctipt(info.GetString("isShowScript"),SoftwareSctipt.SCRIPT_TYPE.FUNC_BOOL,this);
             createContextMenu();
         }
        
@@ -182,9 +183,32 @@ namespace WFormsAppWordExport.DataStructures
             info.AddValue("abst", abstrEssences);
             info.AddValue("features", features);
             info.AddValue("id", idDb);
+            info.AddValue("isShowScript", isShowScript.script);
         }
 
-        public List<Feature> getFeatureByImage([MettodVariants (typeof(Essence), "variantsFeatures")] int idFeature)
+
+        public bool hasEssence([MettodVariants(typeof(ProjectDataHelper), "getEssences")] int idEssence)
+        {
+            return getRootParent().hasEssence(idEssence);
+        }
+
+        private bool prHasEssence([MettodVariants(typeof(ProjectDataHelper), "getEssences")] int idEssence)
+        {
+            if (idDb == idEssence) return true;
+            foreach (Essence es in abstrEssences)
+            {
+                if (es.prHasEssence(idEssence))
+                    return true;
+            }
+            return false;
+        }
+
+        public List<Feature> getFeatureByImage([MettodVariants(typeof(Essence), "variantsFeatures")] int idFeature)
+        {
+            return getRootParent().prGetFeatureByImage(idFeature);
+        }
+
+        private List<Feature> prGetFeatureByImage([MettodVariants (typeof(Essence), "variantsFeatures")] int idFeature)
         {
             List<Feature> fs = new List<Feature>();
             foreach(Feature f in features)
@@ -194,16 +218,18 @@ namespace WFormsAppWordExport.DataStructures
             }
             foreach (Essence es in abstrEssences)
             {
-                foreach (Feature f in es.features)
-                {
-                    if (f.idDB == idFeature)
-                        fs.Add(f);
-                }
+                fs.AddRange(es.prGetFeatureByImage(idFeature));
             }         
 
             return fs;
         }
-       
+     
+        private Essence getRootParent()
+        {
+            if (parentEssence == null) return this;
+            return parentEssence.getRootParent();
+        }
+          
         #region use in scrips
 
         public static AutocompleteMenuNS.AutocompleteItem[] variantsFeatures()
@@ -216,9 +242,7 @@ namespace WFormsAppWordExport.DataStructures
                 items.Add(new AutocompleteMenuNS.MulticolumnAutocompleteItem(new string[] { "" + dbF.id, dbF.sQuestion }, "" + dbF.id));
             }
             return items.ToArray();
-        }
-
-       
+        }    
 
         #endregion
     }

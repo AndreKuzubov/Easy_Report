@@ -160,12 +160,24 @@ namespace WFormsAppWordExport.DataStructures
     }
 
     [Serializable]
-    public struct DateSaver
+    public class DateSaver
     {
         public DateTime date;
         public bool isDate;
         public DateTime time;
         public bool isTime;
+
+        public DateTime getTime()
+        {
+            DateTime t = new DateTime();
+            if (isDate&&isTime)
+            {
+                t=new DateTime((DateTime.Today-time).Milliseconds);
+            }
+
+            return t;
+
+        }
     }
 
     [Serializable]
@@ -176,6 +188,8 @@ namespace WFormsAppWordExport.DataStructures
         private String _sAnswer;
 
         public Object oAnswer;
+
+        public Essence eAnswer { set { oAnswer = value; } get { return (Essence)oAnswer; } }
 
         public String sAnswer { set { _sAnswer = value; }  get { return ((_sAnswer== null)? oAnswer.ToString():_sAnswer); } }
 

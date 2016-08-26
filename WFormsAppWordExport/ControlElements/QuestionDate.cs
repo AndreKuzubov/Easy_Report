@@ -27,7 +27,7 @@ namespace WFormsAppWordExport
    
     public partial class QuestionDate : WFormsAppWordExport.Question
     {
-        DateSaver date;
+        DateSaver date= new DateSaver();
         public QuestionDate(Feature ffQuestion, int iIndex,Form1 f) : base(ffQuestion, iIndex,f)
         {
             InitializeComponent();

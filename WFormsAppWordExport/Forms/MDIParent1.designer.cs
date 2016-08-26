@@ -342,6 +342,7 @@
             this.MinimumSize = new System.Drawing.Size(670, 500);
             this.Name = "MDIParent1";
             this.Text = "Word Marker";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MDIParent1_FormClosed);
             this.Shown += new System.EventHandler(this.mdi_show);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MDIParent1_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MDIParent1_DragEnter);

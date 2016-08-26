@@ -44,7 +44,8 @@ namespace WFormsAppWordExport
         {
             int i = -1;
             int indexRtf = getRtfIndexByTextIndex(iCharIndex);
-            if (isProtectedTextRtf(indexRtf))
+            if (indexRtf == -1 || indexRtf >= Rtf.Length) return -1;
+            if ( isProtectedTextRtf(indexRtf))
             {
                 //  int iStart = Rtf.LastIndexOf(@"\protect", indexRtf);
                 int iStart = Rtf.LastIndexOf(@"(", indexRtf+2);
@@ -71,7 +72,7 @@ namespace WFormsAppWordExport
             String _rtf = this.Rtf;
              {
                  int d = _rtf.IndexOf("\\uc");
-                 while (d != -1)
+                 while (d != -1&&d< _rtf.Length - 6)
                  {
                      _rtf = _rtf.Remove(d, 6);
                      offcet += 6;
@@ -82,7 +83,7 @@ namespace WFormsAppWordExport
              
          
 
-            if (_rtf == null || _rtf.Length == 0) return 0;
+            if (_rtf == null || _rtf.Length == 0) return -1;
             int i = 0, k = 0;
             int block = 0; bool sysWord = false, inVisible = false;
             //i = _rtf.LastIndexOf("\\uc");
@@ -92,7 +93,7 @@ namespace WFormsAppWordExport
             i = _rtf.IndexOf("\\pard");
 
 
-            while (k <= iCharIndex && i < _rtf.Length)
+            while (k <= iCharIndex && i < _rtf.Length-3)
             {
                 if(_rtf[i]=='\r'&& _rtf[i+1] == '\n'
                     && _rtf[i+2] == '\r'&& _rtf[i+3] == '\n')

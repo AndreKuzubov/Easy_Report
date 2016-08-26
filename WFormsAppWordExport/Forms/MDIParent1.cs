@@ -298,27 +298,12 @@ namespace WFormsAppWordExport
             new Forms.FormAbout().ShowDialog();
         }
 
-        protected override void WndProc(ref Message m)
+         private void MDIParent1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (m.Msg == 0x0010) // WM_CLOSE
-            {
-                toolStripStatusLabel.Text = "Состояние: Закрытие конфигурации";
-                DBTemplatesHelper.get().closeDB();
-            }
-            base.WndProc(ref m);
-        }
-
-        protected override void OnClosing(CancelEventArgs e)
-        {
-           
-            base.OnClosing(e);
-
-        }
-
-        protected override void OnClosed(EventArgs e)
-        {
-            base.OnClosed(e);
-            Program.context.ExitThread();
+            //base.OnClosed(e);
+           // toolStripStatusLabel.Text = "Состояние: Закрытие конфигурации";
+         
+            //Program.context.ExitThread();
         }
 
         #region drop file
@@ -368,6 +353,8 @@ namespace WFormsAppWordExport
             }
 
         }
-        #endregion 
+        #endregion
+
+     
     }
 }

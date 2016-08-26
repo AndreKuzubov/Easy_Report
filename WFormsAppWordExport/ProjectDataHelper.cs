@@ -102,7 +102,6 @@ namespace WFormsAppWordExport
             return essences;
         }
 
-
         #region use in scrips
       
         public  static AutocompleteMenuNS.AutocompleteItem[] getEssences()

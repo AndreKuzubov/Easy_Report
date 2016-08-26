@@ -15,7 +15,9 @@ limitations under the License.
 */
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using WFormsAppWordExport.DataStructures;
 
@@ -36,17 +38,19 @@ namespace WFormsAppWordExport
         static void Main(String[] arg)
         {
             MyFiles.log("StartProgramm");
-            if (arg != null){
-                foreach (String s in arg)
-                {
-                    MyFiles.log(s);
-                }
+            if (arg != null)
+            {
+                for (int i = 0; i < arg.Length; i++)
+                    MyFiles.log("arg "+i+" - "+arg[i]);
+
             }
             if (arg != null && arg.Length > 0 && arg[0] != null)
             {
-                OpenFile = arg[0];
+                if (isValidPath(arg[0]))
+                    OpenFile = arg[0];
+                MyFiles.log("arg is  valid ");
             }
-
+            MyFiles.log("arg no  valid ");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             switch (6)
@@ -72,9 +76,24 @@ namespace WFormsAppWordExport
                    
                     break;
             }
-
-           
-         //   
+            DBTemplatesHelper.closeDB();
+            //   
         }
+
+        static private bool isValidPath(string path)
+        {
+            Regex driveCheck = new Regex(@"^[a-zA-Z]:\\$");
+            if (!driveCheck.IsMatch(path.Substring(0, 3))) return false;
+            string strTheseAreInvalidFileNameChars = new string(Path.GetInvalidPathChars());
+            strTheseAreInvalidFileNameChars += @":/?*" + "\"";
+            Regex containsABadCharacter = new Regex("[" + Regex.Escape(strTheseAreInvalidFileNameChars) + "]");
+            if (containsABadCharacter.IsMatch(path.Substring(3, path.Length - 3)))
+                return false;
+            return true;
+        }
+
     }
+
+   
+
 }

@@ -127,20 +127,20 @@ namespace WFormsAppWordExport
 
         }
 
-        public void closeDB()
+        public static void closeDB()
         {
-            initial = null;
-            if (myConn != null && myConn.State == ConnectionState.Open)
+            if (initial == null) return;
+            if (initial.myConn != null && initial.myConn.State == ConnectionState.Open)
             {
-                myConn.Close();
+                initial.myConn.Close();
             }
 
-            myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;User Instance=False");
-            myConn.Open();
+            initial.myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;User Instance=False");
+            initial.myConn.Open();
             new SqlCommand(@"ALTER DATABASE " + name + @" SET offline  WITH ROLLBACK IMMEDIATE;" +
-                        "DROP DATABASE [" + name + "]", myConn).ExecuteNonQuery();
-            myConn.Close();//SINGLE_USER WITH ROLLBACK IMMEDIATE; SINGLE_USER
-
+                        "DROP DATABASE [" + name + "]", initial.myConn).ExecuteNonQuery();
+            initial.myConn.Close();//SINGLE_USER WITH ROLLBACK IMMEDIATE; SINGLE_USER
+            initial = null;
         }
 
         private void createDB()
