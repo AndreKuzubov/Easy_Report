@@ -49,11 +49,12 @@ namespace WFormsAppWordExport
         static String dir {
             get
             {
-                 return Application.CommonAppDataPath;
+                //  return Application.CommonAppDataPath;
+                return Application.UserAppDataPath;
             }
            
         }
-
+  
         SqlConnection myConn = null;
         String fileParamsName { get
             {
@@ -113,12 +114,11 @@ namespace WFormsAppWordExport
             try
             {
                 new SqlCommand(str, myConn).ExecuteNonQuery();
-            }catch(System.SystemException)
+            }catch(System.SystemException es)
             {
 
             }
             finally
-
             {
                 if (myConn!=null)
                     myConn.Close();
@@ -134,13 +134,23 @@ namespace WFormsAppWordExport
             {
                 initial.myConn.Close();
             }
+            try
+            {
+                initial.myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;User Instance=False");
+                initial.myConn.Open();
+                new SqlCommand(@"ALTER DATABASE " + name + @" SET offline  WITH ROLLBACK IMMEDIATE;" +
+                            "DROP DATABASE [" + name + "]", initial.myConn).ExecuteNonQuery();
+                initial.myConn.Close();//SINGLE_USER WITH ROLLBACK IMMEDIATE; SINGLE_USER
+            }
+            catch (System.Exception)
+            {
 
-            initial.myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;User Instance=False");
-            initial.myConn.Open();
-            new SqlCommand(@"ALTER DATABASE " + name + @" SET offline  WITH ROLLBACK IMMEDIATE;" +
-                        "DROP DATABASE [" + name + "]", initial.myConn).ExecuteNonQuery();
-            initial.myConn.Close();//SINGLE_USER WITH ROLLBACK IMMEDIATE; SINGLE_USER
-            initial = null;
+            }
+            finally
+            {
+                initial = null;
+            }
+           
         }
 
         private void createDB()
@@ -167,7 +177,7 @@ namespace WFormsAppWordExport
             try
                 {
 
-                   SqlCommand myCommand = new SqlCommand(str, myConn);
+                    SqlCommand myCommand = new SqlCommand(str, myConn);
                     myConn.Open();
                     myCommand.ExecuteNonQuery();
                     myConn.Close();
@@ -210,7 +220,7 @@ namespace WFormsAppWordExport
              + "Integrated Security=True;Connect Timeout=30;");
                 myConn.Open();
             }
-            catch (SystemException)
+            catch (SystemException es)
             {
                 recoveryBugOpen();
             }
@@ -456,10 +466,15 @@ namespace WFormsAppWordExport
 
         public void updateTextParagraph(String rtfText)
         {
-            String s = "Update [Параграфы] SET Script= @T WHERE flag = 1";
-            SqlCommand cmd = new SqlCommand(s,myConn);
-            cmd.Parameters.Add("@T", SqlDbType.NText).Value=rtfText;
-            cmd.ExecuteNonQuery();
+            try {
+                String s = "Update [Параграфы] SET Script= @T WHERE flag = 1";
+                SqlCommand cmd = new SqlCommand(s, myConn);
+                cmd.Parameters.Add("@T", SqlDbType.NText).Value = rtfText;
+                cmd.ExecuteNonQuery();
+            }catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Ошибка обновления базы", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
 
@@ -515,14 +530,27 @@ namespace WFormsAppWordExport
 
         public void updateCodeById(int id,String script)
         {
-            String s = "Update [Параграфы] SET script=N'"+script+"' WHERE id = " + id;
-            new SqlCommand(s, myConn).ExecuteNonQuery();
+            try {
+                String s = "Update [Параграфы] SET script=N'" + script + "' WHERE id = " + id;
+                new SqlCommand(s, myConn).ExecuteNonQuery();
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Ошибка обновления базы", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         public void delCodeById(int id)
         {
-            String s = "DELETE FROM [Параграфы] WHERE id = "+id;
-            new SqlCommand(s, myConn).ExecuteNonQuery();
+            try
+            {
+                String s = "DELETE FROM [Параграфы] WHERE id = " + id;
+                new SqlCommand(s, myConn).ExecuteNonQuery();
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Ошибка обновления базы", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
      
@@ -641,14 +669,14 @@ namespace WFormsAppWordExport
         #region myTypes
         public class DBObject
         {
-            public int id=0;
-            public String name="безымянный";
-            public int pos=-1;
-            public String script="";
-            public int flags=0;
-            public String sObjects="";
+            public int id = 0;
+            public String name = "безымянный";
+            public int pos = -1;
+            public String script = "";
+            public int flags = 0;
+            public String sObjects = "";
 
-        
+
             public static DBObject get(int id)
             {
                 String s = "SELECT * FROM \"Образ Обьекта\" WHERE id = " + id + " ";
@@ -685,7 +713,7 @@ namespace WFormsAppWordExport
                     {
                         dbObjs.Add(DBObject.read(r));
                     }
-                   
+
                 }
                 catch (System.Exception ex)
                 {
@@ -704,7 +732,7 @@ namespace WFormsAppWordExport
             public static List<DBObject> getByFlag(int flag)
             {
                 List<DBObject> dbObjs = getAll();
-                for (int i=0;i<dbObjs.Count();++i)
+                for (int i = 0; i < dbObjs.Count(); ++i)
                 {
                     DBObject obj = dbObjs[i];
                     if ((obj.flags & flag) != flag)
@@ -739,9 +767,9 @@ namespace WFormsAppWordExport
                       + "order by Очередность DESC", "" + id).ToString();
 
                 SqlDataReader r = null;
-                int pos=-1;//pos of selected node
-                int id1=-1, pos1=-1;//the node above
-                 #region read r to prms 
+                int pos = -1;//pos of selected node
+                int id1 = -1, pos1 = -1;//the node above
+                #region read r to prms 
                 try
                 {
                     r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
@@ -754,8 +782,8 @@ namespace WFormsAppWordExport
                     {
                         id1 = (int)r[0];
                         pos1 = (int)r[1];
-                    }     
-                                   
+                    }
+
 
                 }
                 catch (System.Exception ex)
@@ -764,7 +792,7 @@ namespace WFormsAppWordExport
                 }
                 finally
                 {
-                    if (r!=null)
+                    if (r != null)
                         r.Close();
                 }
                 #endregion 
@@ -778,7 +806,7 @@ namespace WFormsAppWordExport
             {
                 String s = new StringBuilder().AppendFormat("SELECT [id],[Очередность] FROM [Образ Обьекта] WHERE [Очередность] >= ANY "
                    + "(SELECT [Очередность] FROM [Образ Обьекта] WHERE [id]= {0})"
-                     +" order by isnull(Очередность, 2147483647)", "" + id).ToString();
+                     + " order by isnull(Очередность, 2147483647)", "" + id).ToString();
 
                 SqlDataReader r = null;
                 int pos = -1;//pos of selected node
@@ -818,17 +846,31 @@ namespace WFormsAppWordExport
 
             public static void deleteFromDB(int id)
             {
-                String s;
-                s = "Delete from [Образ обьекта]  WHERE [id] =" + id;
-                new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+                try
+                {
+                    String s;
+                    s = "Delete from [Образ обьекта]  WHERE [id] =" + id;
+                    new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Ошибка обновления базы", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
 
-            private static void updateSwapPositions(int id,int pos,int id1,int pos1)
+            private static void updateSwapPositions(int id, int pos, int id1, int pos1)
             {
-                String s = new StringBuilder().AppendFormat("UPDATE [Образ Обьекта] SET [Очередность]= {0} WHERE [id]={1}", "" + pos1, "" + id).ToString();
-                new SqlCommand(s, DBTemplatesHelper.initial.myConn).ExecuteNonQuery();
-                s = new StringBuilder().AppendFormat("UPDATE [Образ Обьекта] SET [Очередность]= {0} WHERE [id]={1}", "" + pos, "" + id1).ToString();
-                new SqlCommand(s, DBTemplatesHelper.initial.myConn).ExecuteNonQuery();
+                try
+                {
+                    String s = new StringBuilder().AppendFormat("UPDATE [Образ Обьекта] SET [Очередность]= {0} WHERE [id]={1}", "" + pos1, "" + id).ToString();
+                    new SqlCommand(s, DBTemplatesHelper.initial.myConn).ExecuteNonQuery();
+                    s = new StringBuilder().AppendFormat("UPDATE [Образ Обьекта] SET [Очередность]= {0} WHERE [id]={1}", "" + pos, "" + id1).ToString();
+                    new SqlCommand(s, DBTemplatesHelper.initial.myConn).ExecuteNonQuery();
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Ошибка обновления базы", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
 
             }
 
@@ -861,32 +903,39 @@ namespace WFormsAppWordExport
             public int insertToDB()
             {
                 #region insert to db
-                SqlCommand cmd = new SqlCommand();
-                String s = "INSERT INTO [Образ обьекта] ([Название]", p = " VALUES(N'" + name + "' ";
-                if (pos == -1)
+                try
                 {
-                    pos = getLastPos()+1;
+                    SqlCommand cmd = new SqlCommand();
+                    String s = "INSERT INTO [Образ обьекта] ([Название]", p = " VALUES(N'" + name + "' ";
+                    if (pos == -1)
+                    {
+                        pos = getLastPos() + 1;
+                    }
+
+                    s += ", Очередность ";
+                    p += "," + pos + " ";
+
+                    if (script != null)
+                    {
+                        s += ",[Скрипт]";
+                        p += ",N'" + script + "' ";
+                    }
+                    s += ",flags ";
+                    p += "," + flags + " ";
+                    if (sObjects != null)
+                    {
+                        s += ", [ids абстрактных обьектов] ";
+                        p += ",N'" + sObjects + "' ";
+                    }
+                    s += ")"; p += ")";
+                    cmd.CommandText = s + p;
+                    cmd.Connection = DBTemplatesHelper.get().myConn;
+                    cmd.ExecuteNonQuery();
                 }
-                
-                s += ", Очередность ";
-                p += "," + pos + " ";
-                
-                if (script != null)
+                catch (System.Exception ex)
                 {
-                    s += ",[Скрипт]";
-                    p += ",N'" + script + "' ";
+                    MessageBox.Show(ex.ToString(), "Ошибка обновления базы", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                s += ",flags ";
-                p += ","+flags+" ";
-                if (sObjects != null)
-                {
-                    s += ", [ids абстрактных обьектов] ";
-                    p += ",N'" + sObjects+"' ";
-                }
-                s += ")"; p += ")";
-                cmd.CommandText = s + p;
-                cmd.Connection = DBTemplatesHelper.get().myConn;
-                cmd.ExecuteNonQuery();
                 #endregion
 
                 return DBTemplatesHelper.initial.getLastID();
@@ -1021,22 +1070,29 @@ namespace WFormsAppWordExport
 
             public void updateToDB()
             {
-                String s="UPDATE [Характеристика] SET [Вопрос]=N'"+sQuestion+"' "
-                    +", [Тип] ="+(int)type;
-                if (pos != -1)
+                try
                 {
-                    s += " ,[Очередность] = " + pos;
+                    String s = "UPDATE [Характеристика] SET [Вопрос]=N'" + sQuestion + "' "
+                        + ", [Тип] =" + (int)type;
+                    if (pos != -1)
+                    {
+                        s += " ,[Очередность] = " + pos;
+                    }
+                    if (scriptCondition != null && scriptCondition.Length > 0)
+                    {
+                        s += " ,[Условие вопроса]= N'" + scriptCondition + "' ";
+                    }
+                    if (scriptAfter != null && scriptAfter.Length > 0)
+                    {
+                        s += " ,[Скрипт после ответа]= N'" + scriptAfter + "' ";
+                    }
+                    s += " WHERE[id] =" + id;
+                    new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
                 }
-                if (scriptCondition != null && scriptCondition.Length > 0)
+                catch (System.Exception ex)
                 {
-                    s += " ,[Условие вопроса]= N'" + scriptCondition + "' ";
+                    MessageBox.Show(ex.ToString(), "Ошибка обновления базы", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                if (scriptAfter != null && scriptAfter.Length > 0)
-                {
-                    s += " ,[Скрипт после ответа]= N'" + scriptAfter + "' ";
-                }
-                s += " WHERE[id] =" + id;
-                new SqlCommand(s , DBTemplatesHelper.get().myConn).ExecuteNonQuery();
             }
 
             private void insertToDB()
@@ -1050,27 +1106,33 @@ namespace WFormsAppWordExport
                 }
                 #endregion
 
-
-                s = "INSERT INTO [Характеристика] ( Тип,Вопрос ";
-                String p = " Values ("+(int)type+",N'"+sQuestion+"'";
-                if (pos != -1)
+                try
                 {
-                    s += ", Очередность ";
-                    p += "," + pos;
+                    s = "INSERT INTO [Характеристика] ( Тип,Вопрос ";
+                    String p = " Values (" + (int)type + ",N'" + sQuestion + "'";
+                    if (pos != -1)
+                    {
+                        s += ", Очередность ";
+                        p += "," + pos;
+                    }
+                    if (scriptCondition != null && scriptCondition.Length > 0)
+                    {
+                        s += ", [Условие вопроса] ";
+                        p += ",N'" + scriptCondition + "'";
+                    }
+                    if (scriptAfter != null && scriptAfter.Length > 0)
+                    {
+                        s += ", [Скрипт после ответа] ";
+                        p += ",N'" + scriptAfter + "'";
+                    }
+                    s += ")";
+                    p += ")";
+                    new SqlCommand(s + p, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
                 }
-                if (scriptCondition != null && scriptCondition.Length > 0)
+                catch (System.Exception ex)
                 {
-                    s += ", [Условие вопроса] ";
-                    p += ",N'"+scriptCondition+"'";
+                    MessageBox.Show(ex.ToString(), "Ошибка обновления базы", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                if (scriptAfter != null && scriptAfter.Length > 0)
-                {
-                    s += ", [Скрипт после ответа] ";
-                    p += ",N'" + scriptAfter+"'";
-                }
-                s += ")";
-                p += ")";
-                new SqlCommand(s + p, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
             }
 
             public void insertToDB(int idObject)
@@ -1100,8 +1162,15 @@ namespace WFormsAppWordExport
 
             public void deleteFromDB()
             {
-                String s = "Delete from [Характеристика]  WHERE[id] =" + id;
-                new SqlCommand(s , DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+                try
+                {
+                    String s = "Delete from [Характеристика]  WHERE[id] =" + id;
+                    new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Ошибка обновления базы", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
 
         }
@@ -1192,66 +1261,79 @@ namespace WFormsAppWordExport
 
             public void deleleteFromDB()
             {
-                String s;
-                s = "Delete from [Вариант ответа]  WHERE [id] =" + id;
-                new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+                try
+                {
+                    String s;
+                    s = "Delete from [Вариант ответа]  WHERE [id] =" + id;
+                    new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Ошибка обновления базы", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
 
             public void insertAnswer(int idFeature)
             {
-                #region insert to [вариант ответа]
-                SqlCommand cmd = new SqlCommand();
-                String s = "INSERT INTO [Вариант ответа] ([Звучание по вопросу]", p = " VALUES(N'" + sName + "' ";
-                if (pos != -1)
-                {
-                    s += ", Очередность ";
-                    p += "," + pos + " ";
-                }
-                if (sExport != null)
-                {
-                    s += ",[Звучание по ответу]";
-                    p += ",N'" + sExport + "' ";
-                }
-                if (image != null)
-                {
-                    s += ",Картинка ";
-                    p += ",@PIC";
-                    cmd.Parameters.Add("@PIC", SqlDbType.Image).Value=ConvertFormat.toByteArray(image);
-                }
-                if (idObject != -1)
-                {
-                    s += ", Обьект ";
-                    p += "," + idObject;
-                }
-                s += ")"; p += ")";
-                cmd.CommandText = s + p;
-                cmd.Connection=DBTemplatesHelper.get().myConn;
-                cmd.ExecuteNonQuery();
-                #endregion
-
-                s = "SELECT @@IDENTITY";
-                SqlDataReader r = null;
                 try
                 {
-                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
-                    r.Read();
-                    int id = (int)Decimal.ToInt32((Decimal)r[0]);
-                    s = "INSERT INTO [Выборка] ([id варианта],[id характеристики]) VALUES (" + id + "," + idFeature + ")";
+                    #region insert to [вариант ответа]
+                    SqlCommand cmd = new SqlCommand();
+                    String s = "INSERT INTO [Вариант ответа] ([Звучание по вопросу]", p = " VALUES(N'" + sName + "' ";
+                    if (pos != -1)
+                    {
+                        s += ", Очередность ";
+                        p += "," + pos + " ";
+                    }
+                    if (sExport != null)
+                    {
+                        s += ",[Звучание по ответу]";
+                        p += ",N'" + sExport + "' ";
+                    }
+                    if (image != null)
+                    {
+                        s += ",Картинка ";
+                        p += ",@PIC";
+                        cmd.Parameters.Add("@PIC", SqlDbType.Image).Value = ConvertFormat.toByteArray(image);
+                    }
+                    if (idObject != -1)
+                    {
+                        s += ", Обьект ";
+                        p += "," + idObject;
+                    }
+                    s += ")"; p += ")";
+                    cmd.CommandText = s + p;
+                    cmd.Connection = DBTemplatesHelper.get().myConn;
+                    cmd.ExecuteNonQuery();
+                    #endregion
+
+                    s = "SELECT @@IDENTITY";
+                    SqlDataReader r = null;
+                    try
+                    {
+                        r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                        r.Read();
+                        int id = (int)Decimal.ToInt32((Decimal)r[0]);
+                        s = "INSERT INTO [Выборка] ([id варианта],[id характеристики]) VALUES (" + id + "," + idFeature + ")";
+                    }
+                    catch (System.Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString(), "Ошибка sql связка Характеристики с обьектом", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    finally
+                    {
+                        if (r != null)
+                            r.Close();
+                    }
+                    new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
                 }
                 catch (System.Exception ex)
                 {
-                    MessageBox.Show(ex.ToString(), "Ошибка sql связка Характеристики с обьектом", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(ex.ToString(), "Ошибка обновления базы", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                finally
-                {
-                    if (r != null)
-                        r.Close();
-                }
-                new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
-            
 
 
-        }
+            }
 
         }
 

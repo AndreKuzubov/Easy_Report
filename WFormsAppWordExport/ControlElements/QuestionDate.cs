@@ -31,16 +31,16 @@ namespace WFormsAppWordExport
         public QuestionDate(Feature ffQuestion, int iIndex,Form1 f) : base(ffQuestion, iIndex,f)
         {
             InitializeComponent();
-            datePicker.Value = DateTime.Today;
-            timePicker.Value = DateTime.Today;
+                  
             if (feature.isAnswered)
             {
                 DateSaver saver = (feature.answer.dateAnswer);
                 datePicker.Value = saver.date;
-                datePicker.Checked = saver.isDate;
-                timePicker.Value = saver.time;
-                timePicker.Checked = saver.isTime;
-                
+                comboBoxFromat.SelectedIndex = (int)saver.format;                
+            }else
+            {
+                datePicker.Value = DateTime.Today;
+                comboBoxFromat.SelectedIndex = 0;
             }
             
         }
@@ -49,36 +49,54 @@ namespace WFormsAppWordExport
 
         protected override void reset()
         {
-            datePicker.Checked = false;
-            timePicker.Checked = false;
+            datePicker.Value = DateTime.Today;
+            comboBoxFromat.SelectedIndex = 0;
         }
 
-        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
-        {
-            saveChanges();
-            setAnswer(date, getStringAnswer());
-         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            saveChanges();
-            setAnswer(date, getStringAnswer());
+          
         }
 
         private void saveChanges()
         {
             date.date = datePicker.Value;
-            date.isDate = datePicker.Checked;
-            date.time = timePicker.Value;
-            date.isTime = timePicker.Checked;
+            date.format = (DateSaver.DATE_FORMAT)comboBoxFromat.SelectedIndex;
         }
-        private String getStringAnswer()
+
+        private void comboBoxFromat_SelectedIndexChanged(object sender, EventArgs e)
         {
-            String s="";
-            if (date.isDate) s += date.date.ToLongDateString();
-            if (date.isTime && date.isDate) s += "  ";
-            if (date.isTime) s += date.time.ToLongTimeString();
-            return s;
-        } 
+            switch (comboBoxFromat.SelectedIndex)
+            {
+                case 0:
+                    datePicker.CustomFormat = "yyyy";
+                    break;
+                case 1:
+                    datePicker.CustomFormat = "MM.yyyy";
+                    break;
+                case 2:
+                    datePicker.CustomFormat = "d.MM.yyyy";
+
+                    break;
+                case 3:
+                    datePicker.CustomFormat = "d.MM.yyyy h:mm";
+                    break;
+                case 4:
+                    datePicker.CustomFormat = "d.MM h:mm";
+                    break;
+                case 5:
+                    datePicker.CustomFormat = "h:mm";
+                    break;
+                default:comboBoxFromat.SelectedIndex = 0;
+                    break;
+            }
+        }
+
+        private void datePicker_Enter(object sender, EventArgs e)
+        {
+            saveChanges();
+            setAnswer(date, date.getStringDate());
+        }
     }
 }

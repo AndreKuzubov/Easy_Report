@@ -102,6 +102,7 @@
             // 
             // btAbstObjects
             // 
+            this.btAbstObjects.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btAbstObjects.Location = new System.Drawing.Point(339, 274);
             this.btAbstObjects.Name = "btAbstObjects";
             this.btAbstObjects.Size = new System.Drawing.Size(102, 23);
@@ -112,6 +113,7 @@
             // 
             // btScript
             // 
+            this.btScript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btScript.Location = new System.Drawing.Point(339, 219);
             this.btScript.Name = "btScript";
             this.btScript.Size = new System.Drawing.Size(102, 23);
@@ -122,6 +124,8 @@
             // 
             // comboBoxFlags
             // 
+            this.comboBoxFlags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxFlags.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxFlags.FormattingEnabled = true;
             this.comboBoxFlags.Items.AddRange(new object[] {
@@ -138,6 +142,8 @@
             // 
             // textBoxObjIds
             // 
+            this.textBoxObjIds.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxObjIds.Enabled = false;
             this.textBoxObjIds.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxObjIds.Location = new System.Drawing.Point(217, 248);
@@ -159,6 +165,8 @@
             // 
             // textBoxObjScript
             // 
+            this.textBoxObjScript.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxObjScript.Enabled = false;
             this.textBoxObjScript.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxObjScript.Location = new System.Drawing.Point(170, 82);
@@ -192,6 +200,8 @@
             // 
             // textBoxName
             // 
+            this.textBoxName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxName.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxName.Location = new System.Drawing.Point(170, 20);
             this.textBoxName.Name = "textBoxName";

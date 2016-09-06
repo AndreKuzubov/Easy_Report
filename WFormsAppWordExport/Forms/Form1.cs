@@ -46,7 +46,7 @@ namespace WFormsAppWordExport
             InitializeComponent();
             projectData = new ProjectDataHelper();
             projectData.rootData = treeView1.Nodes;
-            if (File.Exists(fileName))
+            if (fileName!=null&&File.Exists(fileName))
             {
                 FileStream fileStream = null; ;
                 try
@@ -78,11 +78,26 @@ namespace WFormsAppWordExport
 
         public void updateShowingEssences()
         {
+            ((MDIParent1)MdiParent).setState("Подготовка списков вопросов");
+            Essence cEssence=null;
+            bool use = false;
             for (int i = 0, l = flowLayoutPanel1.Controls.Count; i < l; i++)
             {
-                flowLayoutPanel1.Controls[i].Visible = (((Question)flowLayoutPanel1.Controls[i]).feature.isUsable());
+                Feature f = ((Question)flowLayoutPanel1.Controls[i]).feature;
+                if (f.parentEssence != cEssence)
+                {
+                    cEssence = f.parentEssence;
+                    use = f.parentEssence.isShow();
+                }
+                if (!use)
+                {
+                    flowLayoutPanel1.Controls[i].Visible = false;
+                    continue;
+                }
+
+                flowLayoutPanel1.Controls[i].Visible = (f.isUsable());
             }
-           
+             ((MDIParent1)MdiParent).stateNorm();
         }
 
         #region events
@@ -103,6 +118,7 @@ namespace WFormsAppWordExport
         #region private methods   
         private void setSelectedEssence(Essence eEssence)
         {
+            ((MDIParent1)MdiParent).setState("Открытие обьекта");
             if (eEssence == null) return;
             eEssence.afterWishUpdateQuestions = delegate
             {
@@ -111,32 +127,46 @@ namespace WFormsAppWordExport
                 updateShowingEssences();
             };
             eEssence.afterWishUpdateQuestions();
+            ((MDIParent1)MdiParent).stateNorm();
         }
 
         private void initShowingEssences()
         {
-            List<Feature> allFeatures = new List<Feature>();
+          //  List<Feature> allFeatures = new List<Feature>();
             Essence es = (Essence)treeView1.SelectedNode;
-            if (es.isShowScript == null || es.isShowScript.runBool(true))
-                allFeatures.AddRange(es.features);
-            foreach (Essence abstrEssence in es.abstrEssences)
-            {
+            //     if (es.isShowScript == null || es.isShowScript.runBool(true))
+            //     allFeatures.AddRange(es.features);
+            //   foreach (Essence abstrEssence in es.abstrEssences)
+            //   {
 
-                if (abstrEssence.isShowScript != null && !abstrEssence.isShowScript.runBool(true)) continue;
+            // if (abstrEssence.isShowScript != null && !abstrEssence.isShowScript.runBool(true)) continue;
 
-                #region paste abstract to spec place
-                int index = -1;
-                foreach (Feature f in allFeatures)
-                    if (abstrEssence.idFeatureAfterShow == f.idDB) index = es.features.IndexOf(f);
-                #endregion
-                if (index != -1)
-                    allFeatures.InsertRange(index, abstrEssence.features);
-                else
-                    allFeatures.AddRange(abstrEssence.features);
-            }
-            initShowingFeatures(allFeatures);
+            //    #region paste abstract to spec place
+            //     int index = -1;
+            //    foreach (Feature f in allFeatures)
+            //        if (abstrEssence.idFeatureAfterShow == f.idDB) index = es.features.IndexOf(f);
+            //     #endregion
+            //      if (index != -1)
+            //          allFeatures.InsertRange(index, abstrEssence.features);
+            //      else
+            //           allFeatures.AddRange(abstrEssence.features);
+            //   }
+
+            // initShowingFeatures(allFeatures);
+            initShowingFeatures(getFeatures(es));
         }
-
+        private List<Feature> getFeatures(Essence es)
+        {
+            List<Feature> features = new List<Feature>();
+            features.AddRange(es.features);
+            if (es.abstrEssences!=null)
+            foreach (Essence e in es.abstrEssences)
+                {
+                    features.AddRange(getFeatures(e));
+                }
+            return features;
+        }
+        
         private void initShowingFeatures(List<Feature> features)
         {
             UserControl uc = null;
@@ -169,6 +199,7 @@ namespace WFormsAppWordExport
                        uc = new ControlElements.QuestionLinkEssence(feature, i,this);
                             break;              
                 }
+                uc.Visible = false;
                 flowLayoutPanel1.Controls.Add(uc);
 
 

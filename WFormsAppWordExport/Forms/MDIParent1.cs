@@ -40,16 +40,29 @@ namespace WFormsAppWordExport
             InitializeComponent();
         }
 
+
+        public void stateNorm()
+        {
+            toolStripStatusLabel.Text = "Состояние";
+        }
+        public void setState(String state)
+        {
+            toolStripStatusLabel.Text = "Состояние: "+state;
+        }
+
+
         private void ShowNewForm(object sender, EventArgs e)
         {
-            toolStripStatusLabel.Text = "Состояние: создание нового проекта";
+         //   toolStripStatusLabel.Text = "Состояние: создание нового проекта";
+            setState("Cоздание нового проекта");
             OpenProject(null);
             stateNorm();
         }
 
         private void OpenFile(object sender, EventArgs e)
         {
-            toolStripStatusLabel.Text = "Состояние: Открытие файла";
+          //  toolStripStatusLabel.Text = "Состояние: Открытие файла";
+            setState("Открытие файла");
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             if (isDebugMode)
@@ -68,7 +81,8 @@ namespace WFormsAppWordExport
 
         private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            toolStripStatusLabel.Text = "Состояние: Сохранение файла";
+            //toolStripStatusLabel.Text = "Состояние: Сохранение файла";
+            setState("Сохранение файла");
             if (ProjectDataHelper.Initial==null)
             {
                 errFormNoOpen();
@@ -149,7 +163,8 @@ namespace WFormsAppWordExport
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            toolStripStatusLabel.Text = "Состояние: Сохранение файла";
+            //toolStripStatusLabel.Text = "Состояние: Сохранение файла";
+            setState(" Сохранение файла");
             if (ProjectDataHelper.Initial==null)
             {
                 errFormNoOpen();
@@ -167,7 +182,8 @@ namespace WFormsAppWordExport
         }
         private void OpenProject(String file)
         {
-            toolStripStatusLabel.Text = "Состояние: Открытие проекта";
+         //   toolStripStatusLabel.Text = "Состояние: Открытие проекта";
+            setState("Открытие проекта");
             closeProject();
             try
             {
@@ -197,8 +213,8 @@ namespace WFormsAppWordExport
                 errFormNoOpen();
                 return;
             }
-            toolStripStatusLabel.Text = "Состояние: экспорт документа";
-
+           // toolStripStatusLabel.Text = "Состояние: экспорт документа";
+            setState("Экспорт документа");
 
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
@@ -240,7 +256,8 @@ namespace WFormsAppWordExport
 
         private void setTemlateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            toolStripStatusLabel.Text = "Состояние: Загрузка конфигурации";
+            //toolStripStatusLabel.Text = "Состояние: Загрузка конфигурации";
+            setState("Загрузка конфигурации");
             FormSettingQuestionnaire setting = new FormSettingQuestionnaire();
             stateNorm();
             setting.ShowDialog();
@@ -277,11 +294,6 @@ namespace WFormsAppWordExport
                 if (st[i] != ' ' && st[i] != '\n'&& st[i]!='\r'&&st[i]!='\t') return true;
             }
             return false;
-        }
-
-        private void stateNorm()
-        {
-            toolStripStatusLabel.Text = "Состояние";
         }
 
         private void mdi_show(object sender, EventArgs e)

@@ -26,9 +26,11 @@ using WFormsAppWordExport.DataStructures;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 
 namespace WFormsAppWordExport.DataStructures
 {
+   
     [Serializable()]
     public enum TYPE_ANSWER
     {
@@ -42,7 +44,7 @@ namespace WFormsAppWordExport.DataStructures
     [Serializable()]
     public class Feature : ISerializable
     {
-        private Essence parentEssence=null;
+        public Essence parentEssence { get; private set; } = null;
         public int idDB { get; private set; }
         //вопрос: как он звучит 
         public String sQuestion { get; private set; }
@@ -97,17 +99,58 @@ namespace WFormsAppWordExport.DataStructures
 
         protected Feature(SerializationInfo info, StreamingContext context)
         {
-            parentEssence = (Essence)info.GetValue("parentEssence", typeof(Essence));
-            idDB = info.GetInt32("id");
-            sQuestion = info.GetString("sQuestion");
-            typeAnswer = (TYPE_ANSWER)(int)info.GetInt32("typeAnswer");
-            _isAnswered = (bool)info.GetBoolean("isAnswered");
-            sAnswers = (List<Choose_Answer>)info.GetValue("sAnswers", typeof(List<Choose_Answer>));
-            sAuthor = info.GetString("AnswerAuthor");
-            answer = (Answer)info.GetValue("Answer", typeof(Answer));
-            sIsUsable = new SoftwareSctipt(info.GetString("isUsable"),SoftwareSctipt.SCRIPT_TYPE.FUNC_BOOL, parentEssence, this);
-            sAfter = new SoftwareSctipt(info.GetString("after"),SoftwareSctipt.SCRIPT_TYPE.VOID, parentEssence, this);
+            parentEssence = (Essence)info.GetValue("p", typeof(Essence));
+            idDB = info.GetInt32("i");
+            sQuestion = info.GetString("q");
+            typeAnswer = (TYPE_ANSWER)(int)info.GetInt32("t");
+            _isAnswered = (bool)info.GetBoolean("ad");
+            sAnswers = (List<Choose_Answer>)info.GetValue("as", typeof(List<Choose_Answer>));
+            sAuthor = info.GetString("aa");
+            answer = (Answer)info.GetValue("a", typeof(Answer));
+            sIsUsable = new SoftwareSctipt(info.GetString("u"),SoftwareSctipt.SCRIPT_TYPE.FUNC_BOOL, parentEssence, this);
+            sAfter = new SoftwareSctipt(info.GetString("af"),SoftwareSctipt.SCRIPT_TYPE.VOID, parentEssence, this);
         }
+
+        public void setAnswer(Essence eAnswer)
+        {
+            if (eAnswer != null)
+                setAnswer(eAnswer, eAnswer.sName);
+            else
+            {
+                resetAns();
+            }
+        }
+        public void setAnswer(String sAnswer)
+        {
+            if (sAnswer != null)
+                setAnswer(sAnswer);
+            else
+            {
+                resetAns();
+            }
+        }
+
+        public void setAnswer(DateSaver dateAnswer)
+        {
+            if (dateAnswer != null)
+            {
+                setAnswer(dateAnswer, dateAnswer.getStringDate());
+            }
+            else
+            {
+                resetAns();
+            }
+        }
+        public void setAnswer(int iAnswer)
+        {
+            setAnswer(iAnswer,null);
+        }
+        public void setAnswer(bool bAnswer)
+        {
+            setAnswer(bAnswer, (bAnswer)?"да":"нет");
+        }
+
+
 
         public void setAnswer (Answer answer,String sAuthor)
         {
@@ -115,6 +158,11 @@ namespace WFormsAppWordExport.DataStructures
             this.sAuthor = sAuthor;
             _isAnswered = true;
             runAfter();
+        }
+
+        protected void setAnswer(Object oAnswer, String strAnswer)
+        {
+            setAnswer(new Answer(oAnswer, strAnswer), ProjectDataHelper.sUser);
         }
 
         public bool isUsable()
@@ -139,16 +187,16 @@ namespace WFormsAppWordExport.DataStructures
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("parentEssence", parentEssence);
-            info.AddValue("sQuestion", sQuestion);
-            info.AddValue("typeAnswer", (int)typeAnswer);
-            info.AddValue("AnswerAuthor", sAuthor);
-            info.AddValue("Answer", answer);
-            info.AddValue("isAnswered", isAnswered);
-            info.AddValue("sAnswers", sAnswers);
-            info.AddValue("isUsable",(sIsUsable!=null)?sIsUsable.script:null);
-            info.AddValue("after",(sAfter!=null)?sAfter.script:null);
-            info.AddValue("id", idDB);
+            info.AddValue("p", parentEssence);
+            info.AddValue("q", sQuestion);
+            info.AddValue("t", (int)typeAnswer);
+            info.AddValue("aa", sAuthor);
+            info.AddValue("a", answer);
+            info.AddValue("ad", isAnswered);
+            info.AddValue("as", sAnswers);
+            info.AddValue("u",(sIsUsable!=null)?sIsUsable.script:null);
+            info.AddValue("af",(sAfter!=null)?sAfter.script:null);
+            info.AddValue("i", idDB);
         }
 
         public string toString()
@@ -162,29 +210,50 @@ namespace WFormsAppWordExport.DataStructures
     [Serializable]
     public class DateSaver
     {
+        [NonSerialized]
+        static CultureInfo ruCulture = CultureInfo.CreateSpecificCulture("ru-RU");
+
+        public enum DATE_FORMAT { YEAR,YEAR_MONTH, YEAR_MONTH_DAY, YEAR_MONTH_DAY_TIME, MONTH_DAY_TIME,TIME }
+        public DATE_FORMAT format;
+
         public DateTime date;
-        public bool isDate;
-        public DateTime time;
-        public bool isTime;
-
-        public DateTime getTime()
+    
+        public String getStringDate()
         {
-            DateTime t = new DateTime();
-            if (isDate&&isTime)
+            String s = "";
+            switch (format)
             {
-                t=new DateTime((DateTime.Today-time).Milliseconds);
+                case DATE_FORMAT.YEAR:
+                    s =""+ date.Year;
+                    break;
+                case DATE_FORMAT.YEAR_MONTH:
+                    s = date.ToString("y", ruCulture);
+                    break;
+                case DATE_FORMAT.YEAR_MONTH_DAY:
+                    s = date.ToString("f", ruCulture);
+                    break;
+                case DATE_FORMAT.YEAR_MONTH_DAY_TIME:
+                    //s = date.ToString("f", ruCulture);
+                    s = date.ToString("g", ruCulture);
+                    break;
+                case DATE_FORMAT.MONTH_DAY_TIME:
+                    //s = date.ToString("f", ruCulture);
+                    s = date.ToString("m t", ruCulture);
+                    break;
+                case DATE_FORMAT.TIME:
+                    s = date.ToString("t", ruCulture);
+                    //s = date.ToShortTimeString();
+                    break;
             }
-
-            return t;
-
+            return s;
         }
+
+
     }
 
     [Serializable]
     public class Answer
     {
-       // public List<Choose_Answer> lChosen_Answers=new List<Choose_Answer>();
-
         private String _sAnswer;
 
         public Object oAnswer;

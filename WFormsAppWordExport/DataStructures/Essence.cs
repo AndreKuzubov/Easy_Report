@@ -49,7 +49,7 @@ namespace WFormsAppWordExport.DataStructures
             }
         }
 
-        public SoftwareSctipt isShowScript { get; private set; }
+        private SoftwareSctipt isShowScript;
 
         public ESSENSE_FLAGS flags { get; private set; }
 
@@ -96,13 +96,13 @@ namespace WFormsAppWordExport.DataStructures
 
         protected Essence(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-            idDb = info.GetInt32("id");
-            parentEssence = (Essence)info.GetValue("parentEssence", typeof(Essence));
-            sName = (String)info.GetValue("sName", typeof(String));
-            flags = (ESSENSE_FLAGS)info.GetValue("esFlags",typeof(ESSENSE_FLAGS));
-            abstrEssences = (List<Essence>)info.GetValue("abst", typeof(List<Essence>));
-            features = (List<Feature>)info.GetValue("features", typeof(List<Feature>));
-            isShowScript = new SoftwareSctipt(info.GetString("isShowScript"),SoftwareSctipt.SCRIPT_TYPE.FUNC_BOOL,this);
+            idDb = info.GetInt32("i");
+            parentEssence = (Essence)info.GetValue("p", typeof(Essence));
+            sName = (String)info.GetValue("n", typeof(String));
+            flags = (ESSENSE_FLAGS)info.GetValue("f",typeof(ESSENSE_FLAGS));
+            abstrEssences = (List<Essence>)info.GetValue("a", typeof(List<Essence>));
+            features = (List<Feature>)info.GetValue("r", typeof(List<Feature>));
+            isShowScript = new SoftwareSctipt(info.GetString("s"),SoftwareSctipt.SCRIPT_TYPE.FUNC_BOOL,this);
             createContextMenu();
         }
        
@@ -177,19 +177,19 @@ namespace WFormsAppWordExport.DataStructures
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.Serialize(info, context);
-            info.AddValue("parentEssence", parentEssence);
-            info.AddValue("sName", sName);
-            info.AddValue("esFlags", flags);
-            info.AddValue("abst", abstrEssences);
-            info.AddValue("features", features);
-            info.AddValue("id", idDb);
-            info.AddValue("isShowScript", isShowScript.script);
+            info.AddValue("p", parentEssence);
+            info.AddValue("n", sName);
+            info.AddValue("f", flags);
+            info.AddValue("a", abstrEssences);
+            info.AddValue("r", features);
+            info.AddValue("i", idDb);
+            info.AddValue("s", isShowScript.script);
         }
 
 
         public bool hasEssence([MettodVariants(typeof(ProjectDataHelper), "getEssences")] int idEssence)
         {
-            return getRootParent().hasEssence(idEssence);
+            return getRootParent().prHasEssence(idEssence);
         }
 
         private bool prHasEssence([MettodVariants(typeof(ProjectDataHelper), "getEssences")] int idEssence)
@@ -228,6 +228,13 @@ namespace WFormsAppWordExport.DataStructures
         {
             if (parentEssence == null) return this;
             return parentEssence.getRootParent();
+        }
+        
+        public bool isShow()
+        {
+            if (parentEssence != null && !parentEssence.isShow())
+                return false;
+            return isShowScript.runBool(true);
         }
           
         #region use in scrips

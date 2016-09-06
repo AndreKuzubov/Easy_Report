@@ -71,6 +71,7 @@ namespace WFormsAppWordExport
             if (feature!=null)
                 feature.resetAns();
             labelAuthor.Text = "";
+
             if (parentControl!=null)
                 parentControl.updateShowingEssences();
         }

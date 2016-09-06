@@ -28,50 +28,51 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.timePicker = new System.Windows.Forms.DateTimePicker();
             this.datePicker = new System.Windows.Forms.DateTimePicker();
+            this.comboBoxFromat = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
-            // 
-            // timePicker
-            // 
-            this.timePicker.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.timePicker.Checked = false;
-            this.timePicker.Cursor = System.Windows.Forms.Cursors.Default;
-            this.timePicker.DropDownAlign = System.Windows.Forms.LeftRightAlignment.Right;
-            this.timePicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.timePicker.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.timePicker.Location = new System.Drawing.Point(186, 32);
-            this.timePicker.Name = "timePicker";
-            this.timePicker.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.timePicker.ShowCheckBox = true;
-            this.timePicker.ShowUpDown = true;
-            this.timePicker.Size = new System.Drawing.Size(157, 20);
-            this.timePicker.TabIndex = 5;
-            this.timePicker.ValueChanged += new System.EventHandler(this.dateTimePicker2_ValueChanged);
             // 
             // datePicker
             // 
-            this.datePicker.CustomFormat = "mm";
+            this.datePicker.CustomFormat = "h:mm";
             this.datePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.datePicker.Location = new System.Drawing.Point(3, 32);
             this.datePicker.Name = "datePicker";
-            this.datePicker.ShowCheckBox = true;
             this.datePicker.ShowUpDown = true;
             this.datePicker.Size = new System.Drawing.Size(177, 20);
             this.datePicker.TabIndex = 4;
             this.datePicker.Value = new System.DateTime(2016, 6, 25, 15, 43, 38, 0);
             this.datePicker.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            this.datePicker.Enter += new System.EventHandler(this.datePicker_Enter);
+            // 
+            // comboBoxFromat
+            // 
+            this.comboBoxFromat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxFromat.FormattingEnabled = true;
+            this.comboBoxFromat.Items.AddRange(new object[] {
+            "год",
+            "месяц/год",
+            "месяц/год/день ",
+            "год/месяц/день/время",
+            "месяц/день/время",
+            "время "});
+            this.comboBoxFromat.Location = new System.Drawing.Point(186, 32);
+            this.comboBoxFromat.Name = "comboBoxFromat";
+            this.comboBoxFromat.Size = new System.Drawing.Size(159, 21);
+            this.comboBoxFromat.TabIndex = 5;
+            this.comboBoxFromat.SelectedIndexChanged += new System.EventHandler(this.comboBoxFromat_SelectedIndexChanged);
             // 
             // QuestionDate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.Controls.Add(this.timePicker);
+            this.Controls.Add(this.comboBoxFromat);
             this.Controls.Add(this.datePicker);
             this.Name = "QuestionDate";
             this.Size = new System.Drawing.Size(348, 69);
+            this.Controls.SetChildIndex(this.labelQuestion, 0);
             this.Controls.SetChildIndex(this.labelAuthor, 0);
             this.Controls.SetChildIndex(this.datePicker, 0);
-            this.Controls.SetChildIndex(this.timePicker, 0);
+            this.Controls.SetChildIndex(this.comboBoxFromat, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -80,6 +81,6 @@
         #endregion
 
         private System.Windows.Forms.DateTimePicker datePicker;
-        private System.Windows.Forms.DateTimePicker timePicker;
+        private System.Windows.Forms.ComboBox comboBoxFromat;
     }
 }

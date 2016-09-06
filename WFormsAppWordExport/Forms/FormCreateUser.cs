@@ -132,7 +132,7 @@ namespace WFormsAppWordExport
 
         private void keyDown3(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter&& button1.Enabled == true)
                 button1_Click(sender, e);
         }
     }

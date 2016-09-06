@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Создание отчетов в word формате")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ЛЭТИ")]
-[assembly: AssemblyProduct("WFormsAppWordExport")]
+[assembly: AssemblyProduct("Word Maker")]
 [assembly: AssemblyCopyright("Copyright © Кузубов Андрей 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // Можно задать все значения или принять номера сборки и редакции по умолчанию 
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.12")]
-[assembly: AssemblyFileVersion("1.0.0.12")]
+[assembly: AssemblyVersion("1.0.0.18")]
+[assembly: AssemblyFileVersion("1.0.0.18")]

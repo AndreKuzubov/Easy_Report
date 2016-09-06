@@ -49,7 +49,7 @@
             // btCancel
             // 
             this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btCancel.Location = new System.Drawing.Point(547, 429);
+            this.btCancel.Location = new System.Drawing.Point(879, 429);
             this.btCancel.Name = "btCancel";
             this.btCancel.Size = new System.Drawing.Size(75, 23);
             this.btCancel.TabIndex = 0;
@@ -60,7 +60,7 @@
             // btOk
             // 
             this.btOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btOk.Location = new System.Drawing.Point(466, 429);
+            this.btOk.Location = new System.Drawing.Point(798, 429);
             this.btOk.Name = "btOk";
             this.btOk.Size = new System.Drawing.Size(75, 23);
             this.btOk.TabIndex = 1;
@@ -100,7 +100,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70.44968F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 29.55032F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(529, 411);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(861, 411);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
             // extendedTextBoxResult
@@ -118,7 +118,7 @@
             charStyle1.Strikeout = false;
             charStyle1.Underline = false;
             this.extendedTextBoxResult.SelectionCharStyle = charStyle1;
-            this.extendedTextBoxResult.SelectionFont2 = new System.Drawing.Font("Microsoft Sans Serif", 3F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Inch);
+            this.extendedTextBoxResult.SelectionFont2 = new System.Drawing.Font("Microsoft Sans Serif", 2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Inch);
             paraLineSpacing1.ExactSpacing = 0;
             paraLineSpacing1.SpacingStyle = ExtendedRichTextBox.ParaLineSpacing.LineSpacingStyle.Unknown;
             this.extendedTextBoxResult.SelectionLineSpacing = paraLineSpacing1;
@@ -130,7 +130,7 @@
             this.extendedTextBoxResult.SelectionOffsetType = ExtendedRichTextBox.OffsetType.None;
             this.extendedTextBoxResult.SelectionSpaceAfter = 0;
             this.extendedTextBoxResult.SelectionSpaceBefore = 0;
-            this.extendedTextBoxResult.Size = new System.Drawing.Size(523, 116);
+            this.extendedTextBoxResult.Size = new System.Drawing.Size(855, 116);
             this.extendedTextBoxResult.TabIndex = 1;
             this.extendedTextBoxResult.Text = "";
             // 
@@ -142,7 +142,7 @@
             this.autocompleteMenuCode.SetAutocompleteMenu(this.richTextBoxCode, this.autocompleteMenuCode);
             this.richTextBoxCode.Location = new System.Drawing.Point(3, 3);
             this.richTextBoxCode.Name = "richTextBoxCode";
-            this.richTextBoxCode.Size = new System.Drawing.Size(523, 283);
+            this.richTextBoxCode.Size = new System.Drawing.Size(855, 283);
             this.richTextBoxCode.TabIndex = 8;
             this.richTextBoxCode.Text = "";
             // 
@@ -150,7 +150,7 @@
             // 
             this.btHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btHelp.Enabled = false;
-            this.btHelp.Location = new System.Drawing.Point(547, 15);
+            this.btHelp.Location = new System.Drawing.Point(879, 15);
             this.btHelp.Name = "btHelp";
             this.btHelp.Size = new System.Drawing.Size(75, 23);
             this.btHelp.TabIndex = 5;
@@ -161,7 +161,7 @@
             // 
             this.btFunctions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btFunctions.Enabled = false;
-            this.btFunctions.Location = new System.Drawing.Point(544, 44);
+            this.btFunctions.Location = new System.Drawing.Point(876, 44);
             this.btFunctions.Name = "btFunctions";
             this.btFunctions.Size = new System.Drawing.Size(75, 23);
             this.btFunctions.TabIndex = 6;
@@ -171,7 +171,7 @@
             // btCompile
             // 
             this.btCompile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btCompile.Location = new System.Drawing.Point(352, 429);
+            this.btCompile.Location = new System.Drawing.Point(684, 429);
             this.btCompile.Name = "btCompile";
             this.btCompile.Size = new System.Drawing.Size(105, 23);
             this.btCompile.TabIndex = 7;
@@ -192,7 +192,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(634, 464);
+            this.ClientSize = new System.Drawing.Size(966, 464);
             this.Controls.Add(this.btCompile);
             this.Controls.Add(this.btFunctions);
             this.Controls.Add(this.btHelp);

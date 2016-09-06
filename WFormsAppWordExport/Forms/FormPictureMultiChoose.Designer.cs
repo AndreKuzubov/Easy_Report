@@ -38,7 +38,7 @@
             // btOk
             // 
             this.btOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btOk.Location = new System.Drawing.Point(12, 398);
+            this.btOk.Location = new System.Drawing.Point(12, 459);
             this.btOk.Name = "btOk";
             this.btOk.Size = new System.Drawing.Size(75, 23);
             this.btOk.TabIndex = 1;
@@ -49,7 +49,7 @@
             // btCancel
             // 
             this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btCancel.Location = new System.Drawing.Point(432, 398);
+            this.btCancel.Location = new System.Drawing.Point(547, 459);
             this.btCancel.Name = "btCancel";
             this.btCancel.Size = new System.Drawing.Size(75, 23);
             this.btCancel.TabIndex = 2;
@@ -74,14 +74,14 @@
             this.flowLayoutPanel1.AutoScroll = true;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 45);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(495, 343);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(610, 404);
             this.flowLayoutPanel1.TabIndex = 4;
             // 
             // FormPictureMultiChoose
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(519, 433);
+            this.ClientSize = new System.Drawing.Size(634, 494);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.btReset);
             this.Controls.Add(this.btCancel);
