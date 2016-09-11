@@ -1,0 +1,1497 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Atalasoft.dotImage.Office</name>
+    </assembly>
+    <members>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Caching.ICache`2">
+            <summary>
+            An interface for a cache.
+            </summary>
+            <typeparam name="TKey">The type to use as a key to access values in the cache.</typeparam>
+            <typeparam name="TValue">The type to use as a value to store in the cache.</typeparam>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Caching.ICache`2.Contains(`0)">
+            <summary>
+            Gets a value indicating if this cache contains an entry for the given key.
+            </summary>
+            <param name="key">The key for the entry.</param>
+            <returns><code>true</code> if an entry was found for the <paramref name="key"/>, otherwise <code>false</code>.</returns>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Caching.ICache`2.Remove(`0)">
+            <summary>
+            Removes an entry for a given key from this cache.
+            </summary>
+            <param name="key">The key for the entry.</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Caching.ICache`2.Add(`0,`1)">
+            <summary>
+            Adds an entry to the cache.
+            </summary>
+            <param name="key">The key for the entry.</param>
+            <param name="value">The value to cache for the <paramref name="key"/>.</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Caching.ICache`2.GetValue(`0)">
+            <summary>
+            Gets the value associated with the given key.
+            </summary>
+            <param name="key">The key for the entry.</param>
+            <returns>The value stored in the cache for the given <paramref name="key"/>.</returns>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Caching.DisposableValueCache`2">
+            <summary>
+            An implementation of <see cref="T:Atalasoft.Imaging.Codec.Office.Caching.ICache`2"/> for storing <typeparamref name="TValue">values</typeparamref> which implement <see cref="T:System.IDisposable"/>.
+            When items are <see cref="M:Atalasoft.Imaging.Codec.Office.Caching.ICache`2.Remove(`0)">removed</see> from this cache they will automatically be <see cref="M:System.IDisposable.Dispose">disposed</see>.
+            </summary>
+            <typeparam name="TKey">The type to use as a key to access values in the cache.</typeparam>
+            <typeparam name="TValue">The type to use as a value to store in the cache.</typeparam>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Caching.DisposableValueCache`2.Finalize">
+            <summary>
+            Releases unmanaged resources and performs other cleanup operations before the
+            <see cref="T:Atalasoft.Imaging.Codec.Office.Caching.DisposableValueCache`2"/> is reclaimed by garbage collection.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Caching.DisposableValueCache`2.Clear">
+            <summary>
+            Clears all entries from this cache.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Caching.DisposableValueCache`2.Contains(`0)">
+            <summary>
+            Gets a value indicating if this cache contains an entry for the given key.
+            </summary>
+            <param name="key">The key for the entry.</param>
+            <returns><code>true</code> if an entry was found for the <paramref name="key"/>, otherwise <code>false</code>.</returns>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Caching.DisposableValueCache`2.Remove(`0)">
+            <summary>
+            Removes an entry for a given key from this cache.
+            </summary>
+            <param name="key">The key for the entry.</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Caching.DisposableValueCache`2.Add(`0,`1)">
+            <summary>
+            Adds an entry to the cache.
+            </summary>
+            <param name="key">The key for the entry.</param>
+            <param name="value">The value to cache for the <paramref name="key"/>.</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Caching.DisposableValueCache`2.GetValue(`0)">
+            <summary>
+            Gets the value associated with the given key.
+            </summary>
+            <param name="key">The key for the entry.</param>
+            <returns>The value stored in the cache for the given <paramref name="key"/>.</returns>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Caching.DisposableValueCache`2.Count">
+            <summary>
+            Gets the number of entries in this cache.
+            </summary>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Caching.LruDisposableValueCache`2">
+            <summary>
+            An implementation of <see cref="T:Atalasoft.Imaging.Codec.Office.Caching.DisposableValueCache`2"/> which stores a fixed number of entries.
+            After this capacity has been reached, the Least Recently Used (LRU) entry will be removed before new ones are added.
+            </summary>
+            <typeparam name="TKey">The type to use as a key to access values in the cache.</typeparam>
+            <typeparam name="TValue">The type to use as a value to store in the cache.</typeparam>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Caching.LruDisposableValueCache`2.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of <see cref="T:Atalasoft.Imaging.Codec.Office.Caching.LruDisposableValueCache`2"/>.
+            </summary>
+            <param name="capacity">The maximum number of entries to be stored in this cache.</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Caching.LruDisposableValueCache`2.Add(`0,`1)">
+            <summary>
+            Adds an entry to the cache.
+            </summary>
+            <param name="key">The key for the entry.</param>
+            <param name="value">The value to cache for the <paramref name="key"/>.</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Caching.LruDisposableValueCache`2.GetValue(`0)">
+            <summary>
+            Gets the value associated with the given key.
+            </summary>
+            <param name="key">The key for the entry.</param>
+            <returns>The value stored in the cache for the given <paramref name="key"/>.</returns>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Caching.LruDisposableValueCache`2.Remove(`0)">
+            <summary>
+            Removes an entry for a given key from this cache.
+            </summary>
+            <param name="key">The key for the entry.</param>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.ApplicationName">
+            <summary>
+            Enums Microsoft Office applications.
+            </summary>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.BaseOfficeApplication">
+            <summary>
+            Implements generic logic for all office applications.
+            </summary>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.BaseDynamicObject">
+             <summary>
+             Helper class for doing COM interop in older versions of .NET (Which do not support the 'dynamic' keyword).
+             The constructor requires an instance of an object to perform dynamic operations on (E.g. a COM object).
+             </summary>
+             <remarks>
+            
+             To invoke a method dynamically (E.g. A method "Test" with two Int32 arguments (32 and 42) which returns an Int32:
+            
+                 Int32 testReturnValue = (Int32)this.Invoke("Test", 32, 42);
+            
+             To get a property value:
+            
+                 Int32 testPropertyValue = (Int32)this["Test"];
+            
+             Invoke a void method:
+            
+                 this.Invoke("DoSomething");
+            
+             </remarks>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.Interop.BaseDynamicObject._disposed">
+            <summary>
+            Indicates whether object has been disposed.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.BaseDynamicObject.#ctor(System.Object)">
+            <summary>
+            Initializes an instance of <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.BaseDynamicObject"/> using a particular object to wrap.
+            </summary>
+            <param name="dynamicObject">Dynamic object to wrap</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.BaseDynamicObject.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.BaseDynamicObject"/> class.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.BaseDynamicObject.Invoke(Atalasoft.Imaging.Codec.Office.Interop.MethodName,System.Object[])">
+            <summary>
+            Invokes a method on the wrapped object.
+            </summary>
+            <param name="methodName">The name of the method to invoke.</param>
+            <param name="arguments">The arguments to pass to the method.</param>
+            <returns>The return value of the method invocation.</returns>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.BaseDynamicObject.Dispose">
+            <summary>
+            Disposes object and cleanups resources.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Interop.BaseDynamicObject.Object">
+            <summary>
+            The <see cref="P:Atalasoft.Imaging.Codec.Office.Interop.BaseDynamicObject.Object"/> to perform dynamic operations on.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Interop.BaseDynamicObject.Item(Atalasoft.Imaging.Codec.Office.Interop.PropertyName,System.Object[])">
+            <summary>
+            Gets or sets a property of the wrapped object.
+            </summary>
+            <param name="propertyName">The name of the property to access.</param>
+            <param name="arguments">The arguments to pass to the property.</param>
+            <returns>The value of the property.</returns>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.Interop.BaseOfficeApplication.ProgIdPart">
+            <summary>
+            Part of office progIds.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.BaseOfficeApplication.#ctor(Atalasoft.Imaging.Codec.Office.Interop.ApplicationName)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.BaseOfficeApplication"/> class.
+            </summary>
+            <param name="appName">Application name</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.BaseOfficeApplication.Quit">
+            <summary>
+            Quits application.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.BaseOfficeApplication.CreateInstance(Atalasoft.Imaging.Codec.Office.Interop.ApplicationName)">
+            <summary>
+            Creates office application instance.
+            </summary>
+            <param name="appName">Application name</param>
+            <returns></returns>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.BaseOfficeApplication.Dispose(System.Boolean)">
+            <summary>
+            Disposes object and cleanups resources.
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.MessageFilter">
+            <summary>
+            Assists with certain errors which occur when doing Office Automation in multithreaded applications.
+            See https://msdn.microsoft.com/en-us/library/ms228772.aspx for more information.
+            </summary>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.MethodName">
+            <summary>
+            Enums Microsoft Office objects methods.
+            </summary>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.PowerPointApplication">
+            <summary>
+            An implementation of <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.BaseOfficeApplication"/> for interacting with a running instance of Microsoft PowerPoint.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.PowerPointApplication.#ctor">
+            <summary>
+            Initalizes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.PowerPointApplication"/> class.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.PowerPointApplication.Presentations">
+            <summary>
+            Gets a <see cref="P:Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.PowerPointApplication.Presentations"/> object, which provides access to tasks related to PowerPoint Presentations.
+            </summary>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.Presentation">
+            <summary>
+            Represents Microsoft Office PowerPoint presentation wrapper.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.Presentation.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.Presentation"/> class.
+            </summary>
+            <param name="dynamicObject">Dynamic object to wrap</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.Presentation.Close">
+            <summary>
+            Closes presentation.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.Presentation.SaveAs(System.String,System.Nullable{Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.SaveAsFileType},System.Nullable{Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.MsoTriState})">
+            <summary>
+            Saves presentation to the specified location and with specified file format
+            </summary>
+            <param name="filename">Specifies location where presentation will be saved.</param>
+            <param name="fileFormat">Specifies the saved file format.</param>
+            <param name="embedFonts">Specifies whether PowerPoint embeds TrueType fonts in the saved presentation.</param>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.Presentations">
+            <summary>
+            Represents Microsoft Office PowerPoint presentations collection.
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.Presentations._presentations">
+            <summary>
+            All opened and closed presentations during work session.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.Presentations.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.Presentations"/> class.
+            </summary>
+            <param name="dynamicObject">Dynamic object to wrap</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.Presentations.Open(System.String,System.Nullable{Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.MsoTriState},System.Nullable{Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.MsoTriState},System.Nullable{Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.MsoTriState})">
+            <summary>
+            Opens a <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.Presentation"/>.
+            </summary>
+            <param name="fileName">Specifies presentation file name.</param>
+            <param name="readOnly">Specifies whether the file is opened with read/write or read-only status.</param>
+            <param name="untitled">Specifies whether the file has a title.</param>
+            <param name="withWindow">Specifies whether the file is visible.</param>
+            <exception cref="T:System.IO.FileNotFoundException">Throws if file doesn't exist.</exception>
+            <returns>Opened presentation object.</returns>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.PropertyName">
+            <summary>
+            Enums Microsoft Office objects properties.
+            </summary>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.Word.Options">
+            <summary>
+            Represents Microsoft Office Word application settings wrapper.
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.Interop.Word.Options.initialPrintFieldCodes">
+            <summary>
+            Initial <see cref="!:PrintFieldsCodes"/> option value.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Word.Options.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Word.Options"/> class.
+            </summary>
+            <param name="dynamicObject"></param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Word.Options.RestoreInitialValues">
+            <summary>
+            Restores initial options values.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Interop.Word.Options.PrintFieldCodes">
+            <summary>
+            Gets or sets a flag indicating whether Microsoft Word prints field codes instead of field results.
+            </summary>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder">
+            <summary>
+            An implementation of the <see cref="T:Atalasoft.Imaging.Codec.MultiFramedImageDecoder"/> class which uses Microsoft Office to render <see cref="T:Atalasoft.Imaging.AtalaImage"/>s.
+            </summary>
+            <remarks>Microsoft Office 2010 or higher must be installed to use this class.</remarks>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder.DefaultResolution">
+            <summary>
+            The default resolution Office uses to render.
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder.syncObject">
+            <summary>
+            Used to provide thread-safe access to the Office application.
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder.wordApplicationPdfDecoder">
+            <summary>
+            The <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Word.WordApplication"/> adaptor for <see cref="T:Atalasoft.Imaging.Codec.Pdf.PdfDecoder"/>.
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder.excelApplicationPdfDecoder">
+            <summary>
+            The <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.ExcelApplication"/> adaptor for <see cref="T:Atalasoft.Imaging.Codec.Pdf.PdfDecoder"/>.
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder.powerPointApplicationPdfDecoder">
+            <summary>
+            The <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.PowerPoint.PowerPointApplication"/> adaptor for <see cref="T:Atalasoft.Imaging.Codec.Pdf.PdfDecoder"/>.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder.#ctor(Atalasoft.Imaging.Codec.Office.OfficeSession)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder"/> class using the provided <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeSession"/>.
+            </summary>
+            <param name="officeSession">The instance of <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeSession"/> to use.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeSession"/> argument is <code>null</code>.</exception>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder.#ctor(Atalasoft.Imaging.Codec.Office.OfficeSession,Atalasoft.Imaging.Codec.Office.Caching.ICache{System.IO.Stream,Atalasoft.Shared.IO.DisposableTempFile})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder"/> class using the provided <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeSession"/>.
+            </summary>
+            <param name="officeSession">The instance of <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeSession"/> to use.</param>
+            <param name="fileCache">A cache responsible for managing the temporary PDFs generated by Office.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeSession"/> argument is <code>null</code>.</exception>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder.#ctor(Atalasoft.Imaging.Codec.Office.OfficeSession,Atalasoft.Imaging.Codec.Office.Caching.ICache{System.IO.Stream,Atalasoft.Shared.IO.DisposableTempFile},Atalasoft.Imaging.Codec.Office.OfficeDisposableTempFileFactory,Atalasoft.Imaging.Codec.Office.OfficeDisposableTempFileFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder"/> class using the provided <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeSession"/>.
+            </summary>
+            <param name="officeSession">The instance of <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeSession"/> to use.</param>
+            <param name="fileCache">A cache responsible for managing the temporary PDFs generated by Office.</param>
+            <param name="inputDocumentTempFileFactory">A factory delegate for creating the <see cref="T:Atalasoft.Shared.IO.DisposableTempFile"/> which will be used to store the input document for Office to open.</param>
+            <param name="outputPdfTempFileFactory">A factory delegate for creating the <see cref="T:Atalasoft.Shared.IO.DisposableTempFile"/> which will be used to store the output intermediary PDF for Office to export.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeSession"/> argument is <code>null</code>.</exception>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder"/> class.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder.#ctor(Atalasoft.Imaging.Codec.Office.Caching.ICache{System.IO.Stream,Atalasoft.Shared.IO.DisposableTempFile})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder"/> class.
+            </summary>
+            <param name="fileCache">A cache responsible for managing the temporary PDFs generated by Office.</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder.#ctor(Atalasoft.Imaging.Codec.Office.Caching.ICache{System.IO.Stream,Atalasoft.Shared.IO.DisposableTempFile},Atalasoft.Imaging.Codec.Office.OfficeDisposableTempFileFactory,Atalasoft.Imaging.Codec.Office.OfficeDisposableTempFileFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder"/> class.
+            </summary>
+            <param name="fileCache">A cache responsible for managing the temporary PDFs generated by Office.</param>
+            <param name="inputDocumentTempFileFactory">A factory delegate for creating the <see cref="T:Atalasoft.Shared.IO.DisposableTempFile"/> which will be used to store the input document for Office to open.</param>
+            <param name="outputPdfTempFileFactory">A factory delegate for creating the <see cref="T:Atalasoft.Shared.IO.DisposableTempFile"/> which will be used to store the output intermediary PDF for Office to export.</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder.GetPdfDecoder(System.IO.Stream)">
+            <summary>
+            Finds an appropriate <see cref="T:Atalasoft.Imaging.Codec.Pdf.PdfDecoder"/> adaptor to use to read the data contained in the provided stream.
+            </summary>
+            <param name="stream">The stream containging the document.</param>
+            <returns>A <see cref="T:Atalasoft.Imaging.Codec.Pdf.PdfDecoder"/> capable of reading the document.</returns>
+            <exception cref="T:Atalasoft.Imaging.Codec.CodecException">Thrown when no <see cref="T:Atalasoft.Imaging.Codec.Pdf.PdfDecoder"/> could be found.</exception>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder.IsValidFormat(System.IO.Stream)">
+            <summary>
+            Determines if this <see cref="T:Atalasoft.Imaging.Codec.MultiFramedImageDecoder"/> is capable of decoding the data contained within a specified stream.
+            </summary>
+            <param name="stream">The stream to check the contents of.</param>
+            <returns><code>true</code>, if this decoder can read the data contained in the stream, otherwise <code>false</code>.</returns>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder.GetFrameCount(System.IO.Stream)">
+            <summary>
+            Gets the number of frames in the document contained in the stream.
+            </summary>
+            <remarks>
+            For Word, this refers to the pages in the document.
+            For Excel, this refers to the worksheets in the workbook.
+            For PowerPoint, this refers to the slides in the presentation.
+            </remarks>
+            <param name="stream">The stream containing the document.</param>
+            <returns>The number of frames the document contains.</returns>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder.GetImageInfo(System.IO.Stream)">
+            <summary>
+            Gets an <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeImageInfo"/> object, containing information about the first frame.
+            </summary>
+            <param name="stream">The stream containing the document.</param>
+            <returns>An <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeImageInfo"/> object, containing information about the first image frame.</returns>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder.GetImageInfo(System.IO.Stream,System.Int32)">
+            <summary>
+            Gets an <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeImageInfo"/> object, containing information about the specified frame.
+            </summary>
+            <param name="stream">The stream containing the document.</param>
+            <param name="frameIndex">The index of the image frame to obtain information about.</param>
+            <returns>An <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeImageInfo"/> object, containing information about the specified image frame.</returns>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder.Read(System.IO.Stream,Atalasoft.Imaging.ProgressEventHandler)">
+            <summary>
+            Decodes the first frame of the document.
+            </summary>
+            <param name="stream">The stream containing the document.</param>
+            <param name="progress">A delegate for receiving progress notifications.</param>
+            <returns>An <see cref="T:Atalasoft.Imaging.AtalaImage"/> representation of the first frame of the document.</returns>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder.Read(System.IO.Stream,System.Int32,Atalasoft.Imaging.ProgressEventHandler)">
+            <summary>
+            Decodes the specified frame of the document.
+            </summary>
+            <param name="stream">The stream containing the document.</param>
+            <param name="frameIndex">The index of the frame to decode.</param>
+            <param name="progress">A delegate for receiving progress notifications.</param>
+            <returns>An <see cref="T:Atalasoft.Imaging.AtalaImage"/> representation of the specified frame of the document.</returns>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder.Resolution">
+            <summary>
+            Gets or sets the resolution which this decoder will use to render documents. The unit of measure is DPI (dots-per-inch). Default value: 96
+            </summary>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.OfficeDecoder">
+            <summary>
+            An implementation of the <see cref="T:Atalasoft.Imaging.Codec.MultiFramedImageDecoder"/> class allows to render MS Office documents without MS Office installed.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeDecoder.#cctor">
+            <summary>
+            Initializes the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeDecoder"/> class.
+            </summary>
+            <remarks>
+            ISYSreadershd.dll is not being loaded automatically in web server environment. So we have to forcibly load it.
+            </remarks>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeDecoder.#ctor">
+            <summary>   
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeDecoder"/> class.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeDecoder.IsValidFormat(System.IO.Stream)">
+            <summary> Checks the stream to determine if the image can be read by the decoder that derives this class. </summary>
+            <returns> <STRONG>True </STRONG>if the encoded image can be read by this decoder, otherwise <STRONG>false</STRONG>.
+            </returns>
+            <param name="stream"> A stream containing the encoded image data. </param>
+            <exception cref="T:System.ArgumentException"><para><paramref name="stream"/> is null.</para></exception>
+            <exception cref="T:Atalasoft.Imaging.Codec.Office.OfficeDecoderException"><para>error decoding MS Office document.</para></exception>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeDecoder.GetImageInfo(System.IO.Stream)">
+            <summary> Retrieve information from an image stored in a file without decoding the image data. </summary>
+            <returns> An <see cref="T:Atalasoft.Imaging.Codec.ImageInfo"/> object containing information about the image such as size and color depth. </returns>
+            <param name="stream"> A stream containing the encoded image data. </param>
+            <exception cref="T:System.ArgumentException"><para><paramref name="stream"/> is null.</para></exception>
+            <exception cref="T:Atalasoft.Imaging.Codec.Office.OfficeDecoderException"><para>error decoding MS Office document.</para></exception>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeDecoder.GetImageInfo(System.IO.Stream,System.Int32)">
+            <overloads> Retrieve information in an image stored in a file without decoding the image data. </overloads>
+            <param name="stream"> The input Stream. </param>
+            <param name="frameIndex"> The zero based frame index. </param>
+            <returns> An <see cref="T:Atalasoft.Imaging.Codec.ImageInfo"/> object containing information about the image such as size and color depth. </returns>
+            <exception cref="T:System.ArgumentException"><para><paramref name="stream"/> is null.</para></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="frameIndex"/> is not in range [0, frameCount] (See <see cref="M:Atalasoft.Imaging.Codec.Office.OfficeDecoder.GetFrameCount(System.IO.Stream)"/> for details.).</para>
+            </exception>
+            <exception cref="T:Atalasoft.Imaging.Codec.Office.OfficeDecoderException"><para>error decoding MS Office document.</para></exception>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeDecoder.GetFrameCount(System.IO.Stream)">
+            <summary> Returns the number of frames in the image </summary>
+            <returns> The number of frames in the image </returns>
+            <param name="stream"> The input Stream. </param>
+            <exception cref="T:System.ArgumentException"><para><paramref name="stream"/> is null.</para></exception>
+            <exception cref="T:Atalasoft.Imaging.Codec.Office.OfficeDecoderException"><para>error decoding MS Office document.</para></exception>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeDecoder.Read(System.IO.Stream,Atalasoft.Imaging.ProgressEventHandler)">
+            <summary> Decode an image in a specified image <STRONG>Stream</STRONG>. </summary>
+            <param name="stream"> A stream containing the encoded image data. </param>
+            <param name="progress"> The progress delegate.  Can be set to <STRONG>null</STRONG> (<STRONG>Nothing</STRONG> in
+            Visual Basic). </param>
+            <returns> An <see cref="T:Atalasoft.Imaging.AtalaImage"/> containing the decoded image. </returns>
+            <exception cref="T:System.ArgumentException"><para><paramref name="stream"/> is null.</para></exception>
+            <exception cref="T:Atalasoft.Imaging.Codec.Office.OfficeDecoderException"><para>error decoding MS Office document.</para></exception>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeDecoder.Read(System.IO.Stream,System.Int32,Atalasoft.Imaging.ProgressEventHandler)">
+            <summary> Read a given frame in an encoded image using this decoder. </summary>
+            <param name="stream"> The input Stream. </param>
+            <param name="frameIndex"> The zero based frame index. </param>
+            <param name="progress"> The progress delegate.  Can be set to <STRONG>null</STRONG> (<STRONG>Nothing</STRONG> in
+            Visual Basic). </param>
+            <returns> An <see cref="T:Atalasoft.Imaging.AtalaImage"/> containing the decoded image. </returns>
+            <exception cref="T:System.ArgumentException"><para><paramref name="stream"/> is null.</para></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="frameIndex"/> is not in range [0, frameCount] (See <see cref="M:Atalasoft.Imaging.Codec.Office.OfficeDecoder.GetFrameCount(System.IO.Stream)"/> for details.).</para>
+            </exception>
+            <exception cref="T:Atalasoft.Imaging.Codec.Office.OfficeDecoderException">
+            <para>error decoding MS Office document.</para>
+            <para>incorrect file format.</para>
+            </exception>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeDecoder.GetTextDocument(System.IO.Stream)">
+            <inheritdoc/>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.OfficeDecoder.Resolution">
+            <summary>
+            Gets or sets a value that specifies the DPI to use when rendering a document. Default value is 96.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.OfficeDecoder.Filters">
+            <summary>
+            Gets the initialized internal document filters objects.
+            </summary>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.OfficeDecoderException">
+            <summary>
+            Thrown in case of problems in OfficeDecoder.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeDecoderException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeDecoderException"/> class.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeDecoderException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeDecoderException"/> class.
+            </summary>
+            <param name="message">Exception message.</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeDecoderException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeDecoderException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeDecoderException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeDecoderException"/> class.
+            </summary>
+            <param name="info">Serialization info</param>
+            <param name="context">Streaming context</param>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.OfficeDisposableTempFileFactory">
+            <summary>
+            A delegate for producing <see cref="T:Atalasoft.Shared.IO.DisposableTempFile"/> used by various stages of Office decoding.
+            </summary>
+            <param name="stream">The stream containing the document which is being decoded.</param>
+            <returns>An instance of <see cref="T:Atalasoft.Shared.IO.DisposableTempFile"/> containing information for a unique, empty temp file.</returns>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.PageSetup">
+            <summary>
+            Represents the page setup description.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Excel.PageSetup.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.PageSetup"/> class.
+            </summary>
+            <param name="dynamicObject">Dynamic object to wrap</param>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Interop.Excel.PageSetup.PrintGridlines">
+            <summary>
+            Gets or sets a value indicating whether cell gridlines are printed on the page.
+            </summary>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Range">
+            <summary>
+            Represents a cell, a row, a column, a selection of cells containing one or more contiguous blocks of cells, or a 3-D range.
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.Interop.Excel.Range._subRanges">
+            <summary>
+            List of all ranges retrieved from this <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Range"/>.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Excel.Range.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Range"/> class.
+            </summary>
+            <param name="dynamicObject">Dynamic object to wrap</param>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Interop.Excel.Range.Value">
+            <summary>
+            Gets or sets a cell or range value object.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Interop.Excel.Range.Item(System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            Gets a <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Range"/> object that represents a cell or a range of cells.
+            </summary>
+            <param name="rowIndex">Row number.</param>
+            <param name="columnIndex">Column number.</param>
+            <remarks>
+            This property is relative to the <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Range"/> object.
+            </remarks>
+            <returns><see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Range"/> object.</returns>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Workbook">
+            <summary>
+            Represents Microsoft Office Excel workbook wrapper.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Excel.Workbook.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Workbook"/> class.
+            </summary>
+            <param name="dynamicObject">Dynamic object to wrap</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Excel.Workbook.Close(System.Nullable{System.Boolean},System.String,System.Nullable{System.Boolean})">
+            <summary>
+            Closes <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Workbook"/>.
+            </summary>
+            <param name="saveChanges">Determines whether <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Workbook"/>  should be saved.</param>
+            <param name="fileName">Specifies where save <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Workbook"/>.</param>
+            <param name="routeWorkbook">Determines whether <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Workbook"/> should be sent to the next recepient.</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Excel.Workbook.ExportAsFixedFormat(Atalasoft.Imaging.Codec.Office.Interop.Excel.FixedFormatType,System.String,System.Nullable{Atalasoft.Imaging.Codec.Office.Interop.Excel.FixedFormatQuality},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Boolean},System.Object)">
+            <summary>
+            Publishes <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Workbook"/> to either the PDF or XPS format.
+            </summary>
+            <param name="type">Output format type.</param>
+            <param name="filename">File location.</param>
+            <param name="quality">Quality of spreadsheets.</param>
+            <param name="includeDocProperties">Determines whether Document properties should be included.</param>
+            <param name="ignorePrintAreas">Determines whether any print areas should be ignored.</param>
+            <param name="from">The number of the page at which to start publishing.</param>
+            <param name="to">The number of the last page to publish.</param>
+            <param name="openAfterPublish">Determines whether displays file in viewer after it is published.</param>
+            <param name="fixedFormatExtClassPtr">Pointer to the FixedFormatExt class.</param>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Interop.Excel.Workbook.Worksheets">
+            <summary>
+            Gets a collection of all the <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Worksheet"/> objects in the current workbook.
+            </summary>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Workbooks">
+            <summary>
+            Represents Microsoft Office Excel workbooks collection.
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.Interop.Excel.Workbooks._workbooks">
+            <summary>
+            All opened and closed workbooks during work session.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Excel.Workbooks.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Workbooks"/> class.
+            </summary>
+            <param name="dynamicObject">Dynamic object to wrap</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Excel.Workbooks.Open(System.String,System.Nullable{System.Int32},System.Nullable{System.Boolean},System.Object,System.String,System.String,System.Nullable{System.Boolean},System.Nullable{System.Int32},System.Nullable{System.Char},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Object,System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Int32})">
+            <summary>
+            Opens a <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Workbook"/>.
+            </summary>
+            <returns>The new <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Workbook"/> instance that was loaded.</returns>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.ExcelApplication">
+            <summary>
+            An implementation of <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.BaseOfficeApplication"/> for interacting with a running instance of Microsoft Excel.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Excel.ExcelApplication.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.ExcelApplication"/> class.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Interop.Excel.ExcelApplication.DisplayAlerts">
+            <summary>
+            Gets or sets a value indicating whether application should display any certain alerts and messages.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Interop.Excel.ExcelApplication.Workbooks">
+            <summary>
+            Gets a <see cref="P:Atalasoft.Imaging.Codec.Office.Interop.Excel.ExcelApplication.Workbooks"/> object, which provides access to tasks related to Excel Workbooks.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Interop.Excel.ExcelApplication.WorksheetFunction">
+            <summary>
+            Gets a <see cref="P:Atalasoft.Imaging.Codec.Office.Interop.Excel.ExcelApplication.WorksheetFunction"/> object, which provides helper methods for manipulating worksheets.
+            </summary>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Worksheet">
+            <summary>
+            Represents Microsoft Office Excel worksheet wrapper.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Excel.Worksheet.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Worksheet"/> class.
+            </summary>
+            <param name="dynamicObject">Dynamic object to wrap</param>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Interop.Excel.Worksheet.Cells">
+            <summary>
+            Gets a <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Range"/> of all <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Worksheet"/> cells.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Interop.Excel.Worksheet.PageSetup">
+            <summary>
+            Gets a <see cref="P:Atalasoft.Imaging.Codec.Office.Interop.Excel.Worksheet.PageSetup"/> of current <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Worksheet"/>.
+            </summary>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.WorksheetFunction">
+            <summary>
+            Represents Microsoft Office Excel worksheet function wrapper.
+            It used as container for functions that can be called.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Excel.WorksheetFunction.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.WorksheetFunction"/> class.
+            </summary>
+            <param name="dynamicObject"></param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Excel.WorksheetFunction.CountA(System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object,System.Object)">
+            <summary>
+            Counts the number of cells that are not empty and the values within the list of arguments.
+            </summary>
+            <returns>Number of cells that are not empty.</returns>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Worksheets">
+            <summary>
+            Represents Microsoft Office Excel worksheets collection wrapper.
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.Interop.Excel.Worksheets._worksheets">
+            <summary>
+            All opened and closed worksheets.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Excel.Worksheets.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Worksheets"/> class.
+            </summary>
+            <param name="dynamicObject">Dynamic object to wrap.</param>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Interop.Excel.Worksheets.Count">
+            <summary>
+            Gets a <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Worksheet"/> count.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Interop.Excel.Worksheets.Item(System.Int32)">
+            <summary>
+            Gets a <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Worksheet"/> by its index.
+            </summary>
+            <param name="index"><see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Worksheet"/> index.</param>
+            <returns>A <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Excel.Worksheet"/> object.</returns>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.OfficeApplicationType">
+            <summary>
+            An identifier for a product of the Microsoft Office suite which the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder"/> is capable of reading.
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.OfficeApplicationType.Word">
+            <summary>
+            Microsoft Office Word.
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.OfficeApplicationType.Excel">
+            <summary>
+            Microsoft Office Excel.
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.OfficeApplicationType.PowerPoint">
+            <summary>
+            Microsoft Office PowerPoint.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeFormatValidator.IsLegacyApplication(System.IO.Stream,Atalasoft.Imaging.Codec.Office.OfficeApplicationType)">
+            <summary>
+            Checks whether the data contained in the stream is a legacy binary office document.
+            </summary>
+            <param name="stream">Stream to validate.</param>
+            <returns>True if the specified stream contains legacy binary office document, otherwise false.</returns>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeFormatValidator.IsOfficeOpenXml(System.IO.Stream,System.String)">
+            <summary>
+            Checks if the data contained in the stream of an OOXML file, with a particular Main Package Part. (.docx, .dotx)
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeFormatValidator.IsOasisContentType(System.IO.Stream,System.Net.Mime.ContentType)">
+            <summary>
+            Tests if the document is a MIME vnd.oasis subtype (.od*)
+            </summary>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.OfficeImageInfo">
+            <summary>
+            A class containing information about an image that was created by the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder"/>.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.OfficeImageInfo.OfficeApplicationType">
+            <summary>
+            Gets the type of Office application which decoded this image.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.OfficeImageInfo.Title">
+            <summary>
+            Gets the title of the document.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.OfficeImageInfo.Subject">
+            <summary>
+            Gets the subject of the document.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.OfficeImageInfo.Author">
+            <summary>
+            Gets the author of the document.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.OfficeImageInfo.Tags">
+            <summary>
+            Gets the keywords for the document.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.OfficeImageInfo.ApplicationName">
+            <summary>
+            Gets the name of the application which created the document.
+            </summary>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.Word.Document">
+            <summary>
+            Represents Microsoft Office Word document wrapper.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Word.Document.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Word.Document"/> class.
+            </summary>
+            <param name="dynamicObject">Dynamic object to wrap.</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Word.Document.Close(System.Nullable{Atalasoft.Imaging.Codec.Office.Interop.Word.SaveOptions},System.Nullable{Atalasoft.Imaging.Codec.Office.Interop.Word.OriginalFormat},System.Nullable{System.Boolean})">
+            <summary>
+            Closes <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Word.Document"/>.
+            </summary>
+            <param name="saveChanges">Specifies <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Word.SaveOptions"/> on document close.</param>
+            <param name="originalFormat">Specifies the save format for the document.</param>
+            <param name="routeDocument">Determines whether <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Word.Document"/> should be sent to the next recepient.</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Word.Document.ExportAsFixedFormat(System.String,Atalasoft.Imaging.Codec.Office.Interop.Word.ExportFormat,System.Nullable{System.Boolean},System.Nullable{Atalasoft.Imaging.Codec.Office.Interop.Word.ExportOptimizeFor},System.Nullable{Atalasoft.Imaging.Codec.Office.Interop.Word.ExportRange},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{Atalasoft.Imaging.Codec.Office.Interop.Word.ExportItem},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{Atalasoft.Imaging.Codec.Office.Interop.Word.ExportCreateBookmarks},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Object)">
+            <summary>
+            Exports <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Word.Document"/> to either the PDF or XPS format. 
+            </summary>
+            <param name="outputFileName">File location.</param>
+            <param name="exportFormat">Output format type.</param>
+            <param name="openAfterExport">Determines whether displays file in viewer after it is exported.</param>
+            <param name="optimizeFor">Specifies whether to optimize for screen or print.</param>
+            <param name="range">Specifies whether the export range is the entire document, the current page, a range of text, or the current selection.</param>
+            <param name="from">Specifies the starting page number,if the Range parameter is set to <see cref="F:Atalasoft.Imaging.Codec.Office.Interop.Word.ExportRange.FromTo"/>.</param>
+            <param name="to">Specifies the ending page number,if the Range parameter is set to <see cref="F:Atalasoft.Imaging.Codec.Office.Interop.Word.ExportRange.FromTo"/>.</param>
+            <param name="item">Specifies whether the export process includes text only or includes text with markup.</param>
+            <param name="includeDocProps">Specifies whether to include document properties in the newly exported file.</param>
+            <param name="keepIrm">Specifies whether to copy IRM permissions to an XPS document if the source document has IRM protections.</param>
+            <param name="createBookmarks">Specifies whether to export bookmarks and the type of bookmarks to export.</param>
+            <param name="docStructureTags">Specifies whether to include extra data to help screen readers,
+            for example information about the flow and logical organization of the content. </param>
+            <param name="bitmapMissingFonts">Specifies whether to include a bitmap of the text.</param>
+            <param name="useIso190051">Specifies whether to limit PDF usage to the PDF subset standardized as ISO 19005-1.</param>
+            <param name="fixedFormatExtClassPtr">Specifies a pointer to an add-in that allows calls to an alternate implementation of code.</param>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.Word.Documents">
+            <summary>
+            Represents Microsoft Office Word documents collection.
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.Interop.Word.Documents._documents">
+            <summary>
+            All opened and closed documents during work session.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Word.Documents.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Word.Documents"/> class.
+            </summary>
+            <param name="dynamicObject">Dynamic object to wrap</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Word.Documents.Open(System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.String,System.String,System.Nullable{System.Boolean},System.String,System.String,System.Nullable{Atalasoft.Imaging.Codec.Office.Interop.Word.OpenFormat},System.Nullable{System.Int32},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{Atalasoft.Imaging.Codec.Office.Interop.Word.DocumentDirection},System.Nullable{System.Boolean})">
+            <summary>
+            Opens a <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Word.Document"/>.
+            </summary>
+            <returns>The new <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Word.Document"/> instance that was loaded.</returns>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Interop.Word.WordApplication">
+            <summary>
+            An implementation of <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.BaseOfficeApplication"/> for interacting with a running instance of Microsoft Word.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Word.WordApplication.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Word.WordApplication"/> class.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Word.WordApplication.Quit(System.Nullable{Atalasoft.Imaging.Codec.Office.Interop.Word.SaveOptions},System.Nullable{Atalasoft.Imaging.Codec.Office.Interop.Word.OriginalFormat},System.Nullable{System.Boolean})">
+            <summary>
+            Quits <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Word.WordApplication"/> and optionally saves or routes the open documents.
+            </summary>
+            <param name="saveChanges">Specifies whether Word saves changed documents before quitting.</param>
+            <param name="originalFormat">Specifies the way Word saves documents whose original format was not Word Document format.</param>
+            <param name="routeDocument">Specifies whether Word routes the document to the next recipient.</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Interop.Word.WordApplication.Quit">
+            <summary>
+            Quits <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Word.WordApplication"/> without saving.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Interop.Word.WordApplication.Documents">
+            <summary>
+            Gets a <see cref="P:Atalasoft.Imaging.Codec.Office.Interop.Word.WordApplication.Documents"/> object, which provides access to tasks related to Word Documents.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Interop.Word.WordApplication.Options">
+            <summary>
+            Gets a current <see cref="T:Atalasoft.Imaging.Codec.Office.Interop.Word.WordApplication"/> application <see cref="P:Atalasoft.Imaging.Codec.Office.Interop.Word.WordApplication.Options"/>.
+            </summary>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.OfficeSession">
+            <summary>
+            Creates a disposable Office session for use with the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder"/> for decoding a batch of images.
+            </summary>
+            <example>
+            Using the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeSession"/> with the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeAdapterDecoder"/> to decode a batch of various documents:
+            <code>
+            // By default, the office decoder will create a new session for each document decoded.
+            // This leads to performance degradation if the same decoder is used to decode several files.
+            // To remedy this, the OfficeSession class was created, which encapulates a set of running Office
+            // applications, leaving them open for as long as they are needed.
+            // The session implements IDisposable, and must be disposed or have the Close method called when it is no longer needed.
+            using(OfficeSession officeSession = OfficeSession.Open())
+            {
+                OfficeDecoder officeDecoder = new OfficeDecoder(officeSession);
+            
+                // With the OfficeDecoder created using the session, we now decode images as usual.
+                // The decoder will now use the Office applications provided by the OfficeSession.
+            
+                using(Stream wordDocumentStream = File.OpenRead("wordDocument.doc"))
+                {
+                    AtalaImage wordDocumentImage = officeDecoder.Read(wordDocumentStream, null);
+                }
+                using(Stream wordXmlDocumentStream = File.OpenRead("wordXmlDocument.docx"))
+                {
+                    AtalaImage wordXmlDocumentImage = officeDecoder.Read(wordXmlDocumentStream, null);
+                }
+                using(Stream excelDocumentStream = File.OpenRead("excelDocument.ppt"))
+                {
+                    AtalaImage excelDocumentImage = officeDecoder.Read(excelDocumentStream, null);
+                }
+                using(Stream excelXmlDocumentStream = File.OpenRead("excelXmlDocument.pptx"))
+                {
+                    AtalaImage excelXmlDocumentImage = officeDecoder.Read(excelXmlDocumentStream, null);
+                }
+            }
+            </code>
+            </example>
+            <threadsafety static="false" instance="true"/>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeSession.SafeDispose``1(``0@,System.Object)">
+            <summary>
+            Attempts to dispose a potentially <code>null</code> <see cref="T:System.IDisposable"/> object. This method is thread-safe and idempotent.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeSession.Open">
+            <summary>
+            Opens a new <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeSession"/>. This session must be <see cref="M:System.IDisposable.Dispose">Disposed</see> or <see cref="M:Atalasoft.Imaging.Codec.Office.OfficeSession.Close">Closed</see> when it is no longer needed.
+            </summary>
+            <returns>An instance of <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeSession"/>.</returns>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.OfficeSession.wordApplicationLock">
+            <summary>
+            Ensures only one instance of <see cref="P:Atalasoft.Imaging.Codec.Office.OfficeSession.WordApplication"/> is created, even if the instance of this class gets shared between threads.
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.OfficeSession.excelApplicationLock">
+            <summary>
+            Ensures only one instance of <see cref="P:Atalasoft.Imaging.Codec.Office.OfficeSession.ExcelApplication"/> is created, even if the instance of this class gets shared between threads.
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.OfficeSession.powerPointApplicationLock">
+            <summary>
+            Ensures only one instance of <see cref="P:Atalasoft.Imaging.Codec.Office.OfficeSession.PowerPointApplication"/> is created, even if the instance of this class gets shared between threads.
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.OfficeSession.wordApplication">
+            <summary>
+            The singleton instance of <see cref="P:Atalasoft.Imaging.Codec.Office.OfficeSession.WordApplication"/>. This field may be <code>null</code> if the <see cref="P:Atalasoft.Imaging.Codec.Office.OfficeSession.WordApplication"/> was never requested.
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.OfficeSession.excelApplication">
+            <summary>
+            The singleton instance of <see cref="P:Atalasoft.Imaging.Codec.Office.OfficeSession.ExcelApplication"/>. This field may be <code>null</code> if the <see cref="P:Atalasoft.Imaging.Codec.Office.OfficeSession.ExcelApplication"/> was never requested.
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.OfficeSession.powerPointApplication">
+            <summary>
+            The singleton instance of <see cref="P:Atalasoft.Imaging.Codec.Office.OfficeSession.PowerPointApplication"/>. This field may be <code>null</code> if the <see cref="P:Atalasoft.Imaging.Codec.Office.OfficeSession.PowerPointApplication"/> was never requested.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeSession.Finalize">
+            <summary>
+            Releases unmanaged resources and performs other cleanup operations before the
+            <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeSession"/> is reclaimed by garbage collection.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeSession.Close">
+            <summary>
+            Closes the <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeSession"/>, releasing any open Office applications.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.OfficeSession.System#IDisposable#Dispose">
+            <summary>
+            Disposes this <see cref="T:Atalasoft.Imaging.Codec.Office.OfficeSession"/>, closing any open Microsoft Office applications.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.OfficeSession.WordApplication">
+            <summary>
+            Gets or creates the instance of <see cref="P:Atalasoft.Imaging.Codec.Office.OfficeSession.WordApplication"/>.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.OfficeSession.ExcelApplication">
+            <summary>
+            Gets or creates the instance of <see cref="P:Atalasoft.Imaging.Codec.Office.OfficeSession.ExcelApplication"/>.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.OfficeSession.PowerPointApplication">
+            <summary>
+            Gets or creates the instance of <see cref="P:Atalasoft.Imaging.Codec.Office.OfficeSession.ExcelApplication"/>.
+            </summary>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.strings">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.CorruptedDifatSector">
+            <summary>
+              Looks up a localized string similar to File has corrupted DIFAT sector..
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.FailedToGetOfficeDocumentMetadata">
+            <summary>
+              Looks up a localized string similar to Failed to retrieve MS Office document metadata..
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.FailedToOpenOfficeDocument">
+            <summary>
+              Looks up a localized string similar to Failed to open MS Office document..
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.FailedToRenderPage">
+            <summary>
+              Looks up a localized string similar to Failed to render page..
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.InvalidByteOrder">
+            <summary>
+              Looks up a localized string similar to Invalid byte order..
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.InvalidDirectorySectorCount">
+            <summary>
+              Looks up a localized string similar to Invalid directory sector count..
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.InvalidFileFormat">
+            <summary>
+              Looks up a localized string similar to The specified stream does not have a valid office document..
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.InvalidFrameIndexParam">
+            <summary>
+              Looks up a localized string similar to Frame index must be in the range [0, frameCount). See GetFrameCount method..
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.InvalidHeaderClsid">
+            <summary>
+              Looks up a localized string similar to Invalid Header CLSID..
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.InvalidHeaderSignature">
+            <summary>
+              Looks up a localized string similar to Invalid header signature..
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.InvalidMajorVersion">
+            <summary>
+              Looks up a localized string similar to Invalid major version..
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.InvalidMiniSectorShift">
+            <summary>
+              Looks up a localized string similar to Invalid mini sector shift..
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.InvalidMiniStreamCutoff">
+            <summary>
+              Looks up a localized string similar to Invalid Mini Stream Cutoff Size..
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.InvalidReservedBytes">
+            <summary>
+              Looks up a localized string similar to Invalid reserved bytes..
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.InvalidSectorShift">
+            <summary>
+              Looks up a localized string similar to Invalid sector shift..
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.UnableToOpenDocument">
+            <summary>
+              Looks up a localized string similar to Unable to open document..
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.UnableToOpenPresentation">
+            <summary>
+              Looks up a localized string similar to Unable to open presentation..
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.UnableToOpenWorkbook">
+            <summary>
+              Looks up a localized string similar to Unable to open workbook..
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.UnableToStartOfficeApplication">
+            <summary>
+              Looks up a localized string similar to Unable to create the Microsoft Office {0} process. Ensure that Microsoft Office is installed..
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.strings.UnexpectedEndOfFile">
+            <summary>
+              Looks up a localized string similar to Unexpected end-of-file..
+            </summary>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Text.TextDocument">
+            <summary>
+            Represents text extractor document.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Text.TextDocument.#ctor(Perceptive.DocumentFilters.Extractor,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Text.TextDocument"/> class.
+            </summary>
+            <param name="extractor">The office documents content extractor.</param>
+            <param name="resolution">The target image resolution to map text coordinates.</param>
+            <exception cref="T:System.ArgumentNullException">extractor</exception>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Text.TextDocument.Atalasoft#Imaging#Text#ITextDocument#GetPage(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Text.TextDocument.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Text.TextDocument.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Text.TextDocument.Atalasoft#Imaging#Text#ITextDocument#PageCount">
+            <inheritdoc/>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Text.TextDocument.ExtractionGranularity">
+            <inheritdoc/>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Text.TextPage">
+            <summary>
+            Represents office document text page.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Text.TextPage.#ctor(Perceptive.DocumentFilters.Page,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Text.TextPage"/> class.
+            </summary>
+            <param name="page">The page.</param>
+            <param name="resolution"></param>
+            <exception cref="T:System.ArgumentNullException">page</exception>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Text.TextPage.Atalasoft#Imaging#Text#ITextPage#GetTextSegments">
+            <inheritdoc/>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Text.TextPage.GetText">
+            <inheritdoc/>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Text.TextPage.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Text.TextPage.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Text.TextPage.Width">
+            <inheritdoc/>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Text.TextPage.Height">
+            <inheritdoc/>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Text.TextPage.Rotate">
+            <inheritdoc/>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Text.TextPage.SegmentsCount">
+            <inheritdoc/>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Text.TextPage.Resolution">
+            <inheritdoc/>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Text.TextSegment">
+            <summary>
+            Represents office document text segment.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Text.TextSegment.#ctor(System.String,System.Drawing.RectangleF)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Text.TextSegment"/> class.
+            </summary>
+            <param name="text">The word text.</param>
+            <param name="bounds">The word bounds.</param>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Text.TextSegment.Atalasoft#Imaging#Text#ITextSegment#Text">
+            <inheritdoc/>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Text.TextSegment.Atalasoft#Imaging#Text#ITextSegment#Bounds">
+            <inheritdoc/>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Text.TextSegment.Atalasoft#Imaging#Text#ITextSegment#Glyphs">
+            <inheritdoc/>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileDetector">
+            <summary>
+            Implements legacy office files detector.
+            </summary>
+            <para>
+            This <see cref="T:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileDetector"/> class implements office file detection method based on browsing File Structure.
+            </para>
+            <para>
+            see:
+            <list type="bullet">
+            <item><description>
+            doc: https://msdn.microsoft.com/en-us/library/dd926131(v=office.12).aspx
+            </description></item>
+            <item><description>
+            xls: https://msdn.microsoft.com/en-us/library/dd911008(v=office.12).aspx
+            </description></item>
+            <item><description>
+            ppt: https://msdn.microsoft.com/en-us/library/dd908567(v=office.12).aspx AND https://msdn.microsoft.com/en-us/library/dd921564(v=office.12).aspx.
+            </description></item>
+            </list>
+            </para>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileDetector.DetectType(System.IO.Stream)">
+            <summary>
+            Detects the type of the data in the stream.
+            </summary>
+            <param name="stream">Stream with data to validate.</param>
+            <returns>Type of stream data.</returns>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileHeader">
+            <summary>
+            Represents office binary header. For details about properties see: https://msdn.microsoft.com/en-us/library/dd941946.aspx
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileHeader.NumOfDifatEntries">
+            <summary>
+            Number of DIFAT entries in header.
+            </summary>
+            <remarks>
+            From https://msdn.microsoft.com/en-us/library/dd941958.aspx:
+            As an optimization, the first 109 FAT sectors are represented within the header itself.
+            </remarks>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileHeader.HeaderSignature">
+            <summary>
+            Identification signature for the compound file structure.
+            </summary>
+            <remarks>
+            MUST be set to the value 0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1.
+            </remarks>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileHeader.LeByteOrder">
+            <summary>
+            Little-endian byte order.
+            </summary>
+            <remarks>
+            This field MUST be set to 0xFFFE.
+            </remarks>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileHeader.MiniSectorShift">
+            <summary>
+            The sector size of the Mini Stream as a power of 2.
+            </summary>
+            <remarks>
+            MUST be set to 0x0006.
+            The sector size of the Mini Stream MUST be 64 bytes.
+            </remarks>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileHeader.MiniStreamCutoff">
+            <summary>
+            The maximum size of a user-defined data stream that is allocated from the mini FAT and mini stream.
+            </summary>
+            <remarks>
+            This field specifies the maximum size of a user-defined data stream
+            that is allocated from the mini FAT and mini stream, and that cutoff is 4,096 bytes.
+            Any user-defined data stream that is larger than or equal to this cutoff size
+            must be allocated as normal sectors from the FAT.
+            </remarks>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileHeader.Ver3SectorShift">
+            <summary>
+            Sector Shift, specifying a sector size of 512 bytes.
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileHeader.Ver4SectorShift">
+            <summary>
+            Sector Shift, specifying a sector size of 4096 bytes.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileHeader.Build(System.IO.BinaryReader)">
+            <summary>
+            Builds file header from stream.
+            </summary>
+            <param name="streamReader">Input stream reader.</param>
+            <returns>File header.</returns>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileHeader.DifatEntries">
+            <summary>
+            Gets DIFAT entries cotained in header.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileHeader.DifatSectorsCount">
+            <summary>
+            Gets number of DIFAT sectors.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileHeader.DirectorySectorsCount">
+            <summary>
+            Gets number of directory sectors.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileHeader.FatSectorsCount">
+            <summary>
+            Gets number of FAT sectors.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileHeader.FirstDifatSector">
+            <summary>
+            Gets first DIFAT sector number.
+            </summary>
+            <remarks>
+            Value can be 0xFFFFFE (end of chain). It means that DIFAT doesn't have any extensions.
+            </remarks>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileHeader.FirstDirectorySector">
+            <summary>
+            Gets first Director sector number.
+            </summary>
+        </member>
+        <member name="P:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileHeader.SectorShift">
+            <summary>
+            Gets exponent value of sector size.
+            </summary>
+        </member>
+        <member name="T:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileSectorChainBuilder">
+            <summary>
+            Impements sectors chain builder based on DIFAT and FAT entries in.
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileSectorChainBuilder.EndOfChain">
+            <summary>
+            Reserved value in FAT/DIFAT, that means end of sector chain (see: https://msdn.microsoft.com/en-us/library/dd942335.aspx).
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileSectorChainBuilder.MaxRegSect">
+            <summary>
+            Reserved value in FAT/DIFAT, that means maximum regular sector number (see: https://msdn.microsoft.com/en-us/library/dd942335.aspx).
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileSectorChainBuilder.TableEntryLength">
+            <summary>
+            FAT/DIFAT entry length (see:https://msdn.microsoft.com/en-us/library/dd941958.aspx and https://msdn.microsoft.com/en-us/library/dd942048.aspx).
+            </summary>
+        </member>
+        <member name="F:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileSectorChainBuilder._fatEntries">
+            <summary>
+            FAT entries where index is current sector and entry is next sector in chain.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileSectorChainBuilder.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileSectorChainBuilder"/> class.
+            </summary>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileSectorChainBuilder.GetChainBuilder(System.IO.BinaryReader)">
+            <summary>
+            Creates chain builder from stream.
+            </summary>
+            <param name="reader">Input stream reader.</param>
+            <returns>Chain builder.</returns>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileSectorChainBuilder.GetChain(System.UInt32)">
+            <summary>
+            Creates and returns chain sector from specified sector.
+            </summary>
+            <remarks>
+            Resulting chain includes start sector and doesn't include EndOfChain sector.
+            </remarks>
+            <param name="startSector">First sector of chain.</param>
+            <returns>Sectors chain.</returns>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileSectorChainBuilder.BuildFat(System.IO.BinaryReader)">
+            <summary>
+            Builds FAT from stream.
+            </summary>
+            <param name="streamReader">Input stream reader.</param>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileSectorChainBuilder.GetDifatEntries(System.IO.BinaryReader,Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileHeader)">
+            <summary>
+            Gets valuable DIFAT entries from all DIFAT sectors.
+            </summary>
+            <param name="streamReader">Input stream reader.</param>
+            <param name="header">Input stream header.</param>
+            <returns>Collection of DIFAT entries.</returns>
+        </member>
+        <member name="M:Atalasoft.Imaging.Codec.Office.Utilities.OfficeBinaryFileSectorChainBuilder.GetDifatEntries(System.IO.BinaryReader,System.UInt32,System.UInt32@)">
+            <summary>
+            Gets valuable DIFAT entries from specified sector. Also returns next DIFAT sector.
+            </summary>
+            <param name="streamReader">Input stream reader.</param>
+            <param name="sectorSize">Input stream sector size.</param>
+            <param name="difatSector">Number of sector where DIFAT part is located.
+            </param>
+            <returns>Collection of valuable DIFAT entries.</returns>
+        </member>
+    </members>
+</doc>

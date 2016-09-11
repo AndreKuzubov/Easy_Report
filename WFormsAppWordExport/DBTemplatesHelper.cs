@@ -21,7 +21,6 @@ using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Data;
 using System.IO;
-using System.Data.Linq;
 using System.Xml.Linq;
 using System.ComponentModel;
 using System.Drawing;

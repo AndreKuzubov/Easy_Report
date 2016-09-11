@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+ 
+  <Import Project="..\build\Atalasoft.PlatformCheck.x86.targets" Condition="Exists('Atalasoft.PlatformCheck.x86.targets')" />
+
+  <Target Name="CopyNativeReferences">
+
+    <Message Text="$(MSBuildThisFileDirectory) => $(OutDir)\"></Message>    
+
+    <ItemGroup>
+      <DocumentFiltersItems Include="$(MSBuildThisFileDirectory)..\lib\PerceptiveDocumentFilters\intel-32\*.*" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(DocumentFiltersItems)" 
+      DestinationFolder="$(OutDir)" 
+      SkipUnchangedFiles="true" />
+
+  </Target>
+
+  <PropertyGroup>
+     <AfterBuildDependsOn>
+        $(AfterBuildDependsOn);
+        CopyNativeReferences;
+     </AfterBuildDependsOn>
+  </PropertyGroup>
+
+  <Target Name="AfterBuild" DependsOnTargets="$(AfterBuildDependsOn)"/>
+
+  <Target Name="CleanNativeReferences">
+
+    <ItemGroup>
+      <DocumentFiltersItems Include="$(MSBuildThisFileDirectory)..\lib\PerceptiveDocumentFilters\intel-32\*.*" />
+    </ItemGroup>
+
+    <Delete Files="@(DocumentFiltersItems->'$(OutDir)\%(Filename)%(Extension)')"/>
+  </Target>
+
+  <PropertyGroup>
+     <CleanDependsOn>
+        $(CleanDependsOn);
+        CleanNativeReferences;
+     </CleanDependsOn>
+  </PropertyGroup>
+
+</Project>
+

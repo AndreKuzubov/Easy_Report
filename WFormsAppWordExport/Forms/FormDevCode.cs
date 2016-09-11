@@ -15,12 +15,6 @@ limitations under the License.
 */
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Word = NetOffice.WordApi;
 using WordEnums = NetOffice.WordApi.Enums;
@@ -149,8 +143,8 @@ namespace WFormsAppWordExport.Forms
                 #region get expected data
                 ParameterInfo p= getParametr(suggestion, flag - 1);
                 if (p == null) return;
-                System.Attribute[] attrs  = p.GetCustomAttributes().ToArray();
-
+                //System.Attribute[] attrs  = p.GetCustomAttributes().ToArray();
+                object []attrs=p.GetCustomAttributes(true);
                 foreach (System.Attribute attr in attrs)
                 {
                     if (attr is MettodVariantsAttribute)
