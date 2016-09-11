@@ -17,7 +17,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Data.SqlClient;
+//using System.Data.SqlClient;
+using Npgsql;
 using System.Windows.Forms;
 using System.Data;
 using System.IO;
@@ -53,8 +54,8 @@ namespace WFormsAppWordExport
             }
            
         }
-  
-        SqlConnection myConn = null;
+
+        NpgsqlConnection myConn = null;
         String fileParamsName { get
             {
                 return dir + "\\" + name + ".prms";
@@ -105,14 +106,15 @@ namespace WFormsAppWordExport
       
         private void bindDB()
         {
-            myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;");
+            //myConn = new NpgsqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;");
+            myConn = new NpgsqlConnection("Server=127.0.0.1;Port=5432;");
             String str = "CREATE DATABASE " + name + " ON  "
                 + "(NAME = MyDatabase_Data, " +
                 "FILENAME = '" + fileParamsName + "') FOR ATTACH; ";
             myConn.Open();
             try
             {
-                new SqlCommand(str, myConn).ExecuteNonQuery();
+                new NpgsqlCommand(str, myConn).ExecuteNonQuery();
             }catch(System.SystemException es)
             {
 
@@ -135,9 +137,10 @@ namespace WFormsAppWordExport
             }
             try
             {
-                initial.myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;User Instance=False");
+                //initial.myConn = new NpgsqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;User Instance=False");
+                initial.myConn = new NpgsqlConnection("Server=127.0.0.1;Port=5432;");
                 initial.myConn.Open();
-                new SqlCommand(@"ALTER DATABASE " + name + @" SET offline  WITH ROLLBACK IMMEDIATE;" +
+                new NpgsqlCommand(@"ALTER DATABASE " + name + @" SET offline  WITH ROLLBACK IMMEDIATE;" +
                             "DROP DATABASE [" + name + "]", initial.myConn).ExecuteNonQuery();
                 initial.myConn.Close();//SINGLE_USER WITH ROLLBACK IMMEDIATE; SINGLE_USER
             }
@@ -157,7 +160,8 @@ namespace WFormsAppWordExport
             if (name.Equals(sysName))
             {
                 #region create sys db 
-                myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;");
+                //myConn = new NpgsqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;");
+                myConn = new NpgsqlConnection("Server=127.0.0.1;Port=5432;");
 
                 String str = "CREATE DATABASE " + name + " ON PRIMARY " 
                     +"(NAME = MyDatabase_Data, " +
@@ -176,7 +180,7 @@ namespace WFormsAppWordExport
             try
                 {
 
-                    SqlCommand myCommand = new SqlCommand(str, myConn);
+                    NpgsqlCommand myCommand = new NpgsqlCommand(str, myConn);
                     myConn.Open();
                     myCommand.ExecuteNonQuery();
                     myConn.Close();
@@ -215,8 +219,9 @@ namespace WFormsAppWordExport
         {
             try
             {
-                myConn = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename='" + fileParamsName + "';"
-             + "Integrated Security=True;Connect Timeout=30;");
+                //myConn = new NpgsqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename='" + fileParamsName + "';"
+             //+ "Integrated Security=True;Connect Timeout=30;");
+                myConn = new NpgsqlConnection("Server=127.0.0.1;Port=5432; AttachDbFilename='" + fileParamsName + "';");
                 myConn.Open();
             }
             catch (SystemException es)
@@ -286,12 +291,12 @@ namespace WFormsAppWordExport
 
             try
             {
-                new SqlCommand(s1, myConn).ExecuteNonQuery();
-                new SqlCommand(s2, myConn).ExecuteNonQuery();
-                new SqlCommand(s3, myConn).ExecuteNonQuery();
-                new SqlCommand(s4, myConn).ExecuteNonQuery();
-                new SqlCommand(s5, myConn).ExecuteNonQuery();
-                new SqlCommand(s6, myConn).ExecuteNonQuery();
+                new NpgsqlCommand(s1, myConn).ExecuteNonQuery();
+                new NpgsqlCommand(s2, myConn).ExecuteNonQuery();
+                new NpgsqlCommand(s3, myConn).ExecuteNonQuery();
+                new NpgsqlCommand(s4, myConn).ExecuteNonQuery();
+                new NpgsqlCommand(s5, myConn).ExecuteNonQuery();
+                new NpgsqlCommand(s6, myConn).ExecuteNonQuery();
             }
             catch
             {
@@ -304,11 +309,11 @@ namespace WFormsAppWordExport
         {
             String s;
             s = "INSERT INTO \"Образ Обьекта\" (Название,flags,Очередность) VALUES (N'Пешеход',1,0),(N'Водитель',1,1),(N'Пострадавший',1,2)";
-            new SqlCommand(s, myConn).ExecuteNonQuery();
+            new NpgsqlCommand(s, myConn).ExecuteNonQuery();
             s = "INSERT INTO \"Характеристика\" (Вопрос) VALUES (N'Имя'),(N'Возраст'),(N'стаж'),(N'степень повреждений'),(N'место в машине')";
-            new SqlCommand(s, myConn).ExecuteNonQuery();
+            new NpgsqlCommand(s, myConn).ExecuteNonQuery();
             s = "INSERT INTO \"Описание Обьекта\" (\"id характеристики\",\"id образа обьекта\") VALUES (1,1),(1,2),(1,3),(2,1),(2,2),(2,3),(3,2),(4,3),(5,1)";
-            new SqlCommand(s, myConn).ExecuteNonQuery();
+            new NpgsqlCommand(s, myConn).ExecuteNonQuery();
         }
 
         ~DBTemplatesHelper()
@@ -331,9 +336,10 @@ namespace WFormsAppWordExport
         {
             String s = "SELECT [Характеристика].* FROM [Образ Обьекта],[Характеристика], [Описание обьекта] WHERE [Образ Обьекта].id = "+idObj
                 +" and [Описание обьекта].[id Образа обьекта]=[Образ Обьекта].id and [Описание обьекта].[id характеристики]=Характеристика.id "
-                 + "order by isnull([Характеристика].Очередность,2147483647)"; ;
-            SqlDataAdapter sqlAdapter = new SqlDataAdapter(s, myConn);
-            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(sqlAdapter);
+                 + "order by isnull([Характеристика].Очередность,2147483647)";
+            
+            NpgsqlDataAdapter sqlAdapter = new NpgsqlDataAdapter(s, myConn);
+            NpgsqlCommandBuilder commandBuilder = new NpgsqlCommandBuilder(sqlAdapter);
 
             DataTable table = new DataTable();
             table.Locale = System.Globalization.CultureInfo.InvariantCulture;
@@ -349,13 +355,13 @@ namespace WFormsAppWordExport
             //корневае узлы
             String s1 = "Select * from [Образ Обьекта] where[Образ Обьекта].flags & 1 = 1 order by  isnull([Образ Обьекта].Очередность,2147483647)";
 
-            SqlDataReader r = null;
+            NpgsqlDataReader r = null;
             Essence es = null;
 
             #region Заполнение узлов дерева с данными из базы
             try
             {
-                r = new SqlCommand(s1, myConn).ExecuteReader();
+                r = new NpgsqlCommand(s1, myConn).ExecuteReader();
                 while (r.Read())
                 {
                    es=new Essence((int)r[0],r[1].ToString(),
@@ -397,11 +403,11 @@ namespace WFormsAppWordExport
                + " and [Описание обьекта].[id Образа обьекта]=[Образ Обьекта].id and [Описание обьекта].[id характеристики]=Характеристика.id "
                + "order by  isnull([Характеристика].Очередность,2147483647)";
 
-            SqlDataReader r = null;
+            NpgsqlDataReader r = null;
             List<int> idsFeatures = new List<int>();
             try
             {
-                r = new SqlCommand(s, myConn).ExecuteReader();
+                r = new NpgsqlCommand(s, myConn).ExecuteReader();
                 while (r.Read())
                 {
                     Feature f = new Feature(outEs,(int)r[0], r[2].ToString(), null, r.IsDBNull(1) ? 0 : (TYPE_ANSWER)(int)r[1], r.IsDBNull(4) ? null : r[4].ToString(),
@@ -434,10 +440,10 @@ namespace WFormsAppWordExport
         {
             String rtfText=null;
             String s = "SELECT * FROM [Параграфы] WHERE flag = 1";
-            SqlDataReader r = null;
+            NpgsqlDataReader r = null;
             try
             {
-                r = new SqlCommand(s, myConn).ExecuteReader();
+                r = new NpgsqlCommand(s, myConn).ExecuteReader();
                 if (r.Read())
                 {
                     rtfText = r[2].ToString();
@@ -456,7 +462,7 @@ namespace WFormsAppWordExport
             if (rtfText==null)
             {
                 s = @"insert into [Параграфы] (flag,Script) Values (1,N'')";
-                new SqlCommand(s, myConn).ExecuteNonQuery();
+                new NpgsqlCommand(s, myConn).ExecuteNonQuery();
                 return "";   
             }
 
@@ -467,8 +473,8 @@ namespace WFormsAppWordExport
         {
             try {
                 String s = "Update [Параграфы] SET Script= @T WHERE flag = 1";
-                SqlCommand cmd = new SqlCommand(s, myConn);
-                cmd.Parameters.Add("@T", SqlDbType.NText).Value = rtfText;
+                NpgsqlCommand cmd = new NpgsqlCommand(s, myConn);
+                //cmd.Parameters.Add("@T", NpgsqlTypes.NpgsqlDbType.Text).Value = rtfText;
                 cmd.ExecuteNonQuery();
             }catch (System.Exception ex)
             {
@@ -480,13 +486,13 @@ namespace WFormsAppWordExport
         public int insertCodeToDB(String script,int flag)
         {
             String s = @"insert into [Параграфы] (flag,script) Values ("+flag+",N'" + script + "')";
-            new SqlCommand(s, myConn).ExecuteNonQuery();
+            new NpgsqlCommand(s, myConn).ExecuteNonQuery();
 
             s = "SELECT @@IDENTITY";
-            SqlDataReader r = null;
+            NpgsqlDataReader r = null;
             try
             {
-                r = new SqlCommand(s, myConn).ExecuteReader();
+                r = new NpgsqlCommand(s, myConn).ExecuteReader();
                 r.Read();
                 int id = (int)Decimal.ToInt32((Decimal)r[0]);
                 return id;
@@ -507,10 +513,10 @@ namespace WFormsAppWordExport
         {
             String code = null;
             String s = "SELECT * FROM [Параграфы] WHERE id = " + id;
-            SqlDataReader r=null;
+            NpgsqlDataReader r =null;
             try
             {
-                r = new SqlCommand(s, myConn).ExecuteReader();
+                r = new NpgsqlCommand(s, myConn).ExecuteReader();
                 r.Read();
                 code = r[2].ToString();
                 return code;
@@ -531,7 +537,7 @@ namespace WFormsAppWordExport
         {
             try {
                 String s = "Update [Параграфы] SET script=N'" + script + "' WHERE id = " + id;
-                new SqlCommand(s, myConn).ExecuteNonQuery();
+                new NpgsqlCommand(s, myConn).ExecuteNonQuery();
             }
             catch (System.Exception ex)
             {
@@ -544,7 +550,7 @@ namespace WFormsAppWordExport
             try
             {
                 String s = "DELETE FROM [Параграфы] WHERE id = " + id;
-                new SqlCommand(s, myConn).ExecuteNonQuery();
+                new NpgsqlCommand(s, myConn).ExecuteNonQuery();
             }
             catch (System.Exception ex)
             {
@@ -571,13 +577,13 @@ namespace WFormsAppWordExport
             s+= "order by  isnull([Образ Обьекта].Очередность,2147483647)";
             List<int> outNodesIds = new List<int>();
             List<int[]> contextNodesGroupsIds = new List<int[]>();
-            SqlDataReader r = null;
+            NpgsqlDataReader r = null;
             Essence es = null;
 
             #region Заполнение узла абстрактными узлами
             try
             {
-                r = new SqlCommand(s, myConn).ExecuteReader();
+                r = new NpgsqlCommand(s, myConn).ExecuteReader();
                 while (r.Read())
                 {
                     es = new Essence((int)r[0],r[1].ToString(),
@@ -612,18 +618,16 @@ namespace WFormsAppWordExport
             #endregion
         }
 
-      
-
         private void getChooseAnswersToFeature(Feature outFeature,int idFeature)
         {
             String s = "SELECT [Вариант ответа].* FROM [Вариант ответа],[Характеристика], [Выборка] WHERE [Характеристика].id = " + idFeature
             + " and [Выборка].[id характеристики]=[Характеристика].id and [Выборка].[id варианта]=[Вариант ответа].id "
              + "order by  isnull([Вариант ответа].Очередность,2147483647)"; ;
 
-            SqlDataReader r = null;
+            NpgsqlDataReader r = null;
             try
             {
-                r = new SqlCommand(s, myConn).ExecuteReader();
+                r = new NpgsqlCommand(s, myConn).ExecuteReader();
                 while (r.Read())
                 {
                     outFeature.sAnswers.Add(new Choose_Answer(DBAnswer.read(r)));
@@ -644,10 +648,10 @@ namespace WFormsAppWordExport
         private int getLastID()
         {
             String s = "SELECT @@IDENTITY";
-            SqlDataReader r = null;
+            NpgsqlDataReader r = null;
             try
             {
-                r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                r = new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
                 r.Read();
                 return (int)Decimal.ToInt32((Decimal)r[0]);
             }
@@ -679,10 +683,10 @@ namespace WFormsAppWordExport
             public static DBObject get(int id)
             {
                 String s = "SELECT * FROM \"Образ Обьекта\" WHERE id = " + id + " ";
-                SqlDataReader r = null;
+                NpgsqlDataReader r = null;
                 try
                 {
-                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    r = new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
                     r.Read();
                     return DBObject.read(r);
                 }
@@ -704,10 +708,10 @@ namespace WFormsAppWordExport
                 List<DBObject> dbObjs = new List<DBObject>();
                 String s = "SELECT * FROM [Образ Обьекта] "
                       + "order by  isnull(Очередность,2147483647)";
-                SqlDataReader r = null;
+                NpgsqlDataReader r = null;
                 try
                 {
-                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    r = new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
                     while (r.Read())
                     {
                         dbObjs.Add(DBObject.read(r));
@@ -743,7 +747,7 @@ namespace WFormsAppWordExport
                 return dbObjs;
             }
 
-            public static DBObject read(SqlDataReader r)
+            public static DBObject read(NpgsqlDataReader r)
             {
                 DBObject obj = new DBObject();
                 obj.id = (int)r[0];
@@ -765,13 +769,13 @@ namespace WFormsAppWordExport
                     + "(SELECT [Очередность] FROM [Образ Обьекта] WHERE [id]= {0})"
                       + "order by Очередность DESC", "" + id).ToString();
 
-                SqlDataReader r = null;
+                NpgsqlDataReader r = null;
                 int pos = -1;//pos of selected node
                 int id1 = -1, pos1 = -1;//the node above
                 #region read r to prms 
                 try
                 {
-                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    r = new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
                     if (r.Read())
                     {
                         pos = (int)r[1];
@@ -807,13 +811,13 @@ namespace WFormsAppWordExport
                    + "(SELECT [Очередность] FROM [Образ Обьекта] WHERE [id]= {0})"
                      + " order by isnull(Очередность, 2147483647)", "" + id).ToString();
 
-                SqlDataReader r = null;
+                NpgsqlDataReader r = null;
                 int pos = -1;//pos of selected node
                 int id1 = -1, pos1 = -1;//the node above
                 #region read r to prms 
                 try
                 {
-                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    r = new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
                     if (r.Read())
                     {
                         pos = (int)r[1];
@@ -849,7 +853,7 @@ namespace WFormsAppWordExport
                 {
                     String s;
                     s = "Delete from [Образ обьекта]  WHERE [id] =" + id;
-                    new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+                    new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
                 }
                 catch (System.Exception ex)
                 {
@@ -862,9 +866,9 @@ namespace WFormsAppWordExport
                 try
                 {
                     String s = new StringBuilder().AppendFormat("UPDATE [Образ Обьекта] SET [Очередность]= {0} WHERE [id]={1}", "" + pos1, "" + id).ToString();
-                    new SqlCommand(s, DBTemplatesHelper.initial.myConn).ExecuteNonQuery();
+                    new NpgsqlCommand(s, DBTemplatesHelper.initial.myConn).ExecuteNonQuery();
                     s = new StringBuilder().AppendFormat("UPDATE [Образ Обьекта] SET [Очередность]= {0} WHERE [id]={1}", "" + pos, "" + id1).ToString();
-                    new SqlCommand(s, DBTemplatesHelper.initial.myConn).ExecuteNonQuery();
+                    new NpgsqlCommand(s, DBTemplatesHelper.initial.myConn).ExecuteNonQuery();
                 }
                 catch (System.Exception ex)
                 {
@@ -877,10 +881,10 @@ namespace WFormsAppWordExport
             {
                 String s = "SELECT TOP 1 [Очередность] FROM [Образ Обьекта]  "
                      + "order by Очередность DESC";
-                SqlDataReader r = null;
+                NpgsqlDataReader r = null;
                 try
                 {
-                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    r = new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
                     if (r.Read())
                     {
                         return (int)r[0];
@@ -904,7 +908,7 @@ namespace WFormsAppWordExport
                 #region insert to db
                 try
                 {
-                    SqlCommand cmd = new SqlCommand();
+                    NpgsqlCommand cmd = new NpgsqlCommand();
                     String s = "INSERT INTO [Образ обьекта] ([Название]", p = " VALUES(N'" + name + "' ";
                     if (pos == -1)
                     {
@@ -958,7 +962,7 @@ namespace WFormsAppWordExport
                     s += " ,[ids абстрактных обьектов]= N'" + sObjects + "' ";
                 }
                 s += " WHERE[id] =" + id;
-                new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+                new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
             }
         }
 
@@ -992,10 +996,10 @@ namespace WFormsAppWordExport
             public static DBFeature get(int id)
             {
                 String s = "SELECT * FROM [Характеристика] WHERE id = " + id + " ";
-                SqlDataReader r = null;
+                NpgsqlDataReader r = null;
                 try
                 {
-                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    r = new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
                     r.Read();
                     return DBFeature.read(r);
                 }
@@ -1012,7 +1016,7 @@ namespace WFormsAppWordExport
                 return new DBFeature();
             }
 
-            public static DBFeature read(SqlDataReader r)
+            public static DBFeature read(NpgsqlDataReader r)
             {
                 DBFeature f = new DBFeature();
                 f.id = (int)r[0];
@@ -1044,12 +1048,12 @@ namespace WFormsAppWordExport
                     s = "SELECT [Характеристика].* FROM [Характеристика] "
               + "order by  isnull([Характеристика].Очередность,2147483647)";
                 }
-                
 
-                SqlDataReader r = null;
+
+                NpgsqlDataReader r = null;
                 try
                 {
-                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    r = new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
                     while (r.Read())
                     {
                         features.Add(read(r));
@@ -1086,7 +1090,7 @@ namespace WFormsAppWordExport
                         s += " ,[Скрипт после ответа]= N'" + scriptAfter + "' ";
                     }
                     s += " WHERE[id] =" + id;
-                    new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+                    new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
                 }
                 catch (System.Exception ex)
                 {
@@ -1101,7 +1105,7 @@ namespace WFormsAppWordExport
                 if (pos != -1)
                 {
                     s = "UPDATE [Характеристика] SET [Очередность]=[Очередность]+1 WHERE [Очередность]>=" + pos;
-                    new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+                    new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
                 }
                 #endregion
 
@@ -1126,7 +1130,7 @@ namespace WFormsAppWordExport
                     }
                     s += ")";
                     p += ")";
-                    new SqlCommand(s + p, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+                    new NpgsqlCommand(s + p, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
                 }
                 catch (System.Exception ex)
                 {
@@ -1138,11 +1142,11 @@ namespace WFormsAppWordExport
             {
                 insertToDB();
                 String s = "SELECT @@IDENTITY";
-                SqlDataReader r = null;
+                NpgsqlDataReader r = null;
                 
                 try
                 {
-                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    r = new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
                     r.Read();
                     id = (int)Decimal.ToInt32( (Decimal)r[0]);
                     s = "INSERT INTO \"Описание Обьекта\" (\"id характеристики\",\"id образа обьекта\") VALUES ("+ id + ","+ idObject + ")";
@@ -1156,7 +1160,7 @@ namespace WFormsAppWordExport
                     if (r != null)
                         r.Close();
                 }
-                new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+                new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
             }
 
             public void deleteFromDB()
@@ -1164,7 +1168,7 @@ namespace WFormsAppWordExport
                 try
                 {
                     String s = "Delete from [Характеристика]  WHERE[id] =" + id;
-                    new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+                    new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
                 }
                 catch (System.Exception ex)
                 {
@@ -1183,7 +1187,7 @@ namespace WFormsAppWordExport
             public Image image = null;
             public int idObject = -1;
 
-            public static DBAnswer read(SqlDataReader r)
+            public static DBAnswer read(NpgsqlDataReader r)
             {
                 DBAnswer a = new DBAnswer();
                 a.id = (int)r[0];
@@ -1205,10 +1209,10 @@ namespace WFormsAppWordExport
                 String s = "SELECT [Вариант ответа].* FROM [Вариант ответа]"
                     + "order by  isnull([Вариант ответа].Очередность,2147483647)";
 
-                SqlDataReader r = null;
+                NpgsqlDataReader r = null;
                 try
                 {
-                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    r = new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
                     while (r.Read())
                     {
                         answers.Add(DBAnswer.read(r));
@@ -1235,10 +1239,10 @@ namespace WFormsAppWordExport
                     + " WHERE [Характеристика].id= " + idFeature + " and [Характеристика].id=[Выборка].[id Характеристики] and [Вариант ответа].id=[Выборка].[id Варианта] "
                     + "order by  isnull([Вариант ответа].Очередность,2147483647)";
 
-                SqlDataReader r = null;
+                NpgsqlDataReader r = null;
                 try
                 {
-                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    r = new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
                     while (r.Read())
                     {
                         answers.Add(DBAnswer.read(r));
@@ -1264,7 +1268,7 @@ namespace WFormsAppWordExport
                 {
                     String s;
                     s = "Delete from [Вариант ответа]  WHERE [id] =" + id;
-                    new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+                    new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
                 }
                 catch (System.Exception ex)
                 {
@@ -1277,7 +1281,7 @@ namespace WFormsAppWordExport
                 try
                 {
                     #region insert to [вариант ответа]
-                    SqlCommand cmd = new SqlCommand();
+                    NpgsqlCommand cmd = new NpgsqlCommand();
                     String s = "INSERT INTO [Вариант ответа] ([Звучание по вопросу]", p = " VALUES(N'" + sName + "' ";
                     if (pos != -1)
                     {
@@ -1307,10 +1311,10 @@ namespace WFormsAppWordExport
                     #endregion
 
                     s = "SELECT @@IDENTITY";
-                    SqlDataReader r = null;
+                    NpgsqlDataReader r = null;
                     try
                     {
-                        r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                        r = new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
                         r.Read();
                         int id = (int)Decimal.ToInt32((Decimal)r[0]);
                         s = "INSERT INTO [Выборка] ([id варианта],[id характеристики]) VALUES (" + id + "," + idFeature + ")";
@@ -1324,7 +1328,7 @@ namespace WFormsAppWordExport
                         if (r != null)
                             r.Close();
                     }
-                    new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
+                    new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteNonQuery();
                 }
                 catch (System.Exception ex)
                 {
@@ -1342,7 +1346,7 @@ namespace WFormsAppWordExport
             public int flag=0;
             public String text;
 
-            public static DBParagraph read(SqlDataReader r)
+            public static DBParagraph read(NpgsqlDataReader r)
             {
                 DBParagraph p = new DBParagraph();
                 p.id = (int)r[0];
@@ -1358,10 +1362,10 @@ namespace WFormsAppWordExport
                 List<DBParagraph> paragraphs = new List<DBParagraph>();
                 String s = "SELECT * FROM [Параграфы]";
 
-                SqlDataReader r = null;
+                NpgsqlDataReader r = null;
                 try
                 {
-                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    r = new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
                     while (r.Read())
                     {
                         paragraphs.Add(DBParagraph.read(r));
@@ -1386,10 +1390,10 @@ namespace WFormsAppWordExport
                 List<DBParagraph> paragraphs = new List<DBParagraph>();
                 String s = "SELECT * FROM [Параграфы] WHERE flag = 1";
 
-                SqlDataReader r = null;
+                NpgsqlDataReader r = null;
                 try
                 {
-                    r = new SqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
+                    r = new NpgsqlCommand(s, DBTemplatesHelper.get().myConn).ExecuteReader();
                     if (r.Read())
                         return DBParagraph.read(r);
                     else return null;

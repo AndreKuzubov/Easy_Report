@@ -44,3 +44,17 @@ D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\D
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.pdb
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.Forms.FormAbout.resources
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Debug\WFormsAppWordExport.Forms.FormEditEssence.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Debug\Mono.Security.dll
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Debug\Npgsql.dll
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Debug\NetOffice.pdb
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Debug\Npgsql.pdb
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Debug\Npgsql.xml
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Debug\OfficeApi.pdb
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Debug\WordApi.pdb
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Debug\VBIDEApi.pdb
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Debug\de\Npgsql.resources.dll
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Debug\es\Npgsql.resources.dll
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Debug\fi\Npgsql.resources.dll
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Debug\fr\Npgsql.resources.dll
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Debug\ja\Npgsql.resources.dll
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Debug\zh-CN\Npgsql.resources.dll

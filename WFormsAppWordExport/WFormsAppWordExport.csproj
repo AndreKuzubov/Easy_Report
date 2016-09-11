@@ -77,10 +77,16 @@
     <ApplicationIcon>1469130508_word.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mono.Security">
+      <HintPath>C:\Users\Andre\Downloads\Npgsql-2.2.3-net35\Mono.Security.dll</HintPath>
+    </Reference>
     <Reference Include="NetOffice, Version=1.7.3.0, Culture=neutral, PublicKeyToken=acf636d62c39f8f5, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>C:\Users\Andre\Downloads\NetOffice 1.7.3\NetOffice 1.7.3\NET 3.5\Assemblies\Any CPU\NetOffice.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql">
+      <HintPath>C:\Users\Andre\Downloads\Npgsql-2.2.3-net35\Npgsql.dll</HintPath>
     </Reference>
     <Reference Include="OfficeApi, Version=1.7.3.0, Culture=neutral, PublicKeyToken=7c1c3e9d16cace88, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
