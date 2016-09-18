@@ -6,19 +6,19 @@ namespace WFormsAppWordExport.Forms
 {
     public partial class FormNewEssence : Form
     {
-        private List<DBTemplatesHelper.DBObject> _dbObjects=new List<DBTemplatesHelper.DBObject>();
-        public List<DBTemplatesHelper.DBObject> dbObjects {
-            get { return _dbObjects; }
+        private List<SourceDataImages.ESSENSES_IMEG> _essImages=new List<SourceDataImages.ESSENSES_IMEG>();
+        public List<SourceDataImages.ESSENSES_IMEG> essImages {
+            get { return _essImages; }
             set {
-                _dbObjects = value;
+                _essImages = value;
                 updateData();
             }
         }
 
-        public DBTemplatesHelper.DBObject dbSelectedObject { get
+        public SourceDataImages.ESSENSES_IMEG selectedEssenceImage { get
             {
                 if (comboBoxImagesObjects.SelectedIndex == -1) return null;
-                return _dbObjects[comboBoxImagesObjects.SelectedIndex];
+                return _essImages[comboBoxImagesObjects.SelectedIndex];
             }
 
         }
@@ -28,7 +28,7 @@ namespace WFormsAppWordExport.Forms
             get
             {
                 if (textBoxNameEssence.Text == null || textBoxNameEssence.Text.Length == 0)
-                    return (dbSelectedObject == null) ? null : dbSelectedObject.name;
+                    return (selectedEssenceImage == null) ? null : selectedEssenceImage.name;
                 return textBoxNameEssence.Text;
             }
         }
@@ -41,7 +41,7 @@ namespace WFormsAppWordExport.Forms
         private void updateData()
         {
             comboBoxImagesObjects.Items.Clear();
-            foreach(DBTemplatesHelper.DBObject db in _dbObjects)
+            foreach(SourceDataImages.ESSENSES_IMEG db in _essImages)
             {
                 comboBoxImagesObjects.Items.Add(db.name);
             }

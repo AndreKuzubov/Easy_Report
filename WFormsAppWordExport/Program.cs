@@ -25,7 +25,13 @@ namespace WFormsAppWordExport
 {
     static class Program
     {
-     
+#if DEBUG
+        public static Boolean isDebugMode = true;
+#else
+         public static Boolean isDebugMode = false;
+#endif
+
+
         public static ApplicationContext context=new ApplicationContext();
         public static FormAuthorization authorizationForm;
         public static String OpenFile=null;// = "‪C:\\Users\\Andre\\Desktop\\a.dtp";
@@ -37,7 +43,8 @@ namespace WFormsAppWordExport
         [STAThread]
         static void Main(String[] arg)
         {
-            MyFiles.log("StartProgramm");
+          
+            MyFiles.log("StartProgramm  debugMode:"+isDebugMode);
             if (arg != null)
             {
                 for (int i = 0; i < arg.Length; i++)
@@ -51,6 +58,8 @@ namespace WFormsAppWordExport
                 MyFiles.log("arg is  valid ");
             }
             MyFiles.log("arg no  valid ");
+
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             switch (6)

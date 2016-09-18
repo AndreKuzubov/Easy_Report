@@ -101,25 +101,25 @@ namespace WFormsAppWordExport.ControlElements
         {
             Forms.FormNewEssence dial = new Forms.FormNewEssence();
             #region adding images of dbObjects for chose
-            List<DBTemplatesHelper.DBObject> dbObjects;
+            List<SourceDataImages.ESSENSES_IMEG> dbObjects;
             if (feature.sAnswers != null && feature.sAnswers.Count > 0)
             {
-                dbObjects = new List<DBTemplatesHelper.DBObject>();
+                dbObjects = new List<SourceDataImages.ESSENSES_IMEG>();
                 foreach (Choose_Answer ans in feature.sAnswers)
                 {
-                    dbObjects.Add(DBTemplatesHelper.DBObject.get(ans.idObject));
+                    dbObjects.Add(SourceDataImages.getEssenceImageByID(ans.idObject));
                 }
             }
             else
             {
-                dbObjects = DBTemplatesHelper.DBObject.getAll();
+                dbObjects =new List<SourceDataImages.ESSENSES_IMEG>(SourceDataImages.allImageEssences);
             }
-            dial.dbObjects = dbObjects;
+            dial.essImages = dbObjects;
             #endregion
 
             if (dial.ShowDialog() == DialogResult.OK)
             {
-                Essence es = new Essence(dial.dbSelectedObject);
+                Essence es = SourceDataImages.createByImage(dial.selectedEssenceImage);
                 if (dial.sSelectedNameEssence != null && dial.sSelectedNameEssence.Length != 0)
                 {
                     es.sName = dial.sSelectedNameEssence;

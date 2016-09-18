@@ -91,12 +91,25 @@ namespace WFormsAppWordExport
             List<Essence> essences=new List<Essence>();
             foreach (Essence es in rootData)
             {
-                if (es.idDb == idofImageObject)
+                if (hasEssangeImage(es,idofImageObject))
                 {
                     essences.Add(es);
                 }
             }
             return essences;
+        }
+
+        private bool hasEssangeImage(Essence root,int idImage)
+        {
+            if (root.idDb == idImage) return true;
+            if (root.abstrEssences != null)
+            {
+                foreach (Essence es in root.abstrEssences)
+                {
+                    if (hasEssangeImage(es, idImage)) return true;
+                }
+            }
+            return false;
         }
 
         #region use in scrips

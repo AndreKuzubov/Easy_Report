@@ -21,8 +21,19 @@ using WFormsAppWordExport.DataStructures;
 
 namespace WFormsAppWordExport
 {
+
+
     public static class MyFiles
     {
+        static public  String dir
+        {
+            get
+            {
+                //  return Application.CommonAppDataPath;
+                return Application.UserAppDataPath;
+            }
+
+        }
         //все внутренние файлы 
         /// <summary>
         /// получить файл логов - паролей

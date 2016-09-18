@@ -4,14 +4,18 @@ D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\R
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\AutocompleteMenu.dll
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\NetOffice.dll
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\OfficeApi.dll
-D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\VBIDEApi.dll
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\WordApi.dll
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\stdole.dll
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\VBIDEApi.dll
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\AutocompleteMenu.pdb
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\NetOffice.pdb
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\NetOffice.xml
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\OfficeApi.pdb
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\OfficeApi.xml
-D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\VBIDEApi.xml
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\WordApi.pdb
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\WordApi.xml
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\VBIDEApi.pdb
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\VBIDEApi.xml
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.csprojResolveAssemblyReference.cache
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Release\TextRuler.AdvancedTextEditorControl.AdvancedTextEditor.resources
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.Question.resources
@@ -30,6 +34,7 @@ D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\R
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.Forms.FormDevCode.resources
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.Forms.FormEditChooseAnswers.resources
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.Forms.FormEditFeature.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.Forms.FormEditEssence.resources
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.Forms.FormNewEssence.resources
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.FormNotepad.resources
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.FormPictureMultiChoose.resources
@@ -43,8 +48,53 @@ D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\R
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.csproj.GenerateResource.Cache
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.exe
 D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.pdb
-D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.Forms.FormEditEssence.resources
-D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\NetOffice.pdb
-D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\OfficeApi.pdb
-D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\WordApi.pdb
-D:\work\Visual Studio\projects\WFormsAppWordExport\WFormsAppWordExport\bin\x86\Release\VBIDEApi.pdb
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\bin\x86\Release\WFormsAppWordExport.exe.config
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.exe
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.pdb
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.csprojResolveAssemblyReference.cache
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\TextRuler.AdvancedTextEditorControl.AdvancedTextEditor.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.Question.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.QuestionChoose.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.QuestionDate.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.ControlElements.QuestionLinkEssence.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.QuestionMultiChoose.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.QuestionNumeric.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.QuestionString.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.QuestionTrueFalse.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.Form1.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.Forms.FormAbout.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.FormAuthorization.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.FormChangePassword.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.FormCreateUser.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.Forms.FormDevCode.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.Forms.FormEditChooseAnswers.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.Forms.FormEditFeature.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.Forms.FormEditEssence.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.Forms.FormNewEssence.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.FormNotepad.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.FormPictureMultiChoose.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.Forms.FormSelectItemsList.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.FormSettingQuestionnaire.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.Forms.FormTestEditText.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.MDIParent1.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.Properties.Resources.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.UCTemplateObject.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.UCChoosePict.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\obj\x86\Release\WFormsAppWordExport.csproj.GenerateResource.Cache
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\bin\x86\Release\WFormsAppWordExport.exe
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\bin\x86\Release\WFormsAppWordExport.pdb
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\bin\x86\Release\AutocompleteMenu.dll
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\bin\x86\Release\NetOffice.dll
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\bin\x86\Release\OfficeApi.dll
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\bin\x86\Release\WordApi.dll
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\bin\x86\Release\stdole.dll
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\bin\x86\Release\VBIDEApi.dll
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\bin\x86\Release\AutocompleteMenu.pdb
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\bin\x86\Release\NetOffice.pdb
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\bin\x86\Release\NetOffice.xml
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\bin\x86\Release\OfficeApi.pdb
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\bin\x86\Release\OfficeApi.xml
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\bin\x86\Release\WordApi.pdb
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\bin\x86\Release\WordApi.xml
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\bin\x86\Release\VBIDEApi.pdb
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\WFormsAppWordExport\bin\x86\Release\VBIDEApi.xml

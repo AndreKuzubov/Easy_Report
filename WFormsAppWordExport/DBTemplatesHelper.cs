@@ -38,32 +38,19 @@ namespace WFormsAppWordExport
                 return ProjectDataHelper.sUser;
             }
         }
-        static String fullName
-        {
-            get
-            {
-                return "\"" + dir + ProjectDataHelper.sUser + "\"";
-            }
-        }
-        static String dir {
-            get
-            {
-                //  return Application.CommonAppDataPath;
-                return Application.UserAppDataPath;
-            }
-           
-        }
+    
+      
   
         SqlConnection myConn = null;
         String fileParamsName { get
             {
-                return dir + "\\" + name + ".prms";
+                return MyFiles.dir + "\\" + name + ".prms";
             }
         }
         String fileLogsName
         {
             get{
-                return dir + "\\" + name + "_log.ldf";
+                return MyFiles.dir + "\\" + name + "_log.ldf";
             }
         }
 
@@ -71,13 +58,14 @@ namespace WFormsAppWordExport
         {
             get
             {
-                return dir + "\\" + sysName + ".prms";
+                return MyFiles.dir + "\\" + sysName + ".prms";
             }
         }
 
         #region contructions DB- methodes
         public static DBTemplatesHelper get()
         {
+            if (!Program.isDebugMode) return null;
             if (initial == null) initial = new DBTemplatesHelper();
             return initial;
         }
@@ -1341,6 +1329,18 @@ namespace WFormsAppWordExport
             public int id;
             public int flag=0;
             public String text;
+
+            public  DBParagraph()
+            {
+
+            }
+
+            public DBParagraph(int id,int flag, String text)
+            {
+                this.id = id;
+                this.flag = flag;
+                this.text = text;
+            }
 
             public static DBParagraph read(SqlDataReader r)
             {

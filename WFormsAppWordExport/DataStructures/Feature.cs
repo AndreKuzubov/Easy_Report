@@ -67,9 +67,9 @@ namespace WFormsAppWordExport.DataStructures
         //ответ на вопрос
         public Answer answer { get; private set; }
         //спрашивать вопрос?  
-        private SoftwareSctipt sIsUsable=null;
+        public SoftwareSctipt sIsUsable=null;
         //что делает после принятого ответа
-        private SoftwareSctipt sAfter=null;
+        public SoftwareSctipt sAfter=null;
 
         //отвечен
         private bool _isAnswered = false;
@@ -327,6 +327,15 @@ namespace WFormsAppWordExport.DataStructures
         public Choose_Answer(String sName)
         {
             this.sName = sName;
+        }
+
+        public Choose_Answer(int id,String name,int pos,Image image,int idObject)
+        {
+            this.id = id;
+            this.sName = name;
+            this.pos = pos;
+            this.image = image;
+            this.idObject = idObject;
         }
 
         public Choose_Answer(DBTemplatesHelper.DBAnswer dad):base()

@@ -12,3 +12,10 @@ D:\work\Visual Studio\projects\WFormsAppWordExport\AutocompleteMenu\Autocomplete
 D:\work\Visual Studio\projects\WFormsAppWordExport\AutocompleteMenu\AutocompleteMenu\obj\Debug\AutocompleteMenu.dll
 D:\work\Visual Studio\projects\WFormsAppWordExport\AutocompleteMenu\AutocompleteMenu\obj\Debug\AutocompleteMenu.pdb
 D:\work\Visual Studio\projects\WFormsAppWordExport\AutocompleteMenu\AutocompleteMenu\obj\Debug\AutocompleteMenu.csprojResolveAssemblyReference.cache
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\AutocompleteMenu\AutocompleteMenu\bin\Debug\AutocompleteMenu.dll
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\AutocompleteMenu\AutocompleteMenu\bin\Debug\AutocompleteMenu.pdb
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\AutocompleteMenu\AutocompleteMenu\obj\Debug\AutocompleteMenu.csprojResolveAssemblyReference.cache
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\AutocompleteMenu\AutocompleteMenu\obj\Debug\AutocompleteMenuNS.AutocompleteMenu.resources
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\AutocompleteMenu\AutocompleteMenu\obj\Debug\AutocompleteMenu.csproj.GenerateResource.Cache
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\AutocompleteMenu\AutocompleteMenu\obj\Debug\AutocompleteMenu.dll
+D:\work\Visual Studio\projects\WFormsAppWordExport v 2.0\AutocompleteMenu\AutocompleteMenu\obj\Debug\AutocompleteMenu.pdb

@@ -46,7 +46,6 @@
             this.advancedTextEditor1 = new TextRuler.AdvancedTextEditorControl.AdvancedTextEditor();
             this.statusStrip.SuspendLayout();
             this.tabObjects.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerFeatures)).BeginInit();
             this.splitContainerFeatures.Panel1.SuspendLayout();
             this.splitContainerFeatures.Panel2.SuspendLayout();
             this.splitContainerFeatures.SuspendLayout();
@@ -165,7 +164,7 @@
             this.ucTemplateObject1.AutoSize = true;
             this.ucTemplateObject1.Location = new System.Drawing.Point(4, 4);
             this.ucTemplateObject1.Name = "ucTemplateObject1";
-            this.ucTemplateObject1.Size = new System.Drawing.Size(523, 398);
+            this.ucTemplateObject1.Size = new System.Drawing.Size(530, 405);
             this.ucTemplateObject1.TabIndex = 0;
             // 
             // tabControl1
@@ -250,7 +249,6 @@
             this.splitContainerFeatures.Panel1.ResumeLayout(false);
             this.splitContainerFeatures.Panel2.ResumeLayout(false);
             this.splitContainerFeatures.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerFeatures)).EndInit();
             this.splitContainerFeatures.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabWordExport.ResumeLayout(false);

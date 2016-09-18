@@ -23,7 +23,7 @@ namespace WFormsAppWordExport.DataStructures
     [Serializable()]
     public class Essence : TreeNode, ISerializable
     {
-        private Essence parentEssence=null;
+        public Essence parentEssence=null;
         [NonSerialized]
         public DelegVoid afterWishUpdateQuestions;
         /// <summary>
@@ -52,23 +52,56 @@ namespace WFormsAppWordExport.DataStructures
 
         public List<Essence> abstrEssences { get; private set; }=new List<Essence>();
 
-        public List<Feature> features { get; private set; } = new List<Feature>();
+        public List<Feature> features { get;  set; } = new List<Feature>();
 
         public Essence(int id,String sName,  ESSENSE_FLAGS flags,String script,List<Feature>features, List<Essence> AbstrEssences ) : base(sName)
         {
             this.idDb = id;
             this.flags = flags;
             this.sName = sName;
-            if (abstrEssences!=null)
+            if (abstrEssences != null)
+            {
                 this.abstrEssences = abstrEssences;
+                foreach (Essence child in abstrEssences)
+                {
+                    child.parentEssence = this;
+                }
+            }
             this.isShowScript = new SoftwareSctipt(script,SoftwareSctipt.SCRIPT_TYPE.FUNC_BOOL,this);
-            if (features!=null)
+            if (features != null)
+            {
                 this.features = features;
+            }
+             
             createContextMenu();
         }
 
-        public Essence([MettodVariants(typeof(ProjectDataHelper), "getEssences")] int idImageObject,string name):this (DBTemplatesHelper.DBObject.get(idImageObject))
+
+        public Essence([MettodVariants(typeof(ProjectDataHelper), "getEssences")] int idImageObject,string name)
         {
+            Essence es = (SourceDataImages.createByImage(SourceDataImages.getEssenceImageByID(idImageObject)));
+            this.idDb = es.idDb;
+            this.flags = es.flags;
+            this.sName = es.sName;
+            if (abstrEssences != null)
+            {
+                this.abstrEssences = es.abstrEssences;
+                foreach (Essence child in abstrEssences)
+                {
+                    child.parentEssence = this;
+                }
+            }
+            this.isShowScript = new SoftwareSctipt(es.isShowScript.script, SoftwareSctipt.SCRIPT_TYPE.FUNC_BOOL, this);
+            if (es.features != null)
+            {
+                this.features = es.features;
+                for (int i=0;i<this.features.Count;i++)
+                {
+                    Feature f = this.features[i];
+                    this.features[i] = new Feature(this, f.idDB, f.sQuestion, f.sAnswers, f.typeAnswer,(f.sIsUsable != null) ? f.sIsUsable.script : null, (f.sAfter != null) ? f.sAfter.script : null);
+                }
+            }
+
             this.sName = name;
         }
 
@@ -183,7 +216,6 @@ namespace WFormsAppWordExport.DataStructures
             info.AddValue("s", isShowScript.script);
         }
 
-
         public bool hasEssence([MettodVariants(typeof(ProjectDataHelper), "getEssences")] int idEssence)
         {
             return getRootParent().prHasEssence(idEssence);
@@ -240,7 +272,7 @@ namespace WFormsAppWordExport.DataStructures
         {
             List<AutocompleteMenuNS.MulticolumnAutocompleteItem> items = new List<AutocompleteMenuNS.MulticolumnAutocompleteItem>();
             List<DBTemplatesHelper.DBFeature> dbFs = DBTemplatesHelper.DBFeature.getFeatures();
-
+         
             foreach (DBTemplatesHelper.DBFeature dbF in dbFs)
             {
                 items.Add(new AutocompleteMenuNS.MulticolumnAutocompleteItem(new string[] { "" + dbF.id, dbF.sQuestion }, "" + dbF.id));

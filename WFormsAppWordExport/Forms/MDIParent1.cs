@@ -38,6 +38,11 @@ namespace WFormsAppWordExport
         public MDIParent1()
         {
             InitializeComponent();
+
+            if (!isDebugMode)
+            {
+                setTemplateToolStripMenuItem.Visible = false;
+            }
         }
 
 
@@ -48,6 +53,9 @@ namespace WFormsAppWordExport
         public void setState(String state)
         {
             toolStripStatusLabel.Text = "Состояние: "+state;
+            Refresh();
+
+
         }
 
 

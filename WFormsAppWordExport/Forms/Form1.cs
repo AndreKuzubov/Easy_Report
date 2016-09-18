@@ -32,6 +32,13 @@ namespace WFormsAppWordExport
 {
     public partial class Form1 : Form
     {
+        static string newFileSys
+        {
+            get
+            {
+                return MyFiles.dir + "//sys.dtp";
+            }
+        }
        
         ProjectDataHelper projectData;
 
@@ -44,9 +51,11 @@ namespace WFormsAppWordExport
         public Form1(String fileName) : base()
         {
             InitializeComponent();
+            SourceDataImages.init();
+
             projectData = new ProjectDataHelper();
             projectData.rootData = treeView1.Nodes;
-            if (fileName!=null&&File.Exists(fileName))
+            if (fileName != null && File.Exists(fileName))
             {
                 FileStream fileStream = null; ;
                 try
@@ -56,23 +65,47 @@ namespace WFormsAppWordExport
                     BinaryFormatter serializer = new BinaryFormatter();
                     Essence[] a = (Essence[])serializer.Deserialize(fileStream);
                     treeView1.Nodes.AddRange(a);
-                   
-                }catch (System.Runtime.Serialization.SerializationException ex)
+
+                }
+                catch (System.Runtime.Serialization.SerializationException ex)
                 {
                     throw ex;
                 }
                 finally
                 {
-                    if (fileStream!=null)
+                    if (fileStream != null)
                         fileStream.Close();
                 }
-               
-            } else
-            {
-                loadNewTree();
-            }
 
-            
+            }
+            else
+            {
+                if (File.Exists(newFileSys))
+                {
+                    FileStream fileStream = null; ;
+                    try
+                    {
+                        fileStream = new FileStream(newFileSys, FileMode.Open);
+                        BinaryFormatter serializer = new BinaryFormatter();
+                        Essence[] a = (Essence[])serializer.Deserialize(fileStream);
+                        treeView1.Nodes.AddRange(a);
+                    }
+                    catch (System.Runtime.Serialization.SerializationException ex)
+                    {
+                        throw ex;
+                    }
+                    finally
+                    {
+                        if (fileStream != null)
+                            fileStream.Close();
+                    }
+                }
+                else
+                {
+                    if (Program.isDebugMode)
+                        loadNewTree();
+                }
+            }
         }
         #endregion
 
@@ -216,21 +249,26 @@ namespace WFormsAppWordExport
 
         private void btAddEssence_Click(object sender, EventArgs e)
         {
+            ((MDIParent1)MdiParent).setState("Добавление данных");
             Forms.FormNewEssence dial = new Forms.FormNewEssence();
-            dial.dbObjects = DBTemplatesHelper.DBObject.getByFlag((int)ESSENSE_FLAGS.MULTIPLE);
+            dial.essImages = SourceDataImages.getEssenceImageByFlag(ESSENSE_FLAGS.MULTIPLE);
+
             if (dial.ShowDialog() == DialogResult.OK)
             {
-                Essence es = new Essence(dial.dbSelectedObject);
+                Essence es = SourceDataImages.createByImage(dial.selectedEssenceImage);
                 if (dial.sSelectedNameEssence != null && dial.sSelectedNameEssence.Length != 0)
                 {
                     es.sName = dial.sSelectedNameEssence;
                 }
                 projectData.rootData.Add(es);
             }
+            ((MDIParent1)MdiParent).stateNorm();
         }
 
         private void btDelEssence_Click(object sender, EventArgs e)
         {
+
+            ((MDIParent1)MdiParent).setState("Удаление данных");
             if (treeView1.SelectedNode != null)
 
                 if (MessageBox.Show("Удалить " + treeView1.SelectedNode.Name, "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -238,26 +276,33 @@ namespace WFormsAppWordExport
                     treeView1.SelectedNode.Remove();
 
                 }
+
+            ((MDIParent1)MdiParent).stateNorm();
         }
         private void btEditEssence_Click(object sender, EventArgs e)
         {
+
+            ((MDIParent1)MdiParent).setState("Редактирование данных");
             if (treeView1.SelectedNode == null)
             {
                 return;
             }
             Essence es = (Essence)treeView1.SelectedNode;
             Forms.FormEditEssence dial = new Forms.FormEditEssence();
-            dial.comboBoxImagesObjects.Text = DBTemplatesHelper.DBObject.get(es.idDb).name;
+            dial.comboBoxImagesObjects.Text =SourceDataImages.getEssenceImageByID(es.idDb).name;
             dial.textBoxNameEssence.Text = es.Text;
             if (dial.ShowDialog()==DialogResult.OK)
             {
                 es.Text = dial.textBoxNameEssence.Text;
             }
+
+            ((MDIParent1)MdiParent).stateNorm();
         }
 
 
         private void btEssenceUp_Click(object sender, EventArgs e)
         {
+            ((MDIParent1)MdiParent).setState("Смещение вверх");
             if (treeView1.SelectedNode != null)
             {
                 int index = treeView1.SelectedNode.Index;
@@ -272,10 +317,14 @@ namespace WFormsAppWordExport
                     treeView1.SelectedNode = sel;
                 }
             }
+
+            ((MDIParent1)MdiParent).stateNorm();
         }
 
         private void btEssenceDown_Click(object sender, EventArgs e)
         {
+
+            ((MDIParent1)MdiParent).setState("Смещение вниз");
             if (treeView1.SelectedNode != null)
             {
                 int index = treeView1.SelectedNode.Index,l=treeView1.Nodes.Count;
@@ -291,6 +340,7 @@ namespace WFormsAppWordExport
                 }
                 
             }
+            ((MDIParent1)MdiParent).stateNorm();
         }
 
       
