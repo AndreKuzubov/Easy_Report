@@ -26,8 +26,11 @@ namespace WFormsAppWordExport
 {
     public  partial class Question : UserControl
     {
+        private const int STEPS_TO_SAVE_TO_TEMP=50;
+
         public Feature feature { get; protected set; }
         private Form1 parentControl;
+      
 
         protected virtual void reset() { }
 
@@ -54,14 +57,23 @@ namespace WFormsAppWordExport
             setAnswer(Answer, null);
         }
 
+        private int countSteps = 0;
         protected void setAnswer(Object oAnswer,String strAnswer)
         {
+            ((MDIParent1)parentControl.MdiParent).setState("Обработка ответа");
             feature.setAnswer(new Answer(oAnswer,strAnswer), ProjectDataHelper.sUser);
             labelAuthor.Text = ProjectDataHelper.sUser;
             if (parentControl != null)
             {
                 parentControl.updateShowingEssences();
             }
+            if (++countSteps >= STEPS_TO_SAVE_TO_TEMP)
+            {
+                countSteps = 0;
+                ProjectDataHelper.Initial.saveTemp();
+            }
+
+            ((MDIParent1)parentControl.MdiParent).stateNorm();
 
         }
 

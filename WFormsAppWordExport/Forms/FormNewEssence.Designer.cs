@@ -81,12 +81,14 @@
             // 
             this.comboBoxImagesObjects.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxImagesObjects.DisplayMember = "1";
             this.comboBoxImagesObjects.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxImagesObjects.FormattingEnabled = true;
             this.comboBoxImagesObjects.Location = new System.Drawing.Point(106, 38);
             this.comboBoxImagesObjects.Name = "comboBoxImagesObjects";
             this.comboBoxImagesObjects.Size = new System.Drawing.Size(216, 21);
             this.comboBoxImagesObjects.TabIndex = 4;
+            this.comboBoxImagesObjects.SelectedIndexChanged += new System.EventHandler(this.comboBoxImagesObjects_SelectedIndexChanged);
             // 
             // label1
             // 

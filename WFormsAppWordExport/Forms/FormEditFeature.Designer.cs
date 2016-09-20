@@ -90,7 +90,13 @@
             "Да\\Нет",
             "Множественный выбор",
             "Дата",
-            "Ссылка на обьект"});
+            "Ссылка на обьект",
+            "Дата - год",
+            "Дата - год/мес",
+            "Дата - год/мес/день",
+            "Дата - год/мес/день/время",
+            "Дата - мес/день/время",
+            "Дата - время"});
             this.comboBoxType.Location = new System.Drawing.Point(140, 42);
             this.comboBoxType.Name = "comboBoxType";
             this.comboBoxType.Size = new System.Drawing.Size(524, 21);

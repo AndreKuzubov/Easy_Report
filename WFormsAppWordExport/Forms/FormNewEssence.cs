@@ -35,7 +35,7 @@ namespace WFormsAppWordExport.Forms
 
         public FormNewEssence()
         {
-            InitializeComponent();
+            InitializeComponent();         
         }
 
         private void updateData()
@@ -45,6 +45,7 @@ namespace WFormsAppWordExport.Forms
             {
                 comboBoxImagesObjects.Items.Add(db.name);
             }
+            comboBoxImagesObjects.SelectedItem = comboBoxImagesObjects.Items[0];
         }
 
 
@@ -57,6 +58,11 @@ namespace WFormsAppWordExport.Forms
         private void btCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
+        }
+
+        private void comboBoxImagesObjects_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }

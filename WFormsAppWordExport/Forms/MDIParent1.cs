@@ -188,6 +188,7 @@ namespace WFormsAppWordExport
             if (MdiChildren == null||MdiChildren.Length==0) return;
             ((Form1)MdiChildren[0]).Close();
         }
+
         private void OpenProject(String file)
         {
          //   toolStripStatusLabel.Text = "Состояние: Открытие проекта";
@@ -309,8 +310,21 @@ namespace WFormsAppWordExport
             if (Program.OpenFile != null)
             {
                 OpenProject(Program.OpenFile);
-                Program.OpenFile = null;
             }
+            if (File.Exists(MyFiles.saveTempFile))
+            {
+                if (MessageBox.Show("Восстановить прошлый проект?", "Вы оставили незакрытый проект", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    OpenProject(MyFiles.saveTempFile);
+                }
+                else
+                {
+                    ProjectDataHelper.deleteTemp();
+                }
+
+                
+            }
+            Program.OpenFile = null;
         }
         
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)

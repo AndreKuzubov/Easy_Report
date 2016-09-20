@@ -61,9 +61,19 @@ namespace WFormsAppWordExport
             return true;
         }
 
+        public void saveTemp()
+        {
+            saveToFile(MyFiles.saveTempFile);
+        }
+
+        public static void deleteTemp()
+        {
+            File.Delete(MyFiles.saveTempFile);
+        }
+
         public void saveToFile(String fileName)
         {
-            this.fileName = fileName;
+           
             int len = rootData.Count;
             Essence[] eEssences = new Essence[len];
             for (int i = 0; i < len; i++)
@@ -78,7 +88,46 @@ namespace WFormsAppWordExport
             BinaryFormatter serializer = new BinaryFormatter();
             serializer.Serialize(fileStream, eEssences);
             fileStream.Close();
+
+            if (!fileName.Equals(MyFiles.saveTempFile))
+            {
+                deleteTemp();
+                this.fileName = fileName;
+            }
         }
+
+        public Essence[] loadFromFile(String fileName)
+        {
+           
+            if (fileName != null && File.Exists(fileName))
+            {
+                if (!fileName.Equals(MyFiles.saveTempFile))
+                {
+                    this.fileName = fileName;
+                }
+
+                FileStream fileStream = null; ;
+                try
+                {
+                    fileStream = new FileStream(fileName, FileMode.Open);
+                    BinaryFormatter serializer = new BinaryFormatter();
+                    return (Essence[])serializer.Deserialize(fileStream);
+                }
+                catch (System.Runtime.Serialization.SerializationException ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    if (fileStream != null)
+                        fileStream.Close();
+                }
+
+            }
+            return null;
+        }
+
+
 
         public void exportDoc(String filename)
         {

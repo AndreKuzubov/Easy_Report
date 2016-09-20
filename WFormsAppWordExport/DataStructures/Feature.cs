@@ -33,7 +33,8 @@ namespace WFormsAppWordExport.DataStructures
     {
         STRING=0, NUMBER=1, CHOOSE=2, TRUE_FALSE=3, MULTI_CHOSE=4, DATE=5,
         /* ссылки на обьекты события*/
-        LIST_IDS_OF_ESSENCE=6
+        LIST_IDS_OF_ESSENCE=6,
+        DATE_YEAR = 7, DATE_YEAR_MOUTH = 8, DATE_YEAR_MOUTH_DAY = 9, DATE_YEAR_MOUTH_DAY_TIME = 10, DATE_MOUTH_DAY_TIME=11, DATE_TIME=12
     };
 
     // вопросы описывающие участников

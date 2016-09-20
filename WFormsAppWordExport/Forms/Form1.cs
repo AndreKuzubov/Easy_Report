@@ -55,50 +55,19 @@ namespace WFormsAppWordExport
 
             projectData = new ProjectDataHelper();
             projectData.rootData = treeView1.Nodes;
-            if (fileName != null && File.Exists(fileName))
+
+            Essence[] a = projectData.loadFromFile(fileName);
+            if (a != null)
             {
-                FileStream fileStream = null; ;
-                try
-                {
-                    projectData.fileName = fileName;
-                    fileStream = new FileStream(fileName, FileMode.Open);
-                    BinaryFormatter serializer = new BinaryFormatter();
-                    Essence[] a = (Essence[])serializer.Deserialize(fileStream);
-                    treeView1.Nodes.AddRange(a);
-
-                }
-                catch (System.Runtime.Serialization.SerializationException ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    if (fileStream != null)
-                        fileStream.Close();
-                }
-
+                treeView1.Nodes.AddRange(a);
             }
             else
             {
-                if (File.Exists(newFileSys))
+
+                a = projectData.loadFromFile(newFileSys);
+                if (a != null)
                 {
-                    FileStream fileStream = null; ;
-                    try
-                    {
-                        fileStream = new FileStream(newFileSys, FileMode.Open);
-                        BinaryFormatter serializer = new BinaryFormatter();
-                        Essence[] a = (Essence[])serializer.Deserialize(fileStream);
-                        treeView1.Nodes.AddRange(a);
-                    }
-                    catch (System.Runtime.Serialization.SerializationException ex)
-                    {
-                        throw ex;
-                    }
-                    finally
-                    {
-                        if (fileStream != null)
-                            fileStream.Close();
-                    }
+                    treeView1.Nodes.AddRange(a);
                 }
                 else
                 {
@@ -140,7 +109,14 @@ namespace WFormsAppWordExport
         }
         private void Form1_Closing(object sender, FormClosingEventArgs e)
         {
-         
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                ProjectDataHelper.deleteTemp();
+            }
+            else
+            {
+                ProjectDataHelper.Initial.saveTemp();
+            }
         }
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -222,6 +198,25 @@ namespace WFormsAppWordExport
                     case TYPE_ANSWER.DATE:
                         uc = new QuestionDate(feature, i, this);
                         break;
+                    case TYPE_ANSWER.DATE_YEAR:
+                        uc = new QuestionDate(feature, i,0, this);
+                        break;
+                    case TYPE_ANSWER.DATE_YEAR_MOUTH:
+                        uc = new QuestionDate(feature, i, 1, this);
+                        break;
+                    case TYPE_ANSWER.DATE_YEAR_MOUTH_DAY:
+                        uc = new QuestionDate(feature, i, 2, this);
+                        break;
+                    case TYPE_ANSWER.DATE_YEAR_MOUTH_DAY_TIME:
+                        uc = new QuestionDate(feature, i, 3, this);
+                        break;
+                    case TYPE_ANSWER.DATE_MOUTH_DAY_TIME:
+                        uc = new QuestionDate(feature, i, 4, this);
+                        break;
+                    case TYPE_ANSWER.DATE_TIME:
+                        uc = new QuestionDate(feature, i, 5, this);
+                        break;
+
                     case TYPE_ANSWER.CHOOSE:
                         uc = new QuestionChoose(feature, i, this);
                         break;

@@ -45,7 +45,10 @@ namespace WFormsAppWordExport
             
         }
 
-        
+        public QuestionDate(Feature ffQuestion, int iIndex,int selectedType, Form1 f) : this(ffQuestion, iIndex, f)
+        {
+            comboBoxFromat.SelectedIndex = selectedType;
+        }
 
         protected override void reset()
         {

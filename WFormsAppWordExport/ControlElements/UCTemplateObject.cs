@@ -265,12 +265,12 @@ namespace WFormsAppWordExport
                         String fileName = "null";
                         if (chAns.image != null)
                         {
-                            fileName = MyFiles.dir + "\\images\\" + chAns.sName + ".bmp";
+                            fileName = MyFiles.dir + "\\images\\" + ("" + chAns.id)+ chAns.sName + ".bmp";
 
 
                             chAns.image.Save(fileName, ImageFormat.Bmp);
 
-                            im = "getImageFromFile(\"" + chAns.sName + ".bmp" + "\")";
+                            im = "getImageFromFile(\"" + (""+chAns.id)+chAns.sName + ".bmp" + "\")";
                         }
 
                           createAllChooseAnswers += " allChooceAnswer.Add(" + chAns.id + ",new Choose_Answer(" + chAns.id + ",\"" + chAns.sName + "\"," + chAns.pos + ","+im+"," +

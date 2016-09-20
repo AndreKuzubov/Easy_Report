@@ -25,6 +25,14 @@ namespace WFormsAppWordExport
 
     public static class MyFiles
     {
+        static public String saveTempFile
+        {
+            get
+            {
+                return dir + "/temp.dtp";
+            }
+        }
+
         static public  String dir
         {
             get

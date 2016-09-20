@@ -201,8 +201,8 @@ String s = "+"\""+@""+"\""+@";
 for (int i=0;i<len;i++){
   if (DataProject.getEssencesByImage(18)[i].getFeatureByImage(73)[0].answer!=null) 
        s+= DataProject.getEssencesByImage(18)[i].getFeatureByImage(73)[0].answer.sAnswer;
-  if ( DataProject.getEssencesByImage(18)[i].getFeatureByImage(74)[0].answer!=null) 
-       s+="+"\""+@" "+"\""+@"+DataProject.getEssencesByImage(18)[i].getFeatureByImage(74)[0].answer.sAnswer;
+/*  if ( DataProject.getEssencesByImage(18)[i].getFeatureByImage(74)[0].answer!=null) 
+       s+="+"\""+@" "+"\""+@"+DataProject.getEssencesByImage(18)[i].getFeatureByImage(74)[0].answer.sAnswer;*/
 s+="+"\""+@","+"\""+@";
 
   if ( DataProject.getEssencesByImage(18)[i].getFeatureByImage(75)[0].answer!=null) 

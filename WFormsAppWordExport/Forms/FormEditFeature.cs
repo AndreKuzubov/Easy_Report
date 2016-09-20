@@ -25,6 +25,7 @@ namespace WFormsAppWordExport.Forms
         private int _idAssociatedObject=0;
         private DBTemplatesHelper.DBFeature _feature=new DBTemplatesHelper.DBFeature(-1);
         private List<DBTemplatesHelper.DBFeature> dbFeatures;
+        private int _holeIndex=-1;
 
         public DBTemplatesHelper.DBFeature feature
         {
@@ -65,16 +66,24 @@ namespace WFormsAppWordExport.Forms
             #region set combobox position of feature 
             comboBoxAfterQuestion.Items.Clear();
             dbFeatures = DBTemplatesHelper.DBFeature.getFeatures(idAssociatedObject);
+            comboBoxAfterQuestion.Items.Add("вставить вначале");
+            int selectIndex = 0;
             if (dbFeatures != null && dbFeatures.Count > 0)
             {
-                int selectIndex = 0;
+               
                 for (int i = 0, l = dbFeatures.Count; i < l; i++)
                 {
+                    if (dbFeatures[i].pos == feature.pos)
+                    {
+                        _holeIndex = i;
+                        continue;
+                    }
                     comboBoxAfterQuestion.Items.Add(dbFeatures[i].sQuestion);
-                    if (dbFeatures[i].pos < feature.pos) selectIndex = i;
+                    if (dbFeatures[i].pos < feature.pos) selectIndex = i + 1;
                 }
-                comboBoxAfterQuestion.SelectedIndex = selectIndex;
+                
             }
+            comboBoxAfterQuestion.SelectedIndex = selectIndex;
             #endregion
 
             textBoxScriptCondition.Text = feature.scriptCondition;
@@ -164,10 +173,26 @@ namespace WFormsAppWordExport.Forms
 
         private void comboBoxAfterQuestion_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int iSelect = comboBoxAfterQuestion.SelectedIndex;
-            if (iSelect!=-1&&dbFeatures!=null)
-                feature.pos = ((dbFeatures.Count > iSelect)?dbFeatures[iSelect].pos: dbFeatures[dbFeatures.Count-1].pos)+1;
             
+            int iSelect = comboBoxAfterQuestion.SelectedIndex;
+            if (iSelect > 0)
+            {
+                if (iSelect <_holeIndex)
+                    feature.pos = dbFeatures[iSelect - 1].pos + 1;
+                else
+                      if (iSelect < dbFeatures.Count)
+                    feature.pos = dbFeatures[iSelect].pos + 1;
+            }
+            else {
+                if (dbFeatures.Count>0)
+                feature.pos = dbFeatures[0].pos - 1;
+                else
+                {
+                    feature.pos=0;
+                }
+            }
+
+
         }
 
         private void textBoxQuestion_TextChanged(object sender, EventArgs e)
