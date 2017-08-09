@@ -1,2 +1,3 @@
 # Easy_Report
-The program will help to create reports by the basis of known rules.
+
+Программа WordMaker для быстрого создания отчетов по набору вопросов-ответа корреспондента
